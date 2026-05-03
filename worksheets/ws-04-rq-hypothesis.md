@@ -130,7 +130,7 @@ Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
 | Komponen | Isi |
 |----------|-----|
-| H₀ | $H_0$Tidak ada perbedaan signifikan dalam jumlah temuan masalah usability antara metode integrasi (SUS + Heuristic) dan metode kuesioner tunggal pada aplikasi Mobile Banking. |
+| H₀ | H_0Tidak ada perbedaan signifikan dalam jumlah temuan masalah usability antara metode integrasi (SUS + Heuristic) dan metode kuesioner tunggal pada aplikasi Mobile Banking. |
 | H₁ | Metode integrasi (SUS + Heuristic) menghasilkan jumlah temuan masalah usability yang lebih banyak dan lebih presisi secara signifikan dibandingkan metode kuesioner tunggal. |
 | Metrik | Jumlah usability issues yang tervalidasi dan rata-rata severity rating. |
 | Threshold | Nilai signifikansi p < 0,05 (Alpha 5%) atau peningkatan jumlah temuan minimal sebesar 30%. |
