@@ -164,6 +164,8 @@ Lengkapi rantai dari RQ hingga metode analisis.
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
 **Judul:** Evaluasi Usability Aplikasi Mobile Banking BCA dengan menggunakan Usability Testing dan System Usability Scale (Studi Kasus: BCA Kota Singaraja)
+
 **RQ yang diekstrak:** Bagaimana tingkat usability aplikasi mobile banking berdasarkan persepsi pengguna menggunakan kuesioner SUS?
+
 **Komponen yang hilang:** Baseline: Penelitian tersebut hanya berfokus pada satu aplikasi tanpa membandingkan hasilnya dengan aplikasi kompetitor sejenis atau standar industri yang lebih luas dalam formulasi pertanyaannya.
 Diagnosis Kesalahan Spesifik: RQ tersebut tidak mencakup metode inspeksi (seperti Heuristic Evaluation) yang bisa menunjukkan koordinat atau titik presisi di mana kesalahan desain terjadi, sehingga hanya menghasilkan skor kepuasan umum.
