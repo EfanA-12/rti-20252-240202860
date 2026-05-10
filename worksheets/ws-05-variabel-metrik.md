@@ -87,15 +87,15 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** __________________________________________________
+**RQ:** Apakah aplikasi BCA Mobile memiliki tingkat usability yang dapat diterima oleh nasabah di Singaraja?
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-| *Contoh: Jenis model* | *IV* | *Pendekatan klasifikasi* | *Categorical: CNN vs RF* | *Nominal* | *—* |
-| | DV | | | | |
-| | CV | | | | |
+| Kelompok Pengguna | IV | Tingkat pengalaman partisipan | Kategorikal: Non-pengguna vs Pengguna Aktif | Nominal | — |
+| Efisiensi Sistem | DV | Kecepatan kerja (Efficiency) | Time-based efficiency (goals/sec) | Ratio | goals/sec |
+| Skenario Tugas | CV | Standarisasi beban pengujian | 4 Tugas (Cek saldo, transfer, mutasi, top up) | Nominal | — |
 
-**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [ ] Tidak
+**Apakah ada lompatan logis dalam rantai?** [ ] Ya / [X] Tidak
 > Jika ya, di mana? ____________________________________
 
 ---
@@ -106,15 +106,16 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Representative | *Contoh: 4 — F1-Score mewakili keseimbangan precision-recall* | |
-| Sensitive | | |
-| Feasible | | |
+| Representative | 5 | Mewakili kepuasan subjektif secara menyeluruh melalui 10 pernyataan standar industri. |
+| Sensitive | 4 | Skala Likert 1-5 cukup peka untuk menangkap variasi pendapat responden yang beragam. |
+| Feasible | 5 | Sangat mudah dikumpulkan karena hanya membutuhkan pengisian kuesioner singkat. |
 
-**Apakah perlu secondary metric?** [ ] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? _____________________________
+**Apakah perlu secondary metric?** [X] Ya / [ ] Tidak
+> Jika ya, apa dan mengapa? Penambahan metrik Success Rate bertujuan untuk memverifikasi apakah persepsi kepuasan nasabah selaras dengan kemampuan nyata mereka dalam menyelesaikan skenario tugas yang diberikan.
+Tanpa dukungan data objektif, hasil evaluasi berisiko mengalami bias karena hanya mengandalkan opini subjektif tanpa bukti eksekusi yang terukur.
 
 **Contoh kasus ceiling effect untuk metrik ini:**
-> ___________________________________________________
+> Jika tugas yang diberikan terlalu sederhana (contohnya ya itu: hanya menekan tombol login), semua partisipan akan merasa sangat puas dan sukses 100%, sehingga metrik tidak bisa membedakan kualitas desain yang sebenarnya.
 
 ---
 
@@ -124,10 +125,10 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 
 | Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
 |---------|-----------|---------|------------------|
-| Completeness | *Apakah semua data point terkumpul?* | | |
-| Consistency | *Apakah ada kontradiksi internal?* | | |
-| Validity | *Apakah benar-benar mengukur yang dimaksud?* | | |
-| Representativeness | *Apakah sampel mewakili populasi target?* | | |
+| Completeness | *Apakah semua data point terkumpul?* | Ya, meskipun ada tugas yang gagal (Fail), data tersebut tetap dicatat untuk perhitungan. | Memastikan seluruh 4 task dicatat hasilnya baik berhasil maupun gagal. |
+| Consistency | *Apakah ada kontradiksi internal?* | Mungkin ada pengguna yang memberi skor kepuasan tinggi tapi gagal di banyak tugas. | Melakukan wawancara untuk memahami mengapa mereka tetap merasa puas meski mengalami kesulitan. |
+| Validity | *Apakah benar-benar mengukur yang dimaksud?* | Ya, penggunaan metrik Nielsen sudah baku untuk pengujian perangkat lunak. | Mengikuti panduan perhitungan rumus SUS dan Success Rate dari literatur tepercaya. |
+| Representativeness | *Apakah sampel mewakili populasi target?* | Sampel 6 orang untuk tes dan 20 untuk kuesioner dianggap cukup untuk skala studi kasus lokal. | Memilih partisipan dengan rentang usia yang luas (18-56 tahun) agar mewakili nasabah umum. |
 
 ---
 
@@ -136,5 +137,4 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Penetapan metrik setelah observasi data dikategorikan sebagai p-hacking karena memungkinkan peneliti melakukan seleksi metrik secara selektif demi menunjukkan hasil yang signifikan, sehingga validitas riset berkurang. Perbedaan mendasarnya dengan eksplorasi data yang sah terletak pada tujuan: eksplorasi berfokus pada identifikasi anomali atau pola untuk merumuskan hipotesis baru, sementara penelitian konfirmatori mewajibkan metrik ditentukan sebelum eksperimen dimulai guna menjamin objektivitas.
