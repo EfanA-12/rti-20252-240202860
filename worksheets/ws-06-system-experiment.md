@@ -67,25 +67,25 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 ```
 SYSTEM-EXPERIMENT MAPPING
 
-Research Question: ____________________
+Research Question: Apakah tingkat kepuasan (SUS) dan keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri?
 
 Variable → Component Mapping:
-| Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
-|----------|------|-----------------|---------------------------|
-|          | IV   |                 |                           |
-|          | DV   |                 |                           |
-|          | CV   |                 |                           |
+| Variabel | Tipe | Komponen Sistem (Setup Eksperimen) | Cara Manipulasi/Pengukuran |
+|----------|------|------------------------------------|---------------------------|
+| Antarmuka SeaBank | IV | Smartphone Testbed dengan aplikasi SeaBank terinstal | Mengatur alur task scenario (skenario tugas) yang harus diselesaikan pengguna. |
+| Metrik Usability (Waktu, Error, SUS) | DV | Screen Recorder (waktu & error) & Google Forms (SUS) | Mengumpulkan log durasi dari video dan menarik data spreadsheet dari kuesioner. |
+| Lingkungan & Alat Uji | CV | Ruangan pengujian, koneksi Wi-Fi, tipe Smartphone | Menyeragamkan device dan jaringan internet untuk semua partisipan agar tidak ada lag teknis. |
 
 4 Prinsip Desain:
-  [ ] Traceability — Setiap komponen bisa ditelusuri ke variabel
-  [ ] Variable Isolation — IV bisa diubah tanpa mengubah CV
-  [ ] Measurement Integration — Pengukuran DV built-in
-  [ ] Reproducibility — Setup bisa direkonstruksi
+  [X] Traceability — Setiap variabel (waktu, kepuasan) diukur oleh alat spesifik (recorder, G-Forms).
+  [X] Variable Isolation — Skenario tugas (IV) dapat diubah tanpa mengganggu format kuesioner SUS.
+  [X] Measurement Integration — Perekaman layar otomatis menyimpan data waktu dan jumlah klik/error.
+  [X] Reproducibility — Protokol pengujian tertulis jelas (device, jaringan, instruksi) sehingga eksperimen bisa diulang persis oleh orang lain.
 
 Experimental Setup:
-  Input data     : ____________________
-  Parameter      : ____________________
-  Output format  : ____________________
+  Input data     : Interaksi layar dari partisipan (tap, scroll, input teks) saat menjalankan aplikasi SeaBank.
+  Parameter      : 3 Skenario Tugas (Task A: Transfer, Task B: Cek Riwayat, Task C: Deposito) dengan durasi maksimal tiap tugas dibatasi 3 menit.
+  Output format  : Video rekaman layar (MP4) untuk observasi error/waktu, dan Spreadsheet (CSV) berisi skor kuesioner SUS.
 ```
 
 ---
@@ -98,11 +98,11 @@ Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
 |----------|------|-----------------|---------------------------|
-| *Contoh: Jenis model* | *IV* | *Modul classifier (swap RF ↔ CNN)* | *Ganti config `model_type`* |
-| | DV | | |
-| | CV | | |
+| Antarmuka SeaBank | *IV* | Aplikasi Mobile SeaBank (Production version) | Memberikan instruksi Task Scenario spesifik kepada partisipan. |
+| Metrik Usability | DV | Alat Observasi (Screen Recorder & Kuesioner Digital) | Mencatat waktu di stopwatch, menghitung miss-click di video, dan merekap skor SUS. |
+| Kondisi Pengujian | CV | Protokol Standar Lingkungan | Menggunakan satu tipe HP yang sama dan script instruksi yang identik untuk semua user. |
 
-**Apakah semua variabel bisa di-map?** [ ] Ya / [ ] Tidak
+**Apakah semua variabel bisa di-map?** [X] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? _________
 
 ---
@@ -113,14 +113,14 @@ Evaluasi desain sistem terhadap 4 prinsip.
 
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|-------------------|
-| Traceability | *Contoh: ✅ — setiap modul punya label variabel* | |
-| Modularity | | |
-| Controllability | | |
-| Measurability | | |
+| Traceability | ✅ Memenuhi | Sangat jelas. Jika ingin mengecek data efficiency (waktu), kita merujuk pada Screen Recorder. Jika data satisfaction, kita merujuk ke G-Forms. |
+| Modularity | ✅ Memenuhi | Alat perekam layar, aplikasi SeaBank, dan G-Forms berjalan secara terpisah. Jika kita ingin mengganti aplikasi (misal membandingkan dengan Bank Jago), setup ini tetap bisa jalan. |
+| Controllability | ✅ Memenuhi | Lingkungan fisik partisipan dan perangkat dikunci (CV). Interupsi eksternal (notifikasi HP, sinyal hilang) dimitigasi dengan mode Do Not Disturb dan Wi-Fi lab. |
+| Measurability | ✅ Memenuhi | Pengambilan metrik tidak bersifat recall (ingatan partisipan), melainkan data empiris objektif yang terekam secara sinkron dalam format MP4 dan CSV. |
 
-**Prinsip mana yang paling sulit dipenuhi?** _______________
+**Prinsip mana yang paling sulit dipenuhi?** Controllability
 **Strategi untuk mengatasinya:**
-> ___________________________________________________
+> Dalam pengujian usability manusia (HCI), mengontrol emosi atau kondisi internal partisipan sangat sulit (misal mereka sedang lelah atau moody). Strategi mitigasinya adalah melakukan sesi ice breaking ringan sebelum tes, dan membuat suasana pengujian sesantai mungkin agar kecemasan tidak memengaruhi error rate.
 
 ---
 
@@ -130,14 +130,14 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
-| Full | *Contoh: ✅ CNN* | *Contoh: ✅ Temporal features* | *Contoh: ✅ Z-score norm* | *Baseline penuh* |
-| – A | ❌ (ganti RF) | ✅ | ✅ | |
-| – B | ✅ | ❌ (tanpa temporal) | ✅ | |
-| – C | ✅ | ✅ | ❌ (tanpa normalisasi) | |
+| Full | ✅ Diuji | ✅ Diuji | ✅ Diuji | Baseline SUS keseluruhan |
+| – A | ❌ (Tanpa task transfer) | ✅ | ✅ | Jika SUS naik drastis, berarti alur Transfer sangat buruk. |
+| – B | ✅ | ❌ (Tanpa task riwayat) | ✅ | Melihat dampak UI Mutasi terhadap UX. |
+| – C | ✅ | ✅ | ❌ (Tanpa task deposito) | Jika SUS naik drastis, UI Deposito adalah penyebab utama frustrasi pengguna. |
 
-**Komponen mana yang diprediksi paling berkontribusi?** _____
+**Komponen mana yang diprediksi paling berkontribusi?** Komponen C (Fitur Deposito)
 **Mengapa?**
-> ___________________________________________________
+> Karena alur pembukaan fitur deposito bank digital biasanya memiliki term & condition yang kompleks, tombol navigasi berlapis, dan istilah finansial yang kurang dipahami pengguna awam. Hal ini akan meningkatkan cognitive load (beban kognitif) dan durasi waktu penyelesaian secara signifikan.
 
 ---
 
@@ -146,5 +146,4 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 > Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
 
 **Jawaban:**
-> ___________________________________________________
-> ___________________________________________________
+> Jika sebuah pengujian dieksekusi secara monolitik (partisipan disuruh menggunakan seluruh aplikasi SeaBank secara acak lalu langsung disuruh mengisi SUS tanpa pemisahan task), risikonya adalah kita tidak akan tahu "titik penyakit" utamanya. Hasil eksperimen hanya akan menghasilkan kesimpulan "Aplikasi ini buruk/membingungkan", tetapi tidak menghasilkan data "Bagian mana yang buruk?".
