@@ -68,36 +68,36 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 ```
 EXPERIMENT DESIGN
 
-Research Question : ____________________
-Hypothesis        : ____________________
-Tipe Eksperimen   : [ ] Comparison  [ ] Ablation  [ ] Parameter
+Research Question : Apakah tingkat kepuasan (SUS) dan keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri?
+Hypothesis        : H1 = Rata-rata skor SUS aplikasi SeaBank > 68 (Signifikan melampaui standar kelayakan).
+Tipe Eksperimen   : [X] Comparison  [ ] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control |           |          |             |
-| Treatment |         |          |             |
+| Control | Standar kelayakan industri (Baseline) | Skor referensi (SUS 68) | - (Nilai referensi statis / baku) |
+| Treatment | Pengujian langsung aplikasi SeaBank | UI/UX SeaBank | Smartphone seragam, koneksi stabil, skenario task identik |
 
 Fairness Checklist:
-  [ ] Dataset identik untuk semua kondisi
-  [ ] Preprocessing setara
-  [ ] Tuning effort setara
-  [ ] Environment identik
-  [ ] Metrik evaluasi sama
+  [X] Dataset identik untuk semua kondisi (Semua partisipan diuji dengan task yang sama)
+  [X] Preprocessing setara (Instruksi dan ice breaking disamakan untuk semua partisipan)
+  [X] Tuning effort setara (Tidak ada manipulasi bantuan teknis saat partisipan kesulitan)
+  [X] Environment identik (Pengujian di lab/ruangan tenang yang sama)
+  [X] Metrik evaluasi sama (Menggunakan kuesioner SUS yang baku)
 
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    |                 |          |
-| External    |                 |          |
-| Construct   |                 |          |
-| Conclusion  |                 |          |
+| Internal    | Partisipan kelelahan (fatigue effect) karena task terlalu banyak. | Membatasi durasi total pengujian maksimal 15-20 menit per orang. |
+| External    | Sampel hanya terdiri dari mahasiswa IT, tidak merepresentasikan nasabah asli. | Menerapkan kriteria inklusi (purposive sampling) yang mencakup berbagai usia dan profesi. |
+| Construct   | Partisipan menjawab kuesioner SUS asal-asalan karena merasa sungkan dengan peneliti (Hawthorne Effect). | Menegaskan di awal bahwa yang diuji adalah *aplikasi*, bukan *kecerdasan partisipan*, dan kuesioner bersifat anonim. |
+| Conclusion  | Ukuran sampel terlalu kecil sehingga tidak memiliki statistical power yang cukup. | Menggunakan minimal 20-30 partisipan aktif agar distribusi data mendekati normal untuk uji parametrik. |
 
 Statistical Plan:
-  Uji statistik   : ____________________
-  Justifikasi      : ____________________
-  Alpha            : ____________________
-  Effect size min  : ____________________
+  Uji statistik   : One-Sample T-Test (Uji-T Satu Sampel)
+  Justifikasi     : Karena kita membandingkan nilai rata-rata dari satu kelompok perlakuan (SeaBank) terhadap satu nilai acuan pasti/konstan (Baseline SUS 68).
+  Alpha           : 0.05 (Tingkat kepercayaan 95%)
+  Effect size min : Cohen's d > 0.5 (Medium effect size)
 ```
 
 ---
@@ -111,8 +111,8 @@ Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai W
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | *Contoh: RF baseline dari literatur* | *RF* | *Dataset X, 80:20 split, seed 42* |
-| Treatment | | | |
+| Control | Nilai acuan standar usability dari Sauro & Lewis (2011) sebagai baseline. | Threshold SUS = 68 | Nilai baku. |
+| Treatment | Observasi task scenario dan pengisian kuesioner pada aplikasi SeaBank. | Antarmuka SeaBank | Skenario tugas, smartphone Android/iOS yang dikondisikan, timer maks 3 menit per task. |
 
 ---
 
@@ -122,13 +122,13 @@ Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | *Contoh: ✅ — sama-sama pakai CIC-MalMem-2022* | |
-| Preprocessing setara | | |
-| Tuning effort setara | | |
-| Environment identik | | |
-| Metrik evaluasi sama | | |
+| Dataset identik | ✅ Fair | Semua pengguna menyelesaikan urutan skenario tugas (Task A, B, C) yang persis sama tanpa ada yang dibedakan. |
+| Preprocessing setara | ✅ Fair | Semua partisipan diberikan briefing awal yang sama persis (menggunakan teks script) sebelum eksperimen dimulai. |
+| Tuning effort setara | ✅ Fair | Fasilitator (peneliti) dilarang memberikan hint atau bantuan apa pun saat partisipan kebingungan memencet menu. |
+| Environment identik | ✅ Fair | Seluruh pengujian dilakukan di lingkungan fisik yang tenang, dengan tingkat kecerahan layar HP yang disamakan. |
+| Metrik evaluasi sama | ✅ Fair | Semua menggunakan kuesioner baku System Usability Scale berisi 10 pertanyaan standar yang tidak dimodifikasi isinya. |
 
-**Ada yang tidak fair?** [ ] Ya / [ ] Tidak
+**Ada yang tidak fair?** [ ] Ya / [X] Tidak
 > Jika ya, bagaimana cara memperbaikinya? ________________
 
 ---
@@ -139,14 +139,14 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | *Contoh: Data leakage antara train-test* | *Contoh: Gunakan stratified split, validasi tidak ada overlap* |
-| External | | |
-| Construct | | |
-| Conclusion | | |
+| Internal | Learning Effect: Partisipan menjadi lebih cepat di task kedua hanya karena sudah terbiasa memegang device tes. | Memberikan waktu 2 menit di awal bagi partisipan untuk sekadar melakukan scroll bebas agar terbiasa dengan layar HP yang digunakan. |
+| External | Demografi sampel yang terlalu sempit (misalnya hanya mengambil sampel usia 18-22 tahun). | Melakukan rekrutmen partisipan secara purposive untuk mencakup rentang usia produktif yang lebih luas (18-40 tahun). |
+| Construct | Hawthorne Effect / Social Desirability Bias: Partisipan merasa sedang diawasi dan ingin menyenangkan peneliti dengan memberi skor tinggi. | Memberi tahu responden bahwa tidak ada jawaban benar/salah, dan evaluasi ini adalah murni untuk mengkritik aplikasi bank. |
+| Conclusion | Data berdistribusi tidak normal (outlier), membuat uji One-Sample T-Test menjadi tidak valid. | Melakukan uji normalitas (Shapiro-Wilk) terlebih dahulu. Jika tidak normal, gunakan uji non-parametrik Wilcoxon Signed-Rank Test. |
 
-**Ancaman mana yang paling sulit dimitigasi?** _____________
+**Ancaman mana yang paling sulit dimitigasi?** Construct Validity (Social Desirability Bias / Hawthorne Effect)
 **Mengapa?**
-> ___________________________________________________
+> Karena dalam pengujian usability tatap muka, kehadiran peneliti di sebelah partisipan secara psikologis sering kali membuat partisipan merasa "sedang diuji kecerdasannya". Rasa tidak enak hati ini sering membuat pengguna secara otomatis mengisi kuesioner dengan nilai bagus, meskipun mereka tadi kesulitan (berbohong demi kesopanan). Hal ini paling sulit dikontrol karena murni masalah emosi manusia.
 
 ---
 
@@ -155,6 +155,6 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 > Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
 
 **Jawaban:**
-1. ___________________________________________________
-2. ___________________________________________________
-3. ___________________________________________________
+1. Apakah perbandingannya jujur (fair)? Apakah baseline yang digunakan adalah baseline usang/lemah yang sengaja dipilih agar metode mereka terlihat bagus, alias Straw Man Comparison?
+2. Apakah lingkungan dan kondisinya setara? Apakah metode mereka diuji menggunakan dataset, parameter, dan batasan hardware yang persis sama dengan baseline-nya?
+3. Apakah metrik yang digunakan benar? Apakah mereka hanya menonjolkan satu metrik yang kebetulan unggul (cherry-picking), sementara mengabaikan metrik lain yang mungkin lebih relevan namun hasilnya buruk?
