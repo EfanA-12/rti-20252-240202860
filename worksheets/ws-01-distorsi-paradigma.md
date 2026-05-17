@@ -26,7 +26,15 @@ Etika mencegah distorsi yang disengaja (fabrikasi, cherry-picking). Validitas me
 
 ### Paradigma Riset
 
-Mata kuliah ini menggunakan pendekatan **Positivist** (fenomena TI bisa diukur objektif melalui eksperimen terkontrol) diperkuat **Design Science Research** (artefak dibuat sebagai instrumen pengujian hipotesis, bukan tujuan akhir).
+Mata kuliah ini menggunakan pendekatan **Positivist** (fenomena TI bisa diukur objektif melalui eksperimen terkontrol) diperkuat **Design Science Research** (DSR). Penting untuk membedakan keduanya:
+
+| Paradigma | Cara Kerja | Contoh di TI |
+|-----------|-----------|---------------|
+| **Positivis** | Uji hipotesis dengan eksperimen terkontrol | Apakah CNN lebih akurat dari RF pada dataset X? |
+| **Design Science Research** | Bangun artefak (sistem/model/framework) untuk menguji proposisi | Dapatkah arsitektur hybrid CNN+LSTM membuktikan peningkatan recall ≥5%? |
+| **Interpretivis** | Pahami makna melalui konteks & kualitatif | Bagaimana peneliti manafsirkan anomali data sensor IoT? |
+
+Dalam DSR, artefak **bukan tujuan akhir** — ia adalah instrumen untuk menghasilkan pengetahuan. Pertanyaan riset tetap harus difalsifikasi.
 
 ### Mode Berpikir Peneliti
 
@@ -53,25 +61,25 @@ Mata kuliah ini menggunakan pendekatan **Positivist** (fenomena TI bisa diukur o
 ## Template A.1 — Research Mindset Self-Assessment
 
 ```
-Nama Peneliti    : Efan Aryanto Adli
-Tanggal          : 12 April 2026
+Nama Peneliti    : ____________________
+Tanggal          : ____________________
 
-1. Ketika membaca klaim "metode X 95% akurat" (atau dalam konteks UI/UX: "Aplikasi X memiliki Usability 95%"):
-   - Pertanyaan pertama saya: Siapa populasi responden yang diuji, dan apakah metrik pengukuran yang digunakan sudah memenuhi standar industri yang valid?
-   - Data yang dibutuhkan untuk verifikasi: Profil demografi responden, jumlah sampel (N), dan validitas/reliabilitas instrumen kuesioner yang digunakan.
+1. Ketika membaca klaim "metode X 95% akurat":
+   - Pertanyaan pertama saya: ____________________
+   - Data yang dibutuhkan untuk verifikasi: ____________________
 
 2. Posisi paradigma:
-   - Pendekatan: [X] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed
-   - Alasan: Kualitas dan kelayakan sebuah perangkat lunak dapat diukur secara objektif dan empiris menggunakan kerangka kerja baku (seperti ISO/IEC 25010 atau System Usability Scale) melalui pendekatan kuantitatif.
+   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed
+   - Alasan: ____________________
 
 3. Identifikasi distorsi:
-   - Asumsi tersembunyi: Bahwa skor rata-rata (mean) yang tinggi otomatis berarti seluruh fitur di dalam sistem berjalan sempurna tanpa ada celah kritis (misalnya pada aspek keamanan).
-   - Sumber bias potensial: Sampling bias; kuesioner hanya diisi oleh pengguna yang sudah terbiasa dengan teknologi cerdas (tech-savvy), sehingga mengabaikan keluhan pengguna awam.
-   - Langkah mitigasi: Melakukan uji validitas dan reliabilitas pada instrumen, serta memastikan sebaran responden mencakup berbagai rentang usia dan tingkat literasi digital.
+   - Asumsi tersembunyi: ____________________
+   - Sumber bias potensial: ____________________
+   - Langkah mitigasi: ____________________
 
 4. Komitmen etika:
-   - Data yang tidak akan dimanipulasi: Skor mentah dari kuesioner pengguna atau log eror sistem.
-   - Batasan yang diakui sejak awal: Evaluasi hanya mencakup modul tertentu dari sistem dan tidak merepresentasikan kualitas pemeliharaan (maintainability) jangka panjang di level kode sumber (source code).
+   - Data yang tidak akan dimanipulasi: ____________________
+   - Batasan yang diakui sejak awal: ____________________
 ```
 
 ---
@@ -80,24 +88,28 @@ Tanggal          : 12 April 2026
 
 Pilih satu paper riset di bidang TI yang mengklaim "metode X meningkatkan performa." Telusuri setiap tahap Research Trust Model.
 
+> **Panduan pencarian paper:** Gunakan [IEEE Xplore](https://ieeexplore.ieee.org), [ACM Digital Library](https://dl.acm.org), atau Google Scholar. Pilih paper **tahun 2020 ke atas**, di topik yang Anda minati: deteksi anomali, klasifikasi citra, NLP, keamanan siber, IoT, dsb.
+>
+> **Contoh domain TI:** "Deteksi anomali lalu-lintas jaringan menggunakan CNN — akurasi meningkat 94% vs baseline SVM 87%." Distorsi potensial: apakah dataset normal/anomali seimbang? Apakah hanya diuji pada satu vendor traffic?
+
 **Paper yang dipilih:**
-> Judul: Evaluasi Kualitas Aplikasi Keuangan UMKM Menggunakan ISO/IEC 25010
-> Penulis (Tahun): Nurqamarani, dkk. (Jurnal REMIK - Riset dan E-Jurnal Manajemen Informatika Komputer, 2023)
-> Link : https://www.jurnal.polgan.ac.id/index.php/remik/article/view/15072/3427
+> Judul: Evaluasi Usability Aplikasi Mobile Banking BCA dengan menggunakan Usability Testing dan System Usability Scale
+> Penulis (Tahun): Ayu Made Krisna Dewi, Satrio Hadi Wijoyo, Andi Reza Perdanakusuma (2022)
+> Sumber/Link DOI: https://j-ptiik.ub.ac.id/index.php/j-ptiik/article/view/11640/5168
 
 | Tahap | Apa yang Dilakukan | Potensi Distorsi |
 |-------|-------------------|-----------------|
-| Reality → Data | Menyebarkan instrumen kuesioner dengan 17 butir pernyataan (Skala Likert 1-5) kepada para pengguna aplikasi keuangan UMKM. | Sampling bias: Kuesioner mungkin didistribusikan secara online, sehingga UMKM tradisional yang tidak memiliki akses internet memadai tidak terwakili dalam sampel. |
-| Data → Processing | Mengonversi jawaban kuesioner kualitatif (Sangat Setuju - Sangat Tidak Setuju) menjadi skor persentase kuantitatif. | Translation Error: Asumsi bahwa jarak emosional antara "Setuju" (4) dan "Sangat Setuju" (5) memiliki rentang interval matematis yang persis sama. |
-| Processing → Analysis | Mengkategorikan skor rata-rata Functional Suitability sebesar 82,00% ke dalam kategori "Sangat Baik". | Aggregation Bias: Menggabungkan semua fitur menjadi satu skor rata-rata dapat menyembunyikan fakta jika ada satu fitur krusial yang sebenarnya sering gagal saat digunakan. |
-| Analysis → Inference | Menyimpulkan bahwa aplikasi tersebut telah memenuhi kelayakan fungsional untuk pencatatan transaksi UMKM karena tidak ada skor subkarakteristik di bawah 78%. | Construct Validity threat: Kelayakan aplikasi di dunia nyata seringkali juga dipengaruhi oleh faktor eksternal (seperti dukungan layanan pelanggan), yang tidak selalu tercakup penuh dalam kuesioner standar. |
-| Inference → Knowledge | Menetapkan aplikasi tersebut sebagai standar aplikasi pencatatan keuangan yang ideal untuk UMKM secara umum. | Overgeneralization: Kebutuhan UMKM di sektor manufaktur sangat berbeda dengan UMKM retail/jasa; aplikasi ini mungkin hanya ideal untuk model bisnis retail sederhana. |
+| Reality → Data | Mengumpulkan data evaluasi task scenario (penggunaan aplikasi) dari 6 partisipan dan kuesioner SUS dari 20 responden nasabah BCA Kota Singaraja. | Sampling Bias: Jumlah sampel sangat kecil (hanya 6 orang untuk uji task dan 20 orang untuk SUS) dan hanya terbatas pada demografi nasabah BCA di Kota Singaraja. Apakah ini bisa merepresentasikan jutaan pengguna BCA Mobile di seluruh Indonesia? |
+| Data → Processing | Menghitung Learnability menggunakan rumus Success Rate, di mana tugas yang selesai sebagian (P) tetap diberi bobot nilai setengah (0.5). | Construct Validity: Pemberian bobot 0.5 untuk partial success bisa mendistorsi realita; di dunia nyata perbankan, transfer yang hanya "setengah berhasil" mungkin sama fatalnya dengan gagal total. |
+| Processing → Analysis | Menganalisis error rate yang didapat (0.41 untuk kelompok 1 dan 0.16 untuk kelompok 2) dan membandingkannya dengan nilai rata-rata kesalahan Sauro (0.7). Mengonversi skor SUS menjadi metrik kualitatif | Penggunaan benchmark (acuan) yang kurang pas. Peneliti menggunakan batas toleransi kesalahan aplikasi umum (Sauro, 2012) untuk mengevaluasi aplikasi finansial. |
+| Analysis → Inference | Menarik kesimpulan (inference) bahwa karena skor error rate (0.41 dan 0.16) berada di bawah angka 0.7, maka tingkat error pada aplikasi BCA Mobile "masih tergolong kecil". | Construct Validity: Menyimpulkan bahwa error "tergolong kecil" dalam konteks perbankan bisa sangat menyesatkan. Melakukan 4 kesalahan dari 10 langkah di aplikasi mobile banking berisiko fatal (salah transfer/nominal), sehingga threshold (ambang batas) kesuksesannya tidak bisa disamakan dengan aplikasi biasa. |
+| Inference → Knowledge | Menghasilkan pengetahuan/solusi baru berupa 4 rekomendasi perubahan desain UI (misal: menggabungkan menu daftar transfer dan menu transfer menjadi 1 halaman). Peneliti menetapkan ini sebagai solusi mutlak perbaikan usability. | Overgeneralization & Lack of Validation: Peneliti menjadikan keluhan 6 orang sebagai landasan untuk merombak UI. Padahal, mengubah struktur menu secara drastis bisa menghancurkan mental model (kebiasaan) jutaan nasabah lama BCA yang sudah hafal di luar kepala. Selain itu, desain baru tersebut diusulkan tanpa diuji kembali (A/B testing) untuk membuktikan klaim bahwa desain itu "lebih baik". |
 
-**Distorsi paling besar di tahap:** Reality → Data
+**Distorsi paling besar di tahap:** Reality → Data (Pengambilan Sampel).
 
 **Dua distorsi spesifik yang teridentifikasi:**
-1. Bias Populasi Responden: Pengguna yang bersedia meluangkan waktu mengisi kuesioner evaluasi biasanya adalah power-user atau mereka yang sudah memiliki opini kuat terhadap aplikasi, sehingga data yang terkumpul kurang merepresentasikan pengguna pasif.
-2. Ilusi Skor Rata-rata: Skor akhir di atas 80% pada evaluasi ISO 25010 bisa menciptakan ilusi kesempurnaan sistem, padahal di dalam operasional nyata, bug kecil pada sistem laporan keuangan bisa berdampak fatal pada arus kas UMKM.
+1. External Validity (Generalisasi): Dataset terlalu kecil (6-20 orang)  untuk menarik kesimpulan general tentang aplikasi skala nasional.
+2. Confounding Variable: Partisipan uji task scenario dibagi menjadi pengguna aplikasi mobile banking lain dan pengguna aktif BCA Mobile. Pengalaman masa lalu pengguna dengan UI bank lain bisa sangat memengaruhi metrik error dan efficiency, bukan murni karena desain BCA Mobile-nya saja.
 
 ---
 
@@ -107,27 +119,30 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 
 | Perspektif | Analisis |
 |------------|---------|
-| Kejujuran ilmiah | Dalam riset evaluasi sistem TI, responden yang memberikan nilai ekstrem (sangat rendah) adalah bentuk feedback yang valid. Menghapus data mereka agar sistem terlihat "sudah baik" adalah tindakan manipulasi data. |
-| Transparansi | Outlier justru bisa menjadi indikator adanya edge-case (kasus khusus) pada sistem—misalnya antarmuka (UI) yang tidak kompatibel di perangkat lama. Peneliti harus menganalisis penyebab anomali tersebut, bukan membuangnya. |
-| Peer review | Reviewer akan mempertanyakan metodologi pembersihan data jika rentang nilai yang disajikan terlihat tidak alamiah atau terlalu seragam untuk sebuah evaluasi usability. |
+| Kejujuran ilmiah | Menghapus data outlier hanya demi mendapatkan angka yang bagus adalah bentuk manipulasi data (cherry-picking). Peneliti harus jujur melaporkan hasil apa adanya. Mendapatkan negative result (hipotesis tidak terbukti) tetaplah sebuah kontribusi ilmu pengetahuan yang valid. |
+| Transparansi | Jika peneliti memiliki alasan kuat bahwa outlier tersebut adalah "data sampah" (misal: akibat sensor rusak atau human error saat input), ia harus transparan. Cara terbaik adalah melaporkan kedua hasil analisis (dengan dan tanpa outlier) dan menjelaskan alasan metodologis mengapa outlier tersebut dibuang. |
+| Peer review | Menyembunyikan fakta bahwa ada outlier yang dihapus akan membodohi reviewer. Jika manipulasi ini terdeteksi oleh reviewer atau peneliti lain yang mencoba mereplikasi eksperimen, reputasi peneliti akan hancur dan paper berisiko ditarik mundur (retracted). |
 
 **Keputusan akhir dan justifikasi:**
-> Data outlier tersebut harus tetap disertakan dalam pengolahan akhir. Alih-alih menghapusnya demi mengejar skor kelayakan yang tinggi, peneliti wajib melakukan penyelidikan kualitatif tambahan terhadap 3 data point tersebut. Jika nilai rendah itu disebabkan oleh error pada sistem (system failure) atau desain antarmuka yang membingungkan bagi segmen pengguna tertentu, maka hal itu adalah temuan riset yang sangat berharga (kontribusi negatif/perbaikan), bukan pengganggu yang harus disembunyikan.
+> Keputusan: Peneliti tidak boleh menghapus outlier secara diam-diam.Tetapi harus mempublikasikan hasil dengan data utuh yang menunjukkan hasil tidak signifikan. Jika ingin menampilkan versi tanpa outlier, wajib melampirkan kedua versi hasil (dengan dan tanpa outlier) secara eksplisit di dalam jurnal.
+Justifikasi: Tujuan utama riset (research) berbeda dengan rekayasa (engineering). Dalam riset, kegagalan membuktikan hipotesis bukanlah sebuah kegagalan yang harus disembunyikan, melainkan kebenaran (realita) yang harus diungkapkan. Menghilangkan data demi "signifikansi" akan menciptakan pengetahuan palsu (distorted knowledge) yang merugikan peneliti selanjutnya.
 
 ---
 
 ## Latihan 3 — Posisi Paradigma
 
-**Topik riset:** Evaluasi Kualitas Perangkat Lunak pada Sistem Informasi Point of Sale (POS) untuk UMKM Menggunakan Standar ISO/IEC 25010.
+**Topik riset:** Evaluasi Usability Sistem Perbankan Digital.
+
+> **Skala 1–5:** 1 = tidak sesuai sama sekali dengan topik ini, 5 = sangat sesuai dan dominan digunakan pada riset bertopik serupa.
 
 | Kriteria | Positivis | Interpretivis | Design Science |
 |----------|-----------|---------------|----------------|
-| Kesesuaian dengan topik (1–5) | 5 | 2 | 3 |
-| Jenis data yang dikumpulkan | Metrik performa (waktu respon), tingkat error rate, dan skor kuesioner skala Likert untuk fungsionalitas dan keamanan. | Wawancara mendalam tentang "perasaan" kasir saat menggunakan mesin POS. | Kode program, rancangan database relasional, diagram UML. |
-| Limitasi paradigma | Sulit menangkap alasan sosiologis mengapa pengguna enggan bermigrasi dari pencatatan manual ke POS digital meskipun skor efisiensi sistemnya tinggi. | Hasil tidak dapat digeneralisasi untuk mengevaluasi kelayakan teknis software di tempat lain. | Fokus pada "bagaimana membangun POS", bukan pada "apakah POS ini secara objektif berkualitas tinggi berdasarkan standar yang ada". |
+| Kesesuaian dengan topik (1–5) | 4 — Sangat cocok karena riset ini mengukur fenomena menggunakan metrik kuantitatif (learnability, efficiency, error rate, skor SUS). | 3 — Cukup sesuai. Paper ini juga melakukan wawancara kualitatif untuk memahami perasaan dan pengalaman kebingungan pengguna (misal: fitur mutasi sulit ditemukan). | 3 — Cukup sesuai. Peneliti tidak membangun sistem dari nol, tetapi mereka menghasilkan artefak berupa prototipe rekomendasi perbaikan UI di akhir studi (misal: menggabungkan menu transfer). |
+| Jenis data yang dikumpulkan | Skor SUS numerik (76.38) , waktu pengerjaan (detik), dan rasio kesalahan (0.41 & 0.16). | Transkrip wawancara mengenai opini dan keluhan nasabah. | Desain mockup antarmuka baru sebagai solusi. |
+| Limitasi paradigma | Terlalu kaku pada angka. Metrik/angka tidak bisa menjelaskan akar masalah secara mendalam (misal: mengapa pengguna bingung pada menu tertentu). Rawan distorsi jika sampel tidak representatif. | Subjektif & sulit digeneralisasi. Sangat bergantung pada penafsiran peneliti. Keluhan 6 orang tidak bisa diukur signifikansinya secara statistik untuk mewakili semua pengguna. | Fokus bisa melenceng ke engineering. Peneliti sering kali hanya sibuk mendesain UI baru (artefak), tapi lupa menguji kembali (memfalsifikasi) apakah desain baru tersebut benar-benar lebih baik dari yang lama secara empiris. |
 
-**Paradigma yang dipilih:** Positivis.
-**Alasan:** Riset ini bertujuan mengukur kualitas kelayakan sebuah artefak teknologi (Sistem POS) dengan menggunakan instrumen pengujian baku yang diakui secara internasional (ISO/IEC 25010). Data yang ditarik bersifat empiris, terukur, dan diolah menggunakan perhitungan statistik untuk menguji kesesuaian antara fungsi sistem dengan kebutuhan operasional UMKM, sehingga pendekatan Positivis adalah pilihan yang paling valid.
+**Paradigma yang dipilih:** Campuran (Mixed Methods) dengan dominasi Positivis.
+**Alasan:** Penelitian ini utamanya bertumpu pada pengujian terukur yang menghasilkan data statistik mutlak (seperti skor kepuasan SUS dan waktu penyelesaian dalam goals/sec) untuk mengambil kesimpulan objektif. Namun, ia meminjam sedikit aspek interpretivis (wawancara) dan design science (rekomendasi desain) untuk melengkapi konteks di balik angka-angka tersebut.
 
 ---
 
@@ -136,7 +151,5 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 > Sebelum membaca materi ini, apakah pernah mempertanyakan klaim "95% akurat"? Setelah memahami rantai distorsi, pertanyaan apa yang sekarang akan diajukan saat membaca paper?
 
 **Jawaban:**
-> Dulu saya menganggap angka kepuasan tinggi pada rilis perangkat lunak sebagai indikator pasti keberhasilan pengembang. Setelah memahami rantai distorsi, saya kini lebih skeptis terhadap klaim tersebut dan akan menggali lebih dalam:
-1. Apakah instrumen penilaiannya valid?
-2. Pakah nilai rata-rata yang tinggi itu menyembunyikan tingkat eror yang sebenarnya besar?
-3. Apakah pengujiannya dilakukan pada lingkungan produksi atau sebatas localhost?"
+> sebelumnya saya jarang mempertanyakan klaim tersebut. Saat membaca klaim bahwa sebuah model Neural Network atau optimasi dengan Algoritma Genetika mencapai akurasi 95% ke atas, saya cenderung langsung percaya dan menganggap metode itu pasti superior, tanpa memikirkan bagaimana data pengujiannya diproses.
+Setelah memahami rantai distorsi, cara pandang saya berubah. Sekarang, saat membaca paper, pertanyaan pertama yang akan saya ajukan adalah: "Bagaimana tahap Reality → Data dilakukan?" Saya akan mencari tahu apakah ada sampling bias—misalnya, apakah model tersebut diuji menggunakan data yang terlalu seragam, atau apakah peneliti diam-diam membuang data outlier yang membuat akurasinya turun (cherry-picking). Saya juga akan mempertanyakan apakah hasil 95% tersebut valid untuk digeneralisasi (External Validity) jika diterapkan di lingkungan nyata.
