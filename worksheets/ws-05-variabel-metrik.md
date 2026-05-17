@@ -66,19 +66,21 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 ```
 VARIABLE & METRIC DEFINITION
 
-Research Question: ____________________
+Research Question: Apakah tingkat kepuasan (berdasarkan skor SUS) dan tingkat keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri?
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 |----------|------|--------|--------|-------|--------|---------------|-------------|
-|          | IV   |        |        |       |        |               |             |
-|          | DV   |        |        |       |        |               |             |
-|          | CV   |        |        |       |        |               |             |
+| Aplikasi SeaBank | IV | Sistem yang dievaluasi | Identitas Sistem (SeaBank versi terbaru) | Nominal | - | Observasi versi aplikasi yang digunakan partisipan | Merupakan objek (treatment) konstan yang menjadi fokus riset. |
+| Kepuasan Pengguna | DV | Persepsi kenyamanan UI/UX | Skor System Usability Scale (SUS) | Interval | Poin (0-100) | Pengisian 10 item kuesioner SUS setelah selesai simulasi | Kuesioner SUS adalah instrumen standar global yang tervalidasi. |
+| Efektivitas | DV | Kemampuan menyelesaikan tugas | Task Success Rate | Ratio | Persentase (%) | (Jumlah task berhasil diselesaikan / Total task) * 100% | Sesuai pedoman ISO 9241-11 untuk mengukur efektivitas. |
+| Efisiensi | DV | Kecepatan bertransaksi | Time-based Efficiency | Ratio | Detik (sec) | Menggunakan stopwatch saat task scenario berlangsung | Metrik waktu adalah ukuran paling objektif untuk efisiensi beban kognitif. |
+| Profil Partisipan | CV | Pengalaman pengguna (Mental Model) | Durasi menjadi nasabah SeaBank | Ordinal | Bulan/Tahun | Kuesioner screening di awal (pre-test) | Mengontrol bias; pengguna lama pasti lebih cepat dari pengguna baru. |
 
 Alignment Check:
   RQ → Concept → Variable → Metric → Data → Result
-  [ ] Setiap langkah terdokumentasi
-  [ ] Tidak ada "lompatan logis"
-  [ ] Metrik mengukur apa yang dimaksud (construct validity)
+  [X] Setiap langkah terdokumentasi
+  [X] Tidak ada "lompatan logis"
+  [X] Metrik mengukur apa yang dimaksud (construct validity)
 ```
 
 ---
@@ -87,13 +89,15 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** Apakah aplikasi BCA Mobile memiliki tingkat usability yang dapat diterima oleh nasabah di Singaraja?
+**RQ:** __________________________________________________
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-| Kelompok Pengguna | IV | Tingkat pengalaman partisipan | Kategorikal: Non-pengguna vs Pengguna Aktif | Nominal | — |
-| Efisiensi Sistem | DV | Kecepatan kerja (Efficiency) | Time-based efficiency (goals/sec) | Ratio | goals/sec |
-| Skenario Tugas | CV | Standarisasi beban pengujian | 4 Tugas (Cek saldo, transfer, mutasi, top up) | Nominal | — |
+| Antarmuka SeaBank | IV | Antarmuka Perbankan Digital | Aplikasi mobile spesifik | Nominal | — |
+| Kepuasan Pengguna | DV | Persepsi Subjektif Kenyamanan | Skor Akhir Kuesioner SUS | Interval | 0-100 Poin |
+| Tingkat Keberhasilan | DV | Efektivitas Navigasi | Task Success Rate | Ratio | Persentase (%) |
+| Kecepatan Transaksi | DV |Efisiensi Navigasi UI | Time-based Efficiency | Ratio | Detik |
+| Pengalaman Partisipan | CV | Literasi Digital Nasabah | Filter kriteria pengguna aktif | Nominal | Kategori |
 
 **Apakah ada lompatan logis dalam rantai?** [ ] Ya / [X] Tidak
 > Jika ya, di mana? ____________________________________
@@ -106,16 +110,15 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Representative | 5 | Mewakili kepuasan subjektif secara menyeluruh melalui 10 pernyataan standar industri. |
-| Sensitive | 4 | Skala Likert 1-5 cukup peka untuk menangkap variasi pendapat responden yang beragam. |
-| Feasible | 5 | Sangat mudah dikumpulkan karena hanya membutuhkan pengisian kuesioner singkat. |
+| Representative | 5 | Sangat mewakili. Skor SUS, Success Rate, dan Time (Waktu) adalah 3 metrik mutlak yang merepresentasikan definisi Usability berdasarkan standar internasional (ISO 9241-11). |
+| Sensitive | 4 | Cukup peka. Skor SUS (0-100) dan hitungan waktu (detik) sangat detail sehingga dapat membedakan sedikit saja kebingungan yang dialami pengguna. |
+| Feasible | 5 | Sangat memungkinkan. Evaluasi Task Scenario bisa dilakukan secara langsung maupun jarak jauh (via Zoom screen share), dan SUS bisa dihitung otomatis pakai Google Forms. |
 
 **Apakah perlu secondary metric?** [X] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? Penambahan metrik Success Rate bertujuan untuk memverifikasi apakah persepsi kepuasan nasabah selaras dengan kemampuan nyata mereka dalam menyelesaikan skenario tugas yang diberikan.
-Tanpa dukungan data objektif, hasil evaluasi berisiko mengalami bias karena hanya mengandalkan opini subjektif tanpa bukti eksekusi yang terukur.
+> Jika ya, apa dan mengapa? metrik sekunder berupa Error Rate (Jumlah klik salah / defect). Alasannya: Karena seorang pengguna aplikas bisa saja berhasil mencapai 100% Success Rate, tapi jika ia salah pencet menu sebanyak 5 kali sebelum berhasil, itu membuktikan UI tersebut membingungkan. Error rate menambal celah dari Success Rate.
 
 **Contoh kasus ceiling effect untuk metrik ini:**
-> Jika tugas yang diberikan terlalu sederhana (contohnya ya itu: hanya menekan tombol login), semua partisipan akan merasa sangat puas dan sukses 100%, sehingga metrik tidak bisa membedakan kualitas desain yang sebenarnya.
+> Jika skenario tugas (task) yang dirancang peneliti terlalu mudah (misalnya: "Coba login ke aplikasi"), maka semua partisipan akan mendapat Success Rate 100% dan waktu pengerjaan 2 detik. Akibatnya, metrik gagal mendeteksi masalah kelancaran navigasi yang sebenarnya terjadi di fitur yang lebih kompleks (seperti fitur deposito).
 
 ---
 
@@ -125,10 +128,10 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 
 | Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
 |---------|-----------|---------|------------------|
-| Completeness | *Apakah semua data point terkumpul?* | Ya, meskipun ada tugas yang gagal (Fail), data tersebut tetap dicatat untuk perhitungan. | Memastikan seluruh 4 task dicatat hasilnya baik berhasil maupun gagal. |
-| Consistency | *Apakah ada kontradiksi internal?* | Mungkin ada pengguna yang memberi skor kepuasan tinggi tapi gagal di banyak tugas. | Melakukan wawancara untuk memahami mengapa mereka tetap merasa puas meski mengalami kesulitan. |
-| Validity | *Apakah benar-benar mengukur yang dimaksud?* | Ya, penggunaan metrik Nielsen sudah baku untuk pengujian perangkat lunak. | Mengikuti panduan perhitungan rumus SUS dan Success Rate dari literatur tepercaya. |
-| Representativeness | *Apakah sampel mewakili populasi target?* | Sampel 6 orang untuk tes dan 20 untuk kuesioner dianggap cukup untuk skala studi kasus lokal. | Memilih partisipan dengan rentang usia yang luas (18-56 tahun) agar mewakili nasabah umum. |
+| Completeness | *Apakah semua data point terkumpul?* | Ada risiko responden lupa mengisi beberapa pertanyaan di kuesioner SUS. | Menggunakan Google Forms dan mengaktifkan fitur "Wajib Diisi" (Required) pada seluruh 10 item kuesioner SUS. |
+| Consistency | *Apakah ada kontradiksi internal?* | Responden yang malas baca mungkin memilih angka "5" (Sangat Setuju) untuk semua pertanyaan SUS. | Pertanyaan ganjil & genap di SUS saling bertolak belakang. Jawaban bernilai 5 semua akan terdeteksi sebagai kontradiksi dan datanya akan dieliminasi (data cleaning). |
+| Validity | *Apakah benar-benar mengukur yang dimaksud?* | Ya, kuesioner SUS sudah diakui validitasnya oleh peneliti global untuk mengukur usability. | Menggunakan instrumen SUS versi terjemahan Bahasa Indonesia yang sudah divalidasi keandalannya di riset-riset sebelumnya (misal: oleh Sharfina & Santoso). |
+| Representativeness | *Apakah sampel mewakili populasi target?* | Bisa tidak mewakili jika partisipan yang diuji hanyalah teman kampus IT peneliti. | Menerapkan kriteria inklusi sampel: Partisipan harus dari berbagai latar belakang jurusan/pekerjaan yang merupakan pengguna murni aplikasi SeaBank (bukan desainer UI/UX). |
 
 ---
 
@@ -137,4 +140,5 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> Penetapan metrik setelah observasi data dikategorikan sebagai p-hacking karena memungkinkan peneliti melakukan seleksi metrik secara selektif demi menunjukkan hasil yang signifikan, sehingga validitas riset berkurang. Perbedaan mendasarnya dengan eksplorasi data yang sah terletak pada tujuan: eksplorasi berfokus pada identifikasi anomali atau pola untuk merumuskan hipotesis baru, sementara penelitian konfirmatori mewajibkan metrik ditentukan sebelum eksperimen dimulai guna menjamin objektivitas.
+> Memilih metrik setelah melihat data (p-hacking) ibarat memanah dinding kosong, lalu menggambar target pas di tengah anak panah yang menancap agar seolah-olah kita tepat sasaran. Ini adalah manipulasi (distorsi) karena peneliti menyeleksi metrik yang hanya menguntungkan dan membuang hasil buruk.
+Eksplorasi data yang sah, di sisi lain, berarti kita menetapkan metrik utama sejak awal eksperimen (Pre-registration). Jika hasilnya ternyata gagal atau tidak sesuai hipotesis, kita jujur melaporkannya. Kemudian, jika saat melihat data kita menemukan pola atau wawasan baru (misalnya pengguna ternyata lebih lambat di jam malam), temuan tersebut dilaporkan secara transparan sebagai "metrik eksploratif" atau temuan tambahan, bukan diklaim sebagai tujuan utama dari awal.
