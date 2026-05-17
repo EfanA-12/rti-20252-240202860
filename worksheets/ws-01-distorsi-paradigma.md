@@ -61,25 +61,25 @@ Dalam DSR, artefak **bukan tujuan akhir** — ia adalah instrumen untuk menghasi
 ## Template A.1 — Research Mindset Self-Assessment
 
 ```
-Nama Peneliti    : ____________________
-Tanggal          : ____________________
+Nama Peneliti    : Efan Aryanto Adli
+Tanggal          : 17 Mei 2026
 
 1. Ketika membaca klaim "metode X 95% akurat":
-   - Pertanyaan pertama saya: ____________________
-   - Data yang dibutuhkan untuk verifikasi: ____________________
+   - Pertanyaan pertama saya: Bagaimana tahap Reality → Data dilakukan? Apakah ada sampling bias saat pengumpulan data ujinya?
+   - Data yang dibutuhkan untuk verifikasi: Karakteristik dataset yang digunakan, metode pengujian (misal: jumlah sampel responden), dan baseline yang digunakan sebagai pembanding.
 
 2. Posisi paradigma:
-   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed
-   - Alasan: ____________________
+   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [X] Mixed (Campuran)
+   - Alasan: Topik riset UI/UX utamanya berfokus pada pengujian kuantitatif (waktu, rasio keberhasilan, skor SUS) yang bersifat Positivis. Namun, pendekatan ini harus dikombinasikan dengan interpretasi keluhan pengguna (Interpretivis) untuk dapat menghasilkan rancangan rekomendasi desain baru (Design Science).
 
 3. Identifikasi distorsi:
-   - Asumsi tersembunyi: ____________________
-   - Sumber bias potensial: ____________________
-   - Langkah mitigasi: ____________________
+   - Asumsi tersembunyi: Klaim akurasi/kepuasan tinggi pada suatu aplikasi berlaku secara universal untuk semua profil pengguna di segala kondisi.
+   - Sumber bias potensial: Sampling Bias (sampel terlalu homogen) dan Hawthorne Effect (partisipan berbohong/berperilaku berbeda karena merasa sedang diamati).
+   - Langkah mitigasi: Menerapkan kriteria inklusi sampel yang ketat (beragam usia/profesi) dan memberikan briefing netral agar partisipan tidak merasa sedang diuji kecerdasannya.
 
 4. Komitmen etika:
-   - Data yang tidak akan dimanipulasi: ____________________
-   - Batasan yang diakui sejak awal: ____________________
+   - Data yang tidak akan dimanipulasi: Rekaman durasi waktu (stopwatch), jumlah klik yang salah (error/defect), serta angka kuesioner dari partisipan, meskipun hasilnya buruk atau tidak sesuai harapan (negative result).
+   - Batasan yang diakui sejak awal: Keterbatasan ukuran sampel dan pengkondisian lingkungan uji yang mungkin tidak 100% merefleksikan kepanikan pengguna saat bertransaksi di dunia nyata.
 ```
 
 ---
