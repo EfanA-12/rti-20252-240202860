@@ -67,16 +67,16 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 ```
 RQ-CONTRIBUTION-HYPOTHESIS
 
-Gap Statement  : Belum ada integrasi yang kuat antara pengujian berbasis sentimen pengguna (seperti SUS) dengan inspeksi pakar antarmuka (Heuristic Evaluation) untuk mendiagnosis masalah UX secara akurat.
+Gap Statement  : Belum adanya pengujian empiris yang memadukan Task Scenario (untuk mengukur performa objektif) dan kuesioner SUS (untuk kepuasan subjektif) pada aplikasi bank digital murni (branchless banking) seperti SeaBank.
 
 Research Question:
-  Tipe         : [X] Comparison  [ ] Improvement  [ ] Exploratory
-  Formulasi    : Apakah integrasi metode SUS (System Usability Scale) dan Heuristic Evaluation menghasilkan identifikasi masalah usability yang lebih banyak dan presisi dibandingkan metode kuesioner tunggal pada evaluasi komparatif aplikasi Mobile Banking X dan Y?
-  Variabel IV  : Strategi Evaluasi (Metode Tunggal vs. Metode Integrasi).
-  Variabel DV  : Kuantitas dan kualitas temuan masalah usability.
-  Metrik       : Jumlah temuan masalah (issue count), skor kepuasan (SUS), dan peringkat keparahan (severity rating).
-  Dataset      : Antarmuka fitur utama (transfer, cek saldo, mutasi) pada dua aplikasi mobile banking berbeda.
-  Baseline     : Metode kuesioner tunggal (seperti dalam studi Dewi, dkk., 2022).
+  Tipe         : [ ] Comparison  [ ] Improvement  [X] Exploratory / Evaluative
+  Formulasi    : Apakah skor kepuasan rata-rata pengguna aplikasi SeaBank saat mengeksekusi skenario transaksi utama melampaui ambang batas standar kelayakan (SUS score > 68)?
+  Variabel IV  : Antarmuka Aplikasi SeaBank (Sistem yang dievaluasi)
+  Variabel DV  : Tingkat Kegunaan / Usability (Efektivitas, Efisiensi, Kepuasan)
+  Metrik       : Success Rate (%), Time-based Efficiency (goals/sec), dan Skor SUS (skala 0-100)
+  Dataset      : Data observasi 6 pengguna (Task Scenario) dan kuesioner dari 20+ responden nasabah SeaBank.
+  Baseline     : Standar rata-rata industri untuk SUS (skor 68) dan rata-rata completion rate global (78%).
 
 Quality Check RQ:
   [X] Variabel spesifik
@@ -86,15 +86,15 @@ Quality Check RQ:
   [X] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui : Efektivitas integrasi metrik kuantitatif dan kualitatif dalam mendiagnosis masalah antarmuka secara presisi pada domain aplikasi finansial.
-  Jenis kontribusi        : [ ] Improvement  [X] Comparison  [ ] Novel approach
-  Gap yang diisi          : Method Gap (integrasi instrumen) dan Context Gap (perbandingan kompetitor).
+  Apa yang baru diketahui : Baseline metrik empiris (tingkat efektivitas, efisiensi, dan kepuasan) dari UI/UX aplikasi bank digital murni yang tidak memiliki dukungan kantor cabang.
+  Jenis kontribusi        : [ ] Improvement  [ ] Comparison  [X] Novel approach / Baseline Establishment
+  Gap yang diisi          : Mengisi Method Gap & Context Gap dengan menerapkan pengujian gabungan (Task Scenario + SUS) pada konteks branchless banking.
 
 Hypothesis Pair:
-  H₀ : Tidak ada perbedaan signifikan dalam jumlah temuan masalah usability antara metode integrasi dan metode kuesioner tunggal.
-  H₁ : Metode integrasi menghasilkan identifikasi masalah usability yang lebih banyak secara signifikan dibandingkan metode kuesioner tunggal.
-  Threshold              : p < 0,05 (Signifikansi statistik).
-  Justifikasi threshold  : Ambang batas ini adalah standar akademik untuk menolak hipotesis nol dan memastikan hasil bukan karena kebetulan.
+  H₀ : Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank ≤ 68 (Berada pada level rata-rata atau di bawah standar kelayakan).
+  H₁ : Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank > 68 (Berada di atas standar kelayakan/acceptable).
+  Threshold              : Skor SUS = 68.
+  Justifikasi threshold  : Skor 68 adalah acuan global dari literatur (Sauro & Lewis) yang diakui secara akademis untuk menentukan apakah antarmuka suatu sistem dikategorikan layak digunakan (acceptable) atau butuh perbaikan.
 ```
 
 ---
@@ -103,24 +103,24 @@ Hypothesis Pair:
 
 Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
-**Gap dari WS-03:** Belum ada integrasi instrumen pelacak kepuasan dengan instrumen pelacak error antarmuka secara simultan.
+**Gap dari WS-03:** Kurangnya evaluasi empiris pada bank digital murni yang memadukan pengukuran performa objektif (Task Scenario) dengan pengukuran kepuasan subjektif (SUS) untuk menguji kelayakan UI/UX-nya.
 
 **RQ versi pertama (tulis bebas):**
-> Bagaimana cara menggabungkan metode SUS dan Heuristic Evaluation untuk mengevaluasi aplikasi Mobile Banking agar hasilnya lebih akurat dibandingkan aplikasi lain?
+> Bagaimana tingkat usability aplikasi SeaBank dan apakah penggunanya merasa puas?
 
 **Evaluasi RQ:**
 
 | Komponen | Ada? | Isi |
 |----------|------|-----|
-| Metode spesifik | Ya | Integrasi metode SUS dan Heuristic Evaluation. |
-| Metrik terukur | Ya | Jumlah temuan masalah (usability issues) dan skor kepuasan. |
-| Baseline | Ya | Metode kuesioner tunggal (seperti pada penelitian Dewi et al., 2022). |
-| Dataset/konteks | Ya | Antarmuka aplikasi Mobile Banking. |
+| Metode spesifik | Tidak | Belum menyebutkan instrumen/metodenya. |
+| Metrik terukur | Tidak | "Tingkat usability" masih terlalu abstrak, belum ada angka terukurnya. |
+| Baseline | Tidak | Tidak ada standar perbandingan |
+| Dataset/konteks | Ya | Aplikasi SeaBank. |
 
-**Tipe RQ:** [X] Comparison / [ ] Improvement / [ ] Exploratory
+**Tipe RQ:** [ ] Comparison / [ ] Improvement / [X] Exploratory
 
 **RQ versi revisi (setelah evaluasi):**
-> Apakah integrasi metode System Usability Scale (SUS) dan Heuristic Evaluation mampu menghasilkan identifikasi masalah usability yang lebih komprehensif dibandingkan metode kuesioner tunggal pada aplikasi Mobile Banking?
+> Apakah tingkat kepuasan (berdasarkan metrik System Usability Scale) dan tingkat keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri (SUS > 68 dan Success Rate > 78%)?
 
 ---
 
@@ -130,14 +130,14 @@ Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
 | Komponen | Isi |
 |----------|-----|
-| H₀ | H_0Tidak ada perbedaan signifikan dalam jumlah temuan masalah usability antara metode integrasi (SUS + Heuristic) dan metode kuesioner tunggal pada aplikasi Mobile Banking. |
-| H₁ | Metode integrasi (SUS + Heuristic) menghasilkan jumlah temuan masalah usability yang lebih banyak dan lebih presisi secara signifikan dibandingkan metode kuesioner tunggal. |
-| Metrik | Jumlah usability issues yang tervalidasi dan rata-rata severity rating. |
-| Threshold | Nilai signifikansi p < 0,05 (Alpha 5%) atau peningkatan jumlah temuan minimal sebesar 30%. |
-| Justifikasi threshold | Ambang batas p < 0,05 adalah standar umum dalam penelitian perangkat lunak untuk menolak klaim kebetulan, sedangkan target 30% didasarkan pada ekspektasi keunggulan metode campuran terhadap metode tunggal. |
+| H₀ | Rata-rata skor SUS aplikasi SeaBank ≤ 68 dan success rate ≤ 78% (Tidak melampaui standar kelayakan industri). |
+| H₁ | Rata-rata skor SUS aplikasi SeaBank > 68 dan success rate > 78% (Secara signifikan melampaui standar kelayakan industri). |
+| Metrik | Skor gabungan instrumen kuesioner SUS (rentang 0-100) dan Task Success Rate (%). |
+| Threshold | Skor 68 (Untuk SUS) dan 78% (Untuk Completion Rate). |
+| Justifikasi threshold | Standar acuan akademik global (Sauro, 2011) yang membagi kategori usability menjadi Not Acceptable, Marginal, dan Acceptable (Skor > 68). |
 
 **Apakah hipotesis ini falsifiable?** [X] Ya / [ ] Tidak
-> Bagaimana cara membuktikannya salah? Terbukti salah jika hasil eksperimen menunjukkan bahwa jumlah masalah usability yang ditemukan melalui integrasi metode tidak lebih banyak (atau justru lebih sedikit) dibandingkan hanya menggunakan satu metode saja.
+> Bagaimana cara membuktikannya salah? Jika setelah pengumpulan data dari responden dilakukan perhitungan statistik (One-Sample T-Test) dan hasilnya menunjukkan nilai rata-rata (mean) SUS berada di angka 60 (kurang dari 68), maka secara otomatis hipotesis awal (H₁) gagal dibuktikan, dan H₀ diterima.
 
 ---
 
@@ -147,12 +147,12 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 | Tahap | Isi |
 |-------|-----|
-| RQ | Apakah integrasi metode SUS dan Heuristic Evaluation lebih efektif mendeteksi masalah usability dibanding metode tunggal? |
-| Variable (IV) | Strategi Evaluasi (Metode Integrasi vs. Metode Tunggal). |
-| Variable (DV) | Efektivitas deteksi masalah usability. |
-| Metric | Issue count (jumlah temuan) dan tingkat keparahan (severity score). |
-| Data source | Log pengujian tugas (task scenario), skor kuesioner dari nasabah, dan catatan observasi pakar. |
-| Analysis method | Uji komparatif statistik (misalnya Wilcoxon Signed-Rank Test) untuk membandingkan performa kedua kelompok metode. |
+| RQ | Apakah skor kepuasan SUS dan keberhasilan tugas pada aplikasi SeaBank melampaui standar acceptable industri? |
+| Variable (IV) | Antarmuka pengguna (UI/UX) aplikasi SeaBank.|
+| Variable (DV) | Kepuasan pengguna (Satisfaction) dan Tingkat Keberhasilan (Learnability). |
+| Metric | Skor skala likert yang dikonversi ke sistem SUS (0-100) dan Persentase (%). |
+| Data source | Data log durasi task scenario dari 6 pengguna dan kuesioner dari minimal 20 responden nasabah SeaBank. |
+| Analysis method | Analisis statistik deskriptif dan pengujian rata-rata satu populasi (One-Sample T-Test terhadap nilai acuan 68). |
 
 **Apakah rantai lengkap?** [X] Ya / [ ] Tidak
 > Jika tidak, tahap mana yang perlu direvisi? ______________
@@ -163,9 +163,6 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
-**Judul:** Evaluasi Usability Aplikasi Mobile Banking BCA dengan menggunakan Usability Testing dan System Usability Scale (Studi Kasus: BCA Kota Singaraja)
-
-**RQ yang diekstrak:** Bagaimana tingkat usability aplikasi mobile banking berdasarkan persepsi pengguna menggunakan kuesioner SUS?
-
-**Komponen yang hilang:** Baseline: Penelitian tersebut hanya berfokus pada satu aplikasi tanpa membandingkan hasilnya dengan aplikasi kompetitor sejenis atau standar industri yang lebih luas dalam formulasi pertanyaannya.
-Diagnosis Kesalahan Spesifik: RQ tersebut tidak mencakup metode inspeksi (seperti Heuristic Evaluation) yang bisa menunjukkan koordinat atau titik presisi di mana kesalahan desain terjadi, sehingga hanya menghasilkan skor kepuasan umum.
+**Judul:** Evaluasi Usability Pada Aplikasi BNI Mobile Banking Dengan Menggunakan Metode Usability Testing dan System Usability Scale
+**RQ yang diekstrak:** Bagaimana tingkat kegunaan (usability) pada aplikasi BNI Mobile Banking?
+**Komponen yang hilang:** RQ di paper tersebut kurang tajam karena Metrik Terukur dan Baseline dihilangkan dari rumusan masalah utamanya. Pertanyaan tersebut tidak menyebutkan akan diuji dengan threshold apa dan angka kesuksesannya akan diukur berdasarkan parameter pembanding apa, sehingga terkesan sangat normatif.
