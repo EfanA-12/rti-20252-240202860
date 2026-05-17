@@ -68,31 +68,32 @@ PROBLEM STATEMENT BUILDER
 
 Domain & Konteks
   Domain   : Human-Computer Interaction (HCI) / Evaluasi Usability Antarmuka Aplikasi
-  Konteks  : Evaluasi kegunaan (usability) aplikasi mobile banking (BCA mobile) pada nasabah di Kota Singaraja
+  Konteks  : Evaluasi kegunaan (usability) aplikasi bank digital SeaBank pada nasabah/pengguna aktif.
 
 System Context
-  Input       : Interaksi pengguna (partisipan) saat mengeksekusi skenario tugas (task scenario) seperti mengecek saldo, transfer antar bank, cek mutasi, dan top-up e-wallet.
-  Process     : Navigasi pengguna di dalam antarmuka aplikasi BCA mobile untuk menemukan fitur dan memproses instruksi transaksi.
-  Output      : Metrik pengujian berupa success rate (persentase keberhasilan), time-based efficiency (kecepatan), error rate (jumlah kesalahan), dan skor kuesioner
-  Outcome     :Penemuan usability problems spesifik dan pembuatan rekomendasi perbaikan antarmuka UI/UX (seperti penyatuan menu transfer dan pemindahan info saldo).
-  Constraints : Adanya perbedaan kebiasaan/pemahaman antara nasabah yang sudah terbiasa dengan BCA mobile (Kelompok 2) dengan pengguna aplikasi bank lain (Kelompok 1).
-  Stakeholders: Nasabah (pengguna akhir) dan pihak pengembang/manajemen PT Bank Central Asia Tbk.
+  Input       : Interaksi motorik pengguna (ketukan layar, input data) saat mengeksekusi task scenario pada aplikasi SeaBank.
+  Process     : Proses navigasi pengguna di dalam antarmuka aplikasi untuk menyelesaikan tugas (misal: mencari riwayat transaksi lama, membuka deposito) serta pengisian kuesioner SUS di akhir sesi.
+  Output      : Metrik usability kuantitatif berupa success rate (%), time-based efficiency (detik), error rate, dan skor kepuasan SUS (0-100).
+  Outcome     : Teridentifikasinya celah usability (pain points) dan perumusan rekomendasi perbaikan desain UI/UX aplikasi SeaBank.
+  Constraints : Jumlah sampel partisipan yang terbatas serta lingkungan pengujian yang dikondisikan (tidak sepenuhnya mencerminkan situasi pengguna di dunia nyata).
+  Stakeholders: Nasabah aplikasi SeaBank (pengguna akhir) dan Tim Pengembang/UI-UX Designer SeaBank.
 
 Fenomena → Problem
-  Fenomena yang diamati             : Meskipun BCA mobile menempati peringkat 1 sebagai aplikasi keuangan terpopuler di Indonesia, ratingnya di Appstore hanya mencapai 3,4 dari 5.
-  Gejala (symptom) yang terukur     : Keluhan nasabah terkait sulitnya melihat riwayat transaksi, kebingungan fitur transfer antar bank yang mengharuskan mendaftar nomor rekening terlebih dahulu, dan tampilan yang dianggap kurang up-to-date.
-  Masalah yang didiagnosis          : Antarmuka dan alur navigasi fitur utama tidak efisien serta membingungkan, yang berdampak pada beban kognitif pengguna.
-  Masalah riset (researchable)      : Diperlukan evaluasi komprehensif untuk mengukur secara empiris tingkat efektivitas, efisiensi, dan kepuasan pengguna aplikasi BCA mobile melalui Usability Testing dan System Usability Scale (SUS).
-  Variabel yang terukur             : Learnability (success rate), Efficiency (time-based efficiency dalam goals/sec), Error rate, dan Satisfaction (skor SUS berskala 0-100).
+  Fenomena yang diamati             : Aplikasi bank digital seperti SeaBank dituntut memiliki antarmuka yang sangat intuitif karena ketiadaan kantor cabang fisik untuk melayani nasabah secara langsung.
+  Gejala (symptom) yang terukur     : Munculnya berbagai keluhan dari pengguna terkait kebingungan saat mencari riwayat transaksi lama atau kesulitan memahami alur pembukaan fitur deposito.
+  Masalah yang didiagnosis          : Hirarki navigasi dan penempatan label fitur pada antarmuka aplikasi kurang sesuai dengan mental model pengguna awam, sehingga memicu tingginya beban kognitif (cognitive load).
+  Masalah riset (researchable)      : Seberapa besar tingkat efektivitas, efisiensi, dan kepuasan pengguna dalam menyelesaikan skenario tugas utama di aplikasi SeaBank secara empiris?
+  Variabel yang terukur             : Tingkat keberhasilan tugas (Learnability), kecepatan penyelesaian (Efficiency), jumlah kesalahan (Error rate), dan skor kepuasan (Satisfaction).
+
 Problem Quality Check
-  [X] Clarity — Apakah satu orang membaca akan paham? Pembaca dapat langsung memahami bahwa masalah utamanya adalah pengguna aplikasi BCA Mobile merasa kesulitan pada fitur tertentu (seperti mencari riwayat transaksi dan proses transfer yang panjang), sehingga sistem tersebut perlu dievaluasi tingkat usability-nya.
-  [X] Measurability — Apakah ada metrik kuantitatif? Penelitian ini menggunakan metrik berupa angka yang pasti, yaitu persentase Success Rate (untuk learnability), goals/sec (untuk efficiency), jumlah error/defect (untuk error rate), dan skor 0-100 (untuk kuesioner SUS).
-  [X] Relevance — Apakah penting untuk domain? Sangat penting. Di era digital saat ini, nilai transaksi elektronik terus meningkat drastis (naik 30,7% di awal 2021). Perbankan wajib memiliki aplikasi dengan UX yang baik agar tetap bisa bersaing dan mempertahankan nasabahnya.
-  [X] Testability — Apakah bisa gagal? Ya, dapat diuji dan berpeluang mematahkan asumsi awal. Bisa saja saat diuji dengan task scenario, para partisipan ternyata bisa menyelesaikan tugas dengan sangat cepat (0 error) dan skor SUS menunjukkan angka sempurna, yang berarti keluhan awal di App Store mungkin hanya dari segelintir pengguna saja. Namun, pengujian membuktikan sebaliknya, di mana learnability terbukti di bawah rata-rata.
-  [X] Impact — Apakah ada kontribusi jika terjawab? Ada kontribusi nyata. Hasil evaluasi tidak hanya berupa deretan angka kepuasan, tetapi diterjemahkan menjadi rekomendasi desain User Interface (UI) yang konkret, seperti menyatukan menu transfer dan memindahkan info saldo ke beranda, yang bisa langsung diterapkan oleh pihak developer bank.
+  [X] Clarity — Pembaca dapat langsung memahami bahwa masalahnya adalah keluhan navigasi pada SeaBank yang memicu beban kognitif, sehingga perlu dievaluasi.
+  [X] Measurability — Menggunakan metrik kuantitatif yang jelas: persentase keberhasilan, waktu (detik), rasio kesalahan, dan skor SUS.
+  [X] Relevance — Sangat relevan karena kelancaran UI/UX adalah ujung tombak retensi nasabah bagi sebuah bank digital (branchless banking).
+  [X] Testability — Dapat diuji dan bisa gagal. Bisa saja hasil pengujian membuktikan bahwa UI SeaBank sebenarnya sudah sangat efisien dan keluhan yang ada hanya berasal dari anomali sebagian kecil pengguna.
+  [X] Impact — Menghasilkan kontribusi praktis berupa data empiris kelemahan UI saat ini beserta rekomendasi redesign antarmuka untuk pihak SeaBank.
 
 Problem Statement (1 paragraf):
-  PT Bank Central Asia Tbk telah meluncurkan BCA mobile untuk menjawab tuntutan digitalisasi perbankan, menjadikannya aplikasi keuangan terpopuler di Indonesia dengan volume transaksi yang terus meningkat. Namun, di balik kepopuleran tersebut, berbagai ulasan dan wawancara awal menunjukkan keluhan nasabah terkait tingkat interaksi aplikasi; seperti sulitnya melacak riwayat transaksi, panjangnya proses transfer antar bank karena kewajiban registrasi rekening, hingga tata letak antarmuka yang kurang modern. Kesulitan-kesulitan tersebut merupakan indikasi adanya isu usability yang berpotensi menurunkan kenyamanan dan efisiensi pengguna. Mengingat belum adanya pengukuran empiris terhadap masalah tersebut, penelitian ini bertujuan untuk mengevaluasi tingkat usability BCA mobile dengan menerapkan uji task scenario (untuk mengukur aspek learnability, efficiency, dan error) serta kuesioner System Usability Scale (untuk mengukur kepuasan/satisfaction). Hasil pengukuran ini difungsikan untuk mendiagnosis letak spesifik kesulitan pengguna guna memberikan landasan perumusan rekomendasi perbaikan antarmuka aplikasi.
+Kehadiran bank digital seperti SeaBank menuntut antarmuka pengguna (UI/UX) yang sangat intuitif, mengingat seluruh layanan transaksi dilakukan tanpa intervensi fisik dari kantor cabang. Namun, observasi awal terhadap ulasan pengguna menunjukkan adanya gejala kesulitan dalam bernavigasi, seperti kebingungan saat melacak riwayat transaksi lama dan ketidakpahaman terhadap alur fitur deposito. Kesulitan tersebut mengindikasikan adanya celah pada hirarki informasi yang membebani kognitif pengguna (cognitive load) dan berisiko menurunkan kepercayaan nasabah. Mengingat belum adanya pengukuran empiris terkait kendala tersebut, penelitian ini bertujuan untuk mengevaluasi tingkat kegunaan (usability) aplikasi SeaBank secara kuantitatif melalui metode Usability Testing (mengukur aspek efektivitas dan efisiensi) serta kuesioner System Usability Scale (mengukur tingkat kepuasan). Hasil evaluasi ini akan digunakan sebagai landasan saintifik untuk merumuskan rekomendasi perbaikan desain antarmuka aplikasi SeaBank agar lebih sesuai dengan mental model penggunanya.
 ```
 
 ---
@@ -101,15 +102,15 @@ Problem Statement (1 paragraf):
 
 Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Problem Formation Model.
 
-**Topik awal:** Evaluasi Usability Aplikasi Mobile Banking
+**Topik awal:** Evaluasi Tingkat Usability Aplikasi Bank Digital SeaBank Menggunakan Pendekatan Usability Testing dan System Usability Scale (SUS).
 
 | Tahap | Hasil |
 |-------|-------|
-| Reality | Perbankan menggencarkan teknologi seluler (BCA mobile) agar nasabah dapat bertransaksi dengan nyaman, cepat, dan mudah.  |
-| Observed Issue (Symptom) | Pengguna sering kebingungan di dalam aplikasi, seperti mengeluhkan langkah panjang saat transfer antar bank dan fitur mutasi yang letaknya tidak intuitif. |
-| Diagnosed Problem (Root Cause) | Terdapat kelemahan pada tata letak arsitektur informasi dan alur UI/UX fitur-fitur transaksi utama aplikasi saat ini. |
-| Researchable Problem | Perlunya evaluasi tingkat learnability, efficiency, error, dan satisfaction pada aplikasi BCA mobile menggunakan instrumen standar usability. |
-| Measurable Variable | Perhitungan success rate (%), rata-rata kecepatan eksekusi tugas (goals/sec), jumlah defect/error, dan skor SUS (System Usability Scale). |
+| Reality | Aplikasi bank digital (seperti SeaBank) menuntut antarmuka yang sangat intuitif karena berhubungan langsung dengan kelancaran dan keamanan transaksi finansial pengguna. |
+| Observed Issue (Symptom) | Terdapat ulasan/keluhan dari pengguna (misal di Play Store/App Store atau forum) mengenai kebingungan saat mencari riwayat transaksi lama atau kesulitan memahami alur pembukaan fitur deposito. (Kamu bisa mengganti gejala ini dengan keluhan nyata yang kamu temukan). |
+| Diagnosed Problem (Root Cause) | Hirarki navigasi atau penempatan label fitur pada antarmuka aplikasi kurang sesuai dengan mental model pengguna awam, sehingga memicu tingginya cognitive load (beban pikiran) saat bertransaksi. |
+| Researchable Problem | Seberapa besar tingkat efektivitas, efisiensi, dan kepuasan pengguna (berdasarkan kerangka usability) dalam menyelesaikan skenario tugas utama di aplikasi SeaBank? |
+| Measurable Variable | Tingkat keberhasilan tugas (success rate dalam %), waktu penyelesaian (time-based efficiency dalam detik), jumlah kesalahan (error rate), dan skor kepuasan SUS (skala 0-100). |
 
 **Apakah terjebak solution-first thinking?** [ ] Ya / [X] Tidak
 > Jika ya, kembali ke tahap mana? ________________________
@@ -122,15 +123,14 @@ Gambarkan konteks sistem dari masalah riset di Latihan 1.
 
 | Komponen | Deskripsi |
 |----------|----------|
-| Input | Interaksi motorik pengguna (ketukan layar, navigasi menu) dan input data (nomor rekening, nominal transaksi) ke dalam antarmuka aplikasi BCA mobile. |
-| Process | Alur navigasi sistem (user flow), pencarian informasi (seperti mutasi atau saldo), serta proses transisi antarmuka dari satu halaman ke halaman lainnya. |
-| Output | Keberhasilan atau penyelesaian tugas transaksi (task scenario), yang diukur melalui persentase keberhasilan, kecepatan waktu pengerjaan, dan jumlah kesalahan ketik/navigasi. |
-| Outcome | Pengalaman pengguna yang nyaman, kepuasan bertransaksi (tercermin dari skor System Usability Scale), dan kemudahan nasabah dalam beradaptasi dengan layanan perbankan digital. |
-| Constraints | Tingkat pemahaman dan kebiasaan yang berbeda antara pengguna baru dengan pengguna aktif, serta tata letak menu saat ini yang mengharuskan langkah terlalu panjang (seperti wajib mendaftar rekening tujuan sebelum transfer). |
-| Stakeholders | Nasabah pengguna aplikasi (sebagai partisipan/pengguna akhir) dan pihak PT Bank Central Asia Tbk (sebagai penyedia layanan). |
+| Input | Interaksi user (klik/sentuhan) pada antarmuka prototipe/aplikasi SeaBank, serta profil demografi user (usia, latar belakang perbankan). |
+| Process | Pengguna melaksanakan task scenario (misal: transfer beda bank, cek mutasi), disusul dengan pengisian kuesioner SUS setelah tugas selesai. |
+| Output | Metrik usability kuantitatif (waktu pengerjaan, jumlah error, skor SUS) dan data kualitatif (hasil wawancara keluhan pengguna). |
+| Outcome | Teridentifikasinya celah usability (kelemahan UI) pada SeaBank dan terciptanya draf rekomendasi perbaikan desain antarmuka. |
+| Constraints | Jumlah sampel partisipan uji yang mungkin terbatas dan lingkungan pengujian yang dikondisikan (tidak mencerminkan situasi pengguna saat sedang terburu-buru/panik di dunia nyata). |
+| Stakeholders | Nasabah aplikasi SeaBank dan Tim pengembang (UI/UX Designer / Product Manager) SeaBank. |
 
-**Komponen mana yang paling relevan dengan masalah riset?** Process (Alur desain UI/UX) dan Outcome (Kepuasan/Kemudahan Pengguna).
-
+**Komponen mana yang paling relevan dengan masalah riset?** Proses (eksekusi task scenario) dan Output (metrik yang dihasilkan).
 ---
 
 ## Latihan 3 — Problem Quality Check
@@ -139,16 +139,16 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Clarity | 5 | Sangat jelas. Masalah langsung menunjuk pada keluhan spesifik (sulit cek saldo, transfer rumit) yang akan dievaluasi menggunakan metode Usability Testing dan instrumen kuesioner SUS. |
-| Measurability | 4 | Sangat terukur. Menggunakan metrik kuantitatif: success rate (%), efficiency (goals/sec), angka error, dan skor SUS (rentang 0-100). |
-| Relevance | 5 | Sangat relevan karena transaksi e-money melonjak 30,7%, sehingga bank harus memastikan aplikasinya dapat bersaing dan memenuhi ekspektasi kenyamanan nasabah di era digital. |
-| Testability | 3 | Peneliti secara faktual mampu mengujinya langsung kepada partisipan (menggunakan 6 responden untuk simulasi task scenario dan 20 responden untuk SUS). |
-| Impact | 5 | Memberikan kontribusi nyata berupa temuan 4 pain points (masalah desain) dan solusi perbaikan antarmuka yang konkret (seperti usulan penambahan menu e-wallet khusus). |
+| Clarity | 5 | Sangat jelas. Masalah langsung menunjuk pada keluhan spesifik pengguna SeaBank (kebingungan mencari riwayat transaksi & alur deposito) yang akan dievaluasi menggunakan metode Usability Testing dan kuesioner SUS. |
+| Measurability | 4 | Sangat terukur. Variabel yang digunakan memiliki metrik kuantitatif yang jelas: persentase keberhasilan tugas (%), waktu penyelesaian (detik), rasio kesalahan, dan skor SUS (rentang 0-100). |
+| Relevance | 5 | Sangat relevan. Sebagai bank digital murni tanpa kantor cabang (branchless), kelancaran antarmuka (UI/UX) SeaBank adalah kunci utama untuk mempertahankan kepercayaan dan kenyamanan nasabah. |
+| Testability | 4 | Dapat diuji secara faktual dengan mensimulasikan task scenario kepada sampel partisipan (nasabah aktif SeaBank) dan membagikan kuesioner. Berpeluang mematahkan asumsi jika ternyata pengguna bisa menyelesaikannya dengan mudah. |
+| Impact | 5 | Memberikan kontribusi praktis yang nyata. Hasilnya tidak sekadar angka, melainkan temuan akar masalah (pain points) yang dijadikan dasar rekomendasi perbaikan (redesign) antarmuka aplikasi. |
 
 **Skor total:** 23 / 25
 
 **Problem statement versi final (1 paragraf):**
-> Transformasi digital mendorong peningkatan volume transaksi melalui aplikasi BCA mobile. Namun, evaluasi awal menunjukkan bahwa pengguna kerap mengalami kebingungan terkait desain antarmuka sistem, seperti letak fitur mutasi yang tidak intuitif dan alur transfer antarbank yang memakan waktu terlalu lama. Saat ini, belum ada evaluasi yang mengukur tingkat interaksi dan beban kognitif pengguna tersebut secara empiris. Oleh karena itu, riset ini perlu dilakukan untuk mengevaluasi parameter kegunaan aplikasi secara kuantitatif melalui metode Usability Testing (mengukur learnability, efficiency, error) serta kuesioner System Usability Scale (mengukur kepuasan). Hasil evaluasi akan digunakan sebagai dasar saintifik dalam merumuskan rekomendasi redesign antarmuka aplikasi BCA mobile agar lebih berpusat pada pengguna (user-centric).
+> Kehadiran bank digital seperti SeaBank menuntut antarmuka pengguna (UI/UX) yang sangat intuitif, mengingat seluruh layanan transaksi dilakukan tanpa intervensi fisik dari kantor cabang. Namun, observasi awal terhadap ulasan pengguna menunjukkan adanya gejala kesulitan dalam bernavigasi, seperti kebingungan saat melacak riwayat transaksi lama dan ketidakpahaman terhadap alur fitur deposito. Kesulitan tersebut mengindikasikan adanya celah pada hirarki informasi yang membebani kognitif pengguna (cognitive load) dan berisiko menurunkan kepercayaan nasabah. Mengingat belum adanya pengukuran empiris terkait kendala tersebut, penelitian ini bertujuan untuk mengevaluasi tingkat kegunaan (usability) aplikasi SeaBank secara kuantitatif melalui metode Usability Testing (mengukur aspek efektivitas dan efisiensi) serta kuesioner System Usability Scale (mengukur tingkat kepuasan). Hasil evaluasi ini akan digunakan sebagai landasan saintifik untuk merumuskan rekomendasi perbaikan desain antarmuka aplikasi SeaBank agar lebih sesuai dengan mental model penggunanya.
 
 ---
 
@@ -157,4 +157,5 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
 **Jawaban:**
-> Perbedaan mendasar keduanya ada pada tujuan akhir. Masalah engineering (koding) bertujuan memperbaiki sistem yang error, misalnya mencari bug saat aplikasi crash. Sebaliknya, masalah riset bertujuan memahami interaksi pengguna. Dalam riset UX, aplikasi mungkin berjalan lancar tanpa error teknis, tetapi pengguna tetap merasa kesulitan. Riset menggunakan metode ilmiah (seperti SUS) untuk mencari tahu akar masalah dari sisi perilaku manusia, sehingga keputusan redesign antarmuka nantinya didasari oleh data yang objektif, bukan sekadar asumsi visual.
+> Perbedaan fundamentalnya terletak pada tujuan akhir dan batasannya (scope). "Masalah coding" (engineering) seperti bug, syntax error, atau fitur yang gagal dimuat, berorientasi murni pada solusi praktis (solve)—tujuannya adalah bagaimana membuat sistem kembali berfungsi secepat mungkin. Pendekatannya bersifat reaktif dan output-nya adalah sistem yang berjalan (working system).
+> Sebaliknya, "masalah riset" berorientasi pada pemahaman dan pembuktian (understand & prove). Dalam konteks kasus SeaBank, aplikasinya mungkin secara teknis tidak memiliki bug dan berjalan lancar tanpa crash, tetapi pengguna tetap merasa kebingungan. Pendekatan riset tidak langsung bereaksi dengan "merombak kodingan UI", melainkan membuktikan fenomena tersebut secara empiris terlebih dahulu (misal mengukurnya dengan instrumen SUS). Output dari masalah riset bukanlah sekadar "aplikasi yang jalan", melainkan data valid, bukti terukur, dan temuan yang bisa dipertanggungjawabkan secara ilmiah sebelum diimplementasikan menjadi solusi.
