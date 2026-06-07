@@ -61,25 +61,25 @@ Problem (Bab 2) → Gap (Bab 3) → RQ & H (Bab 4) → Metrik (Bab 5) → Sistem
 PROPOSAL INTEGRATION CHECKLIST
 
 Koneksi Vertikal (Flow Atas-Bawah):
-  [ ] Problem → Gap: masalah terdokumentasi di literatur
-  [ ] Gap → RQ: pertanyaan menjawab gap spesifik
-  [ ] RQ → Hypothesis: hipotesis memprediksi jawaban
-  [ ] Hypothesis → Metric: metrik mengukur variabel dalam hipotesis
-  [ ] Metric → System: komponen sistem menghasilkan/mengukur metrik
-  [ ] System → Experiment: desain eksperimen menggunakan sistem
+  [X] Problem → Gap: masalah terdokumentasi di literatur
+  [X] Gap → RQ: pertanyaan menjawab gap spesifik
+  [X] RQ → Hypothesis: hipotesis memprediksi jawaban
+  [X] Hypothesis → Metric: metrik mengukur variabel dalam hipotesis
+  [X] Metric → System: komponen sistem menghasilkan/mengukur metrik
+  [X] System → Experiment: desain eksperimen menggunakan sistem
 
 Koneksi Horizontal (Konsistensi):
-  [ ] Istilah sama di semua bagian
-  [ ] Variabel di RQ = variabel di hipotesis = metrik di desain
-  [ ] Scope tidak berubah dari masalah ke eksperimen
+  [X] Istilah sama di semua bagian
+  [X] Variabel di RQ = variabel di hipotesis = metrik di desain
+  [X] Scope tidak berubah dari masalah ke eksperimen
 
 Rubrik Self-Assessment:
 | Kriteria | 1 (Lemah) | 2 (Cukup) | 3 (Baik) | Skor |
 |----------|-----------|-----------|----------|------|
-| Koherensi |          |           |          |      |
-| Specificity |        |           |          |      |
-| Feasibility |        |           |          |      |
-| Rigor     |          |           |          |      |
+| Koherensi |          |           |     X     |      |
+| Specificity |        |           |     X     |      |
+| Feasibility |        |      X     |          |      |
+| Rigor     |          |      X     |          |      |
 ```
 
 ---
@@ -90,13 +90,13 @@ Kumpulkan hasil dari WS-02 sampai WS-07 menjadi satu ringkasan proposal.
 
 | Komponen | Sumber | Isi (1-2 kalimat) |
 |----------|--------|-------------------|
-| Problem Statement | WS-02 | *Contoh: Sistem rekomendasi memiliki akurasi tinggi (RMSE 0.87) tetapi satisfaction score rendah (45/100). Gap antara metrik teknis dan kepuasan pengguna belum diteliti.* |
-| Gap | WS-03 | *Contoh: Tidak ada studi yang mengintegrasikan collaborative filtering dengan user-context signals untuk meningkatkan satisfaction.* |
-| RQ | WS-04 | *Contoh: Apakah penambahan context-aware signals pada collaborative filtering meningkatkan satisfaction score tanpa menurunkan RMSE?* |
-| Hipotesis | WS-04 | *Contoh: H₁: Sistem CF+context menghasilkan satisfaction ≥ 70/100 dengan RMSE ≤ 0.90 dibanding baseline CF murni.* |
-| Variabel & Metrik | WS-05 | *Contoh: IV = jenis sistem (CF vs CF+context); DV = satisfaction score (skala 0-100) + RMSE (regresi).* |
-| Sistem | WS-06 | |
-| Desain Eksperimen | WS-07 | |
+| Problem Statement | WS-02 | Nasabah SeaBank mengalami kebingungan navigasi pada fitur esensial (riwayat transaksi dan deposito) yang memicu beban kognitif tinggi dan berisiko menurunkan kepercayaan pengguna. |
+| Gap | WS-03 | Belum banyak evaluasi pada bank digital murni (branchless banking) yang memadukan pengujian observasi unjuk kerja (Task Scenario) secara bersamaan dengan kuesioner baku (SUS). |
+| RQ | WS-04 | Apakah tingkat kepuasan (berdasarkan System Usability Scale) dan tingkat keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank secara signifikan melampaui standar kelayakan rata-rata industri (SUS > 68)? |
+| Hipotesis | WS-04 | Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank secara signifikan melampaui ambang batas standar kelayakan (Skor SUS > 68). |
+| Variabel & Metrik | WS-05 | Variabel Independen (IV) = Antarmuka Aplikasi (UI/UX) SeaBank; Variabel Dependen (DV) = Tingkat Usability dengan metrik Task Success Rate (%), Time-based Efficiency (detik), dan Skor SUS (0-100 poin). |
+| Sistem | WS-06 | Sistem yang diuji adalah aplikasi mobile SeaBank versi produksi terbaru dengan fokus pada modul pencarian mutasi dan simulasi deposito, diuji menggunakan gawai di lingkungan laboratorium yang terkontrol. |
+| Desain Eksperimen | WS-07 | Eksperimen komparatif di mana performa antarmuka SeaBank (kondisi intervensi) diukur lewat 3 Task Scenario pada 6 partisipan dan kuesioner SUS pada 30 responden, lalu dibandingkan dengan baseline kelayakan global (kondisi kontrol SUS > 68) menggunakan uji One-Sample T-Test. |
 
 ---
 
@@ -106,18 +106,18 @@ Verifikasi 6 koneksi kritis. Isi dengan merujuk tabel di Latihan 1.
 
 | Koneksi | Status | Bukti |
 |---------|--------|-------|
-| Problem → Gap | *Contoh: ✅ — gap muncul dari 15 paper Bab 3 yang tidak ada yang mengkombinasikan CF + context untuk satisfaction* | |
-| Gap → RQ | *Contoh: ✅ — RQ langsung menanyakan apakah CF+context meningkatkan satisfaction* | |
-| RQ → Hypothesis | *Contoh: ✅ — H₁ memprediksi satisfaction ≥ 70 dengan threshold RMSE ≤ 0.90* | |
-| Hypothesis → Metric | | |
-| Metric → System | | |
-| System → Experiment | | |
+| Problem → Gap | ✅ | Gap muncul dari tinjauan 15 literatur nasional yang terbukti hanya menggunakan survei afektif (UEQ/PIECES) tanpa task scenario pada branchless banking. |
+| Gap → RQ | ✅ | RQ secara langsung menanyakan pengukuran metrik objektif (success rate) dan subjektif (SUS) yang hilang di studi sebelumnya. |
+| RQ → Hypothesis | ✅ | memprediksi bahwa nilai dari pengujian SUS akan melampaui standar (skor > 68) yang ditanyakan pada RQ. |
+| Hypothesis → Metric | ✅ | Hipotesis secara spesifik menyebutkan "Skor SUS", yang mana merupakan metrik yang diukur dengan skala 0-100 poin. |
+| Metric → System | ✅ | Metrik waktu (detik) dan success rate (%) dihasilkan langsung dari observasi interaksi pengguna dengan sistem (Aplikasi SeaBank) menggunakan screen recorder. |
+| System → Experiment | ✅ | Desain eksperimen menggunakan skenario uji (3 Task Scenario) yang mengharuskan partisipan berinteraksi langsung dengan sistem aplikasi SeaBank. |
 
 **Koneksi mana yang paling lemah?** _______________________
 **Bagaimana cara memperkuatnya?**
-> ___________________________________________________
+> Koneksi yang mungkin paling rentan adalah "Metric → System" karena metrik waktu sangat bergantung pada latensi jaringan aplikasi saat diuji. Cara memperkuatnya adalah dengan memastikan variabel kontrol (seperti kecepatan Wi-Fi dan spesifikasi smartphone) benar-benar dijaga ketat (konstan) selama eksperimen berlangsung.
 
-**Konsistensi horizontal — apakah istilah dan scope konsisten?** [ ] Ya / [ ] Tidak
+**Konsistensi horizontal — apakah istilah dan scope konsisten?** [X] Ya / [ ] Tidak
 > Jika tidak, di bagian mana terjadi inkonsistensi? _________
 
 ---
@@ -128,14 +128,14 @@ Evaluasi proposal mini menggunakan rubrik.
 
 | Kriteria | Skor (1-3) | Justifikasi |
 |----------|-----------|-------------|
-| Koherensi | *Contoh: 2 — koneksi gap→RQ masih lemah karena gap belum cukup narrow* | |
-| Specificity | *Contoh: 3 — metrik (satisfaction 0-100, RMSE) sudah terdefinisi numerik* | |
-| Feasibility | | |
-| Rigor | | |
+| Koherensi | 3 | Alur logika dari rumusan masalah (beban kognitif pada antarmuka) hingga ke pemilihan metode pengujian (Task Scenario & SUS) sangat jelas, selaras, dan terhubung erat tanpa ada lompatan asumsi. |
+| Specificity | 3 | Variabel dan metrik pengukuran telah didefinisikan dengan sangat spesifik dalam batasan angka pasti, yaitu Task Success Rate (%), Waktu Eksekusi (maksimal 180 detik), dan target Skor SUS (> 68). |
+| Feasibility | 2 | Eksperimen cukup layak dijalankan, namun tantangan teknis berada pada proses rekrutmen. Mencari 6 partisipan purposive dan 30 responden aktif SeaBank (non-IT, usia 18-40 tahun) di wilayah Kebumen yang bersedia meluangkan waktu untuk uji lab terkontrol dalam batas waktu 8 minggu membutuhkan usaha ekstra. |
+| Rigor | 2 | Ketelitian metode sudah cukup baik dengan adanya penetapan Control Variable (Wi-Fi & HP konstan) dan uji T-Test. Namun, skalanya masih terbatas karena pengujian Task Scenario hanya menggunakan 6 sampel dan belum menggunakan alat rekam jejak kognitif tingkat lanjut (seperti eye-tracking). |
 
-**Skor total:** _____ / 12
+**Skor total:** 10 / 12
 
-**Apakah proposal siap untuk fase eksekusi?** [ ] Ya / [ ] Belum
+**Apakah proposal siap untuk fase eksekusi?** [X] Ya / [ ] Belum
 > Jika belum, apa yang perlu diperbaiki? __________________
 
 ---
@@ -144,8 +144,7 @@ Evaluasi proposal mini menggunakan rubrik.
 
 > Dari seluruh proses WS-01 sampai WS-08, bagian mana yang paling mudah dan paling sulit? Mengapa? Apa yang akan dilakukan berbeda jika mengulang dari awal?
 
-**Bagian termudah:** ____________________________________
-**Bagian tersulit:** ____________________________________
+**Bagian termudah:** Mengidentifikasi masalah awal (Problem Statement) dan menentukan sistem yang diuji (WS-02 & WS-06). Alasannya karena objek penelitian (SeaBank) sangat dekat dengan keseharian, dan bukti empiris berupa keluhan pengguna terkait kebingungan navigasi fitur mutasi dan deposito sangat mudah ditemukan di forum maupun ulasan aplikasi.
+**Bagian tersulit:** Merumuskan Research Gap (WS-03) dan menurunkannya menjadi Desain Eksperimen yang ketat (WS-07). Sangat sulit untuk memastikan bahwa metrik yang dipilih (Task Success Rate dan batas waktu 180 detik) benar-benar bisa mengukur beban kognitif secara objektif. Selain itu, merangkai State of the Art agar riset ini terlihat berbeda dari 15 jurnal sebelumnya (yang mayoritas hanya memakai kuesioner tanpa observasi langsung) membutuhkan pemikiran analitis yang sangat menguras tenaga.
 **Yang akan dilakukan berbeda:**
-> ___________________________________________________
-> ___________________________________________________
+> Jika mengulang dari awal, saya akan mengumpulkan, membaca, dan membedah jurnal referensi secara lebih mendalam sejak WS-01, lalu langsung memasukkannya ke dalam tabel Concept-Centric Matrix. Pada pengerjaan kemarin, pencarian literatur dan penentuan baseline (seperti skor SUS > 68) baru dilakukan belakangan, sehingga saya harus beberapa kali membongkar ulang rumusan Gap dan Hipotesis agar logika proposalnya tidak saling bertabrakan. Selain itu, saya mungkin akan melakukan pilot test (uji coba kecil) skenario tugas ke satu orang teman terlebih dahulu sebelum mengunci desain eksperimen.
