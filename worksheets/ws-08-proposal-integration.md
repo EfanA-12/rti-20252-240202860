@@ -113,7 +113,7 @@ Verifikasi 6 koneksi kritis. Isi dengan merujuk tabel di Latihan 1.
 | Metric → System | ✅ | Metrik waktu (detik) dan success rate (%) dihasilkan langsung dari observasi interaksi pengguna dengan sistem (Aplikasi SeaBank) menggunakan screen recorder. |
 | System → Experiment | ✅ | Desain eksperimen menggunakan skenario uji (3 Task Scenario) yang mengharuskan partisipan berinteraksi langsung dengan sistem aplikasi SeaBank. |
 
-**Koneksi mana yang paling lemah?** _______________________
+**Koneksi mana yang paling lemah?** 
 **Bagaimana cara memperkuatnya?**
 > Koneksi yang mungkin paling rentan adalah "Metric → System" karena metrik waktu sangat bergantung pada latensi jaringan aplikasi saat diuji. Cara memperkuatnya adalah dengan memastikan variabel kontrol (seperti kecepatan Wi-Fi dan spesifikasi smartphone) benar-benar dijaga ketat (konstan) selama eksperimen berlangsung.
 
