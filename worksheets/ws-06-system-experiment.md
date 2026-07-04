@@ -43,6 +43,19 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 - **Configuration-driven** — Ubah config (YAML/JSON), bukan code
 - **Feature toggles** — On/off flag untuk ablation study
 
+  Contoh config YAML dengan feature toggles:
+  ```yaml
+  model:
+    type: cnn          # IV: ganti "rf" untuk kondisi baseline
+  features:
+    use_temporal: true  # toggle komponen temporal
+    use_normalization: true  # toggle preprocessing
+  experiment:
+    seed: 42
+    runs: 5
+  ```
+  Dengan pendekatan ini, berbeda kondisi eksperimen = berbeda satu baris config, **tanpa mengubah kode**.
+
 ### Research vs Engineering
 
 | Aspek | Engineering | Research |
@@ -67,25 +80,24 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 ```
 SYSTEM-EXPERIMENT MAPPING
 
-Research Question: Apakah tingkat kepuasan (SUS) dan keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri?
-
+Research Question: Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
 Variable → Component Mapping:
-| Variabel | Tipe | Komponen Sistem (Setup Eksperimen) | Cara Manipulasi/Pengukuran |
-|----------|------|------------------------------------|---------------------------|
-| Antarmuka SeaBank | IV | Smartphone Testbed dengan aplikasi SeaBank terinstal | Mengatur alur task scenario (skenario tugas) yang harus diselesaikan pengguna. |
-| Metrik Usability (Waktu, Error, SUS) | DV | Screen Recorder (waktu & error) & Google Forms (SUS) | Mengumpulkan log durasi dari video dan menarik data spreadsheet dari kuesioner. |
-| Lingkungan & Alat Uji | CV | Ruangan pengujian, koneksi Wi-Fi, tipe Smartphone | Menyeragamkan device dan jaringan internet untuk semua partisipan agar tidak ada lag teknis. |
+| Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
+|----------|------|-----------------|---------------------------|
+|     Sentimen Publik     | IV   |        Pipeline NLP & Modul Klasifikasi K-NN         |             Mengubah parameter nilai K atau teknik ekstraksi fitur (TF-IDF).              |
+|     Skor SUS & Success Rate     | DV   |        Modul Usability Testing (Task Tracker & Kuesioner Digital)         |              Pencatatan log otomatis (waktu/keberhasilan) dan kalkulasi skor otomatis.             |
+|     Demografi Pengguna     | CV   |        Modul Screening Responden         |             Filter parameter pada kuesioner pra-task (lama penggunaan SeaBank).              |
 
 4 Prinsip Desain:
-  [X] Traceability — Setiap variabel (waktu, kepuasan) diukur oleh alat spesifik (recorder, G-Forms).
-  [X] Variable Isolation — Skenario tugas (IV) dapat diubah tanpa mengganggu format kuesioner SUS.
-  [X] Measurement Integration — Perekaman layar otomatis menyimpan data waktu dan jumlah klik/error.
-  [X] Reproducibility — Protokol pengujian tertulis jelas (device, jaringan, instruksi) sehingga eksperimen bisa diulang persis oleh orang lain.
+  [X] Traceability — Setiap komponen bisa ditelusuri ke variabel
+  [X] Variable Isolation — IV bisa diubah tanpa mengubah CV
+  [X] Measurement Integration — Pengukuran DV built-in
+  [X] Reproducibility — Setup bisa direkonstruksi
 
 Experimental Setup:
-  Input data     : Interaksi layar dari partisipan (tap, scroll, input teks) saat menjalankan aplikasi SeaBank.
-  Parameter      : 3 Skenario Tugas (Task A: Transfer, Task B: Cek Riwayat, Task C: Deposito) dengan durasi maksimal tiap tugas dibatasi 3 menit.
-  Output format  : Video rekaman layar (MP4) untuk observasi error/waktu, dan Spreadsheet (CSV) berisi skor kuesioner SUS.
+  Input data     : Dataset CSV ulasan Play Store dan Aksi klik partisipan saat eksperimen.
+  Parameter      : Nilai K pada K-NN, Ambang batas waktu skenario tugas.
+  Output format  : Matriks kebingungan (Confusion Matrix) untuk sentimen, dan skor rata-rata SUS.
 ```
 
 ---
@@ -94,13 +106,12 @@ Experimental Setup:
 
 Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
-**RQ:** __________________________________________________
-
+**RQ:** Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
 |----------|------|-----------------|---------------------------|
-| Antarmuka SeaBank | *IV* | Aplikasi Mobile SeaBank (Production version) | Memberikan instruksi Task Scenario spesifik kepada partisipan. |
-| Metrik Usability | DV | Alat Observasi (Screen Recorder & Kuesioner Digital) | Mencatat waktu di stopwatch, menghitung miss-click di video, dan merekap skor SUS. |
-| Kondisi Pengujian | CV | Protokol Standar Lingkungan | Menggunakan satu tipe HP yang sama dan script instruksi yang identik untuk semua user. |
+| Sentimen Publik | IV | Skrip Analisis K-NN (Python) | Konfigurasi hyperparameter nilai K pada model classifier. |
+| Performa Objektif | DV | Platform Evaluasi (misal: Maze / Google Forms) | Data diukur dari log timestamp dan rekaman layar otomatis pengguna. |
+| Pengalaman Pengguna | CV | Screening Form (Penyaring Awal) | Mengunci partisipan yang minimal sudah 3 bulan menggunakan SeaBank. |
 
 **Apakah semua variabel bisa di-map?** [X] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? _________
@@ -113,31 +124,32 @@ Evaluasi desain sistem terhadap 4 prinsip.
 
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|-------------------|
-| Traceability | ✅ Memenuhi | Sangat jelas. Jika ingin mengecek data efficiency (waktu), kita merujuk pada Screen Recorder. Jika data satisfaction, kita merujuk ke G-Forms. |
-| Modularity | ✅ Memenuhi | Alat perekam layar, aplikasi SeaBank, dan G-Forms berjalan secara terpisah. Jika kita ingin mengganti aplikasi (misal membandingkan dengan Bank Jago), setup ini tetap bisa jalan. |
-| Controllability | ✅ Memenuhi | Lingkungan fisik partisipan dan perangkat dikunci (CV). Interupsi eksternal (notifikasi HP, sinyal hilang) dimitigasi dengan mode Do Not Disturb dan Wi-Fi lab. |
-| Measurability | ✅ Memenuhi | Pengambilan metrik tidak bersifat recall (ingatan partisipan), melainkan data empiris objektif yang terekam secara sinkron dalam format MP4 dan CSV. |
+| Traceability | ✅ | Modul K-NN melayani IV (Sentimen), Modul Evaluasi melayani DV (SUS & Performa). |
+| Modularity | ✅ | Algoritma preprocessing teks (K-NN) terpisah dari skrip scraping data Play Store. |
+| Controllability | ✅ | Parameter nilai K dan kriteria screening disimpan dalam file config terpisah, bukan di-hardcode. |
+| Measurability | ✅ | Sistem kuesioner digital otomatis menghitung skor akhir SUS tanpa intervensi manual. |
 
-**Prinsip mana yang paling sulit dipenuhi?** Controllability
-**Strategi untuk mengatasinya:**
-> Dalam pengujian usability manusia (HCI), mengontrol emosi atau kondisi internal partisipan sangat sulit (misal mereka sedang lelah atau moody). Strategi mitigasinya adalah melakukan sesi ice breaking ringan sebelum tes, dan membuat suasana pengujian sesantai mungkin agar kecemasan tidak memengaruhi error rate.
-
+**Prinsip mana yang paling sulit dipenuhi?** Measurability terotomatisasi pada bagian Task Success Rate.
+> Jika tidak memiliki akses ke backend SeaBank untuk logging otomatis, pengumpulan data dilakukan dengan merekam layar gawai (screen recording) partisipan saat eksperimen, lalu error dicatat melalui observasi terstruktur.
 ---
 
 ## Latihan 3 — Ablation Study Planning
 
 Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
+> **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
+> Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
+
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
-| Full | ✅ Diuji | ✅ Diuji | ✅ Diuji | Baseline SUS keseluruhan |
-| – A | ❌ (Tanpa task transfer) | ✅ | ✅ | Jika SUS naik drastis, berarti alur Transfer sangat buruk. |
-| – B | ✅ | ❌ (Tanpa task riwayat) | ✅ | Melihat dampak UI Mutasi terhadap UX. |
-| – C | ✅ | ✅ | ❌ (Tanpa task deposito) | Jika SUS naik drastis, UI Deposito adalah penyebab utama frustrasi pengguna. |
+| Full | ✅ | ✅ | ✅ | Akurasi klasifikasi sentimen K-NN maksimal (Baseline penuh). |
+| – A | ❌ | ✅ | ✅ | Penurunan akurasi karena kata berimbuhan dianggap kata berbeda. |
+| – B | ✅ | ❌ | ✅ | Noise data tinggi karena kata hubung (dan, di, ke) ikut terhitung. |
+| – C | ✅ | ✅ | ❌ | Model kesulitan mendeteksi sentimen karena bobot kata unik dan kata umum disamakan (Raw Count). |
 
-**Komponen mana yang diprediksi paling berkontribusi?** Komponen C (Fitur Deposito)
+**Komponen mana yang diprediksi paling berkontribusi?** TF-IDF Weighting (Komponen C).
 **Mengapa?**
-> Karena alur pembukaan fitur deposito bank digital biasanya memiliki term & condition yang kompleks, tombol navigasi berlapis, dan istilah finansial yang kurang dipahami pengguna awam. Hal ini akan meningkatkan cognitive load (beban kognitif) dan durasi waktu penyelesaian secara signifikan.
+> Karena dalam analisis ulasan Play Store yang singkat dan padat, pemberian bobot (TF-IDF) sangat krusial untuk menonjolkan kata kunci sentimen (seperti "error", "lambat", "mantap") dibandingkan sekadar menghitung frekuensi kata biasa.
 
 ---
 
@@ -146,4 +158,4 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 > Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
 
 **Jawaban:**
-> Jika sebuah pengujian dieksekusi secara monolitik (partisipan disuruh menggunakan seluruh aplikasi SeaBank secara acak lalu langsung disuruh mengisi SUS tanpa pemisahan task), risikonya adalah kita tidak akan tahu "titik penyakit" utamanya. Hasil eksperimen hanya akan menghasilkan kesimpulan "Aplikasi ini buruk/membingungkan", tetapi tidak menghasilkan data "Bagian mana yang buruk?".
+> Sistem riset tidak boleh bersifat monolitik karena akan memicu noise pada data dan menyulitkan isolasi variabel. Sebaliknya, arsitektur riset wajib dibuat modular agar setiap komponennya dapat ditelusuri kaitannya dengan variabel (traceable), mudah dihidup-matikan untuk ablation study (feature toggles), dan parameternya dapat diatur melalui file konfigurasi tanpa perlu membongkar kode utama (controllability).
