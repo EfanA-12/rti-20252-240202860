@@ -66,33 +66,36 @@ Masalah riset yang layak harus memenuhi 5 kriteria:
 ```
 PROBLEM STATEMENT BUILDER
 
+PROBLEM STATEMENT BUILDER
+
 Domain & Konteks
-  Domain   : Human-Computer Interaction (HCI) / Evaluasi Usability Antarmuka Aplikasi Digital Banking
-  Konteks  : Validasi tingkat kebergunaan (usability) aplikasi SeaBank melalui pendekatan hibrida (objektif & subjektif).
+  Domain   : Data Science / Natural Language Processing (NLP)
+  Konteks  : Otomatisasi ekstraksi topik keluhan usability pada aplikasi SeaBank melalui penambangan data teks (text mining) berbasis Machine Learning.
+
 System Context
-  Input       : Data interaksi pengguna (hasil task scenario) dan data sekunder berupa ulasan pengguna dari Google Play Store.
-  Process     : Evaluasi performa navigasi aplikasi (Task Scenario) dan analisis sentimen terhadap ulasan publik untuk memetakan friction points.
-  Output      : Metrik usability kuantitatif (Skor SUS, Success Rate) dan klasifikasi sentimen pengguna (Positif/Negatif).
-  Outcome     : Dokumen bukti empiris tingkat kelayakan usability serta rekomendasi teknis perbaikan antarmuka yang ramah pengguna.
-  Constraints : Data ulasan publik yang bersifat tidak terstruktur (unstructured data) dan batasan akses terhadap log internal aplikasi.
-  Stakeholders: Nasabah SeaBank, Tim UI/UX Designer SeaBank, dan Pengembang platform digital.
+  Input       : Data sekunder tidak terstruktur (unstructured data) berupa ribuan ulasan pengguna dari Google Play Store.
+  Process     : Pra-pemrosesan teks (NLP), klasifikasi sentimen menggunakan K-Nearest Neighbor (K-NN), dan pemodelan topik menggunakan Latent Dirichlet Allocation (LDA).
+  Output      : Metrik performa klasifikasi (Accuracy, F1-Score), skor koherensi (Coherence Score), dan klaster topik keluhan pengguna.
+  Outcome     : Pipeline otomatis yang mampu memetakan titik masalah (friction points) UI/UX secara instan tanpa perlu membaca ulasan secara manual.
+  Constraints : Tingginya noise pada data ulasan publik (typo, slang, singkatan, bot) dan sifat kelas data yang sering kali tidak seimbang (imbalanced data).
+  Stakeholders: Tim Pengembang (Developer) SeaBank, UI/UX Researcher, dan Analis Data.
 
 Fenomena → Problem
-  Fenomena yang diamati             : Aplikasi perbankan digital menuntut antarmuka yang sangat intuitif untuk menjaga efisiensi transaksi nasabah.
-  Gejala (symptom) yang terukur     : Munculnya keluhan pada ulasan publik Google Play Store mengenai alur transaksi yang kompleks dan skor usability yang belum teruji secara empiris.
-  Masalah yang didiagnosis          : Adanya ketidaksesuaian antara struktur antarmuka fitur utama dengan mental model pengguna yang memicu beban kognitif tinggi.
-  Masalah riset (researchable)      : Belum ada validasi apakah persepsi positif/negatif publik di Google Play Store berkorelasi dengan hasil pengujian performa usability yang objektif.
-  Variabel yang terukur             : Skor System Usability Scale (SUS), Task Success Rate, dan Persentase Sentimen Ulasan (Positif/Negatif).
+  Fenomena yang diamati             : Aplikasi perbankan digital menerima ribuan ulasan harian di Play Store yang berisi masukan berharga terkait usability.
+  Gejala (symptom) yang terukur     : Pihak pengembang kesulitan melacak fitur apa yang paling sering bermasalah karena data keluhan tercampur aduk dengan pujian dan komentar tidak relevan dalam format teks bebas.
+  Masalah yang didiagnosis          : Tidak adanya sistem otomatisasi yang mampu secara akurat menyeleksi ulasan bersentimen negatif dan mengekstrak topik utamanya secara sistematis.
+  Masalah riset (researchable)      : Belum diketahui seberapa tinggi tingkat akurasi K-NN dalam memisahkan sentimen ulasan SeaBank, serta seberapa koheren topik keluhan usability yang mampu diekstrak oleh model LDA dari ulasan negatif tersebut.
+  Variabel yang terukur             : Performa K-NN (Accuracy, Precision, Recall, F1-Score) dan performa LDA (Coherence Score c_v).
 
 Problem Quality Check
   [X] Clarity — Apakah satu orang membaca akan paham?
   [X] Measurability — Apakah ada metrik kuantitatif?
   [X] Relevance — Apakah penting untuk domain?
   [X] Testability — Apakah bisa gagal?
-  [] Impact — Apakah ada kontribusi jika terjawab?
+  [X] Impact — Apakah ada kontribusi jika terjawab?
 
 Problem Statement (1 paragraf):
-  Pergeseran layanan keuangan ke arah bank digital murni menuntut tingkat kebergunaan (usability) antarmuka yang sangat tinggi. Meskipun aplikasi SeaBank memiliki basis pengguna yang besar, muncul banyak keluhan di Google Play Store mengenai kerumitan alur navigasi pada fitur esensial, namun keluhan tersebut belum pernah divalidasi secara empiris melalui pengujian objektif. Adanya kesenjangan antara sentimen publik dan performa nyata pengguna ini menimbulkan ketidakpastian mengenai tingkat kelayakan desain aplikasi tersebut. Oleh karena itu, penelitian ini bertujuan untuk memvalidasi usability aplikasi SeaBank melalui studi komparatif antara pengujian Task Scenario (performa objektif) dan analisis sentimen ulasan publik (persepsi subjektif) guna menghasilkan rekomendasi perbaikan desain antarmuka yang berbasis bukti.
+  Dalam ekosistem perbankan digital seperti SeaBank, ulasan pengguna di Google Play Store merupakan sumber data yang sangat kaya untuk mengevaluasi usability antarmuka. Namun, volume ulasan yang mencapai ribuan setiap harinya membuat analisis manual menjadi tidak efisien, sehingga keluhan spesifik terkait fitur sering kali terabaikan karena tertimbun oleh data teks yang tidak terstruktur (unstructured). Masalah utamanya adalah ketiadaan pipeline otomatis yang mampu menyeleksi dan mengelompokkan keluhan tersebut secara akurat. Oleh karena itu, penelitian ini bertujuan untuk membangun dan menguji kinerja model berbasis algoritma K-Nearest Neighbor (K-NN) untuk mengklasifikasikan sentimen, dipadukan dengan Latent Dirichlet Allocation (LDA) untuk mengekstrak topik keluhan utama. Hasil riset ini diharapkan mampu memberikan bukti empiris mengenai keandalan kedua algoritma tersebut dalam mengotomatisasi pemetaan masalah usability secara cepat dan presisi.
 ```
 
 ---
@@ -105,13 +108,13 @@ Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Pro
 
 | Tahap | Hasil |
 |-------|-------|
-| Reality | Aplikasi bank digital murni seperti SeaBank menjadi kanal utama transaksi nasabah tanpa kantor cabang, sehingga kualitas antarmuka sangat menentukan kepercayaan dan loyalitas nasabah. |
-| Observed Issue (Symptom) | Adanya keluhan nasabah pada ulasan Google Play Store mengenai kompleksitas fitur deposito dan kesulitan pelacakan mutasi, serta hasil riset awal yang menunjukkan skor usability yang masih marginal. |
-| Diagnosed Problem (Root Cause) | Terdapat celah (gap) antara rancangan UI/UX aplikasi dengan mental model pengguna awam, sehingga memicu beban kognitif (cognitive load) berlebih yang menghambat efisiensi tugas. |
-| Researchable Problem | Belum adanya validasi empiris yang membandingkan performa usability objektif (Task Scenario) dengan persepsi sentimen subjektif (ulasan Google Play Store) untuk mengonfirmasi kelayakan desain aplikasi SeaBank.   |
-| Measurable Variable | Task Success Rate (%), Time-based Efficiency (detik), skor SUS (0-100), dan skor sentimen ulasan (positif/negatif). |
+| Reality | Aplikasi SeaBank mendapatkan ribuan ulasan teks setiap bulan yang berisi feedback terkait kenyamanan penggunaan (UI/UX) aplikasinya. |
+| Observed Issue (Symptom) | Pengembang kesulitan mengidentifikasi bagian mana dari aplikasi yang paling bermasalah karena teks keluhan (bug, UI membingungkan, dsb.) bercampur menjadi satu. |
+| Diagnosed Problem (Root Cause) | Tidak ada metode ekstraksi otomatis; data bersifat teks tidak terstruktur (unstructured) yang penuh dengan noise (bahasa slang, singkatan). |
+| Researchable Problem | Mampukah algoritma K-NN mengklasifikasikan sentimen ulasan dengan akurat, dan mampukah LDA mengelompokkan teks sentimen negatif tersebut menjadi topik keluhan usability yang koheren secara otomatis?   |
+| Measurable Variable | Accuracy, F1-Score (untuk K-NN), dan Coherence Score (untuk LDA). |
 
-**Apakah terjebak solution-first thinking?** [ ] Ya / [ ] Tidak
+**Apakah terjebak solution-first thinking?** [ ] Ya / [X] Tidak
 > Jika ya, kembali ke tahap mana? ________________________
 
 ---
@@ -122,14 +125,14 @@ Gambarkan konteks sistem dari masalah riset di Latihan 1.
 
 | Komponen | Deskripsi |
 |----------|----------|
-| Input | Aksi interaksi pengguna (klik, scroll, pengisian formulir) selama skenario tugas, serta data mentah ulasan pengguna dari Google Play Store. |
-| Process | Evaluasi efektivitas dan efisiensi melalui Task Scenario serta klasifikasi sentimen menggunakan algoritma pemrosesan teks pada data ulasan. |
-| Output | Metrik usability kuantitatif (Success Rate, waktu, skor SUS) dan klasifikasi sentimen publik (positif, netral, atau negatif). |
-| Outcome | Teridentifikasinya pain points (titik masalah) pada UI SeaBank dan rekomendasi perbaikan desain yang berbasis pada validasi data objektif dan subjektif. |
-| Constraints | Keterbatasan akses ke log aktivitas internal aplikasi, serta adanya noise atau komentar tidak relevan pada data ulasan publik. |
-| Stakeholders | Nasabah SeaBank sebagai pengguna, tim UI/UX Designer SeaBank, serta peneliti (Anda). |
+| Input | Data mentah ulasan pengguna SeaBank hasil scraping dari Google Play Store. |
+| Process | Text preprocessing (Pembersihan teks), pembobotan kata (TF-IDF), pelatihan model klasifikasi K-NN, dan iterasi pemodelan topik LDA. |
+| Output | Label sentimen pada setiap ulasan (Positif/Negatif) dan daftar kata kunci (keywords) yang membentuk klaster topik keluhan. |
+| Outcome | Sebuah pipeline atau purwarupa analisis yang dapat membantu tim SeaBank mengetahui inti masalah usability tanpa harus membaca data satu per satu. |
+| Constraints | Tingginya noise pada gaya bahasa netizen Indonesia dan risiko kelas data sentimen yang tidak seimbang (imbalanced data). |
+| Stakeholders | Data Scientist, Tim Developer/UI-UX SeaBank. |
 
-**Komponen mana yang paling relevan dengan masalah riset?** Outcome, karena tujuan utama dari riset ini adalah untuk menghasilkan bukti empiris (validasi) mengenai kelayakan desain antarmuka aplikasi melalui penggabungan data performa dan persepsi publik.
+**Komponen mana yang paling relevan dengan masalah riset?** Process dan Output, karena riset ini berfokus murni pada evaluasi performa algoritma saat memproses data (Process) hingga menghasilkan metrik ukur yang valid (Output).
 
 ---
 
@@ -139,16 +142,16 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Clarity | 5 | Masalah sangat jelas: memvalidasi usability melalui triangulasi data antara performa objektif dan sentimen subjektif pada SeaBank. |
-| Measurability | 5 | Menggunakan metrik kuantitatif terukur yaitu skor SUS, task success rate, waktu, dan klasifikasi sentimen. |
-| Relevance | 5 | Sangat relevan karena aplikasi perbankan digital murni bergantung sepenuhnya pada UI/UX sebagai kanal interaksi nasabah. |
-| Testability | 4 | Dapat diuji melalui eksperimen task scenario dan analisis data sekunder dari Google Play Store. |
-| Impact | 5 | Memberikan kontribusi berupa bukti empiris dan rekomendasi desain berbasis data bagi pihak SeaBank. |
+| Clarity | 5 | Sangat jelas: Tujuannya menguji K-NN untuk sentimen dan LDA untuk ekstraksi topik. |
+| Measurability | 5 | Menggunakan metrik evaluasi Machine Learning yang standar (Accuracy, Coherence). |
+| Relevance | 5 | Sangat relevan di bidang Data Science terapan untuk otomatisasi deteksi masalah perangkat lunak. |
+| Testability | 5 | Dapat diuji langsung dengan menjalankan eksperimen komputasi berulang. Hasilnya bisa gagal (misal: Coherence Score sangat rendah). |
+| Impact | 5 | Menawarkan efisiensi waktu yang masif bagi pihak developer dalam menganalisis keluhan pengguna. |
 
-**Skor total:** 24 / 25
+**Skor total:** 25 / 25
 
 **Problem statement versi final (1 paragraf):**
-> Pergeseran layanan keuangan ke arah bank digital murni menuntut tingkat kebergunaan (usability) antarmuka yang sangat tinggi. Meskipun aplikasi SeaBank memiliki basis pengguna yang besar, muncul banyak keluhan di Google Play Store mengenai kerumitan alur navigasi pada fitur esensial, namun keluhan tersebut belum pernah divalidasi secara empiris melalui pengujian objektif. Adanya kesenjangan antara sentimen publik dan performa nyata pengguna ini menimbulkan ketidakpastian mengenai tingkat kelayakan desain aplikasi tersebut. Oleh karena itu, penelitian ini bertujuan untuk memvalidasi usability aplikasi SeaBank melalui studi komparatif antara pengujian Task Scenario (performa objektif) dan analisis sentimen ulasan publik (persepsi subjektif) guna menghasilkan rekomendasi perbaikan desain antarmuka yang berbasis bukti.
+> Dalam ekosistem perbankan digital seperti SeaBank, ulasan pengguna di Google Play Store merupakan sumber data yang sangat kaya untuk mengevaluasi usability antarmuka. Namun, volume ulasan yang mencapai ribuan setiap harinya membuat analisis manual menjadi tidak efisien, sehingga keluhan spesifik terkait fitur sering kali terabaikan karena tertimbun oleh data teks yang tidak terstruktur (unstructured). Masalah utamanya adalah ketiadaan pipeline otomatis yang mampu menyeleksi dan mengelompokkan keluhan tersebut secara akurat. Oleh karena itu, penelitian ini bertujuan untuk membangun dan menguji kinerja model berbasis algoritma K-Nearest Neighbor (K-NN) untuk mengklasifikasikan sentimen, dipadukan dengan Latent Dirichlet Allocation (LDA) untuk mengekstrak topik keluhan utama. Hasil riset ini diharapkan mampu memberikan bukti empiris mengenai keandalan kedua algoritma tersebut dalam mengotomatisasi pemetaan masalah usability secara cepat dan presisi.
 ---
 
 ## Refleksi
@@ -156,4 +159,4 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
 **Jawaban:**
-> Masalah coding bertujuan memperbaiki bug agar sistem berjalan (solve), sementara masalah riset bertujuan membuktikan fenomena secara empiris (understand & prove) melalui instrumen ilmiah seperti SUS dan analisis sentimen, bukan sekadar membenahi kode.
+> Masalah coding (seperti error saat membuat skrip scraping atau bug pada antarmuka aplikasi) menuntut solusi praktis agar sistem kembali berjalan normal (solve). Sebaliknya, masalah riset menuntut pembuktian empiris atas fenomena yang belum diketahui nilainya (understand & prove). Misalnya, masalah coding adalah "bagaimana cara agar skrip Python tidak crash", sedangkan masalah riset saya adalah "seberapa tinggi akurasi dan koherensi topik yang dihasilkan algoritma K-NN dan LDA saat dihadapkan pada data ulasan yang penuh dengan noise?".
