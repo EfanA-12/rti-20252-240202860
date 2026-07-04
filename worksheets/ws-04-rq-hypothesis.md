@@ -67,16 +67,16 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 ```
 RQ-CONTRIBUTION-HYPOTHESIS
 
-Gap Statement  : Belum ada studi yang memvalidasi tingkat usability aplikasi perbankan digital (SeaBank) melalui triangulasi antara metrik performa objektif (eksperimen) dan sentimen subjektif (ulasan publik).
+Gap Statement  : Belum ada studi yang mengintegrasikan pipeline K-NN sebagai filter sentimen negatif sebelum melakukan ekstraksi topik keluhan usability menggunakan Latent Dirichlet Allocation (LDA) pada aplikasi perbankan digital.
 
 Research Question:
-  Tipe         : [ ] Comparison  [ ] Improvement  [X] Exploratory
-  Formulasi    : Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
-  Variabel IV  : Sentimen Ulasan Publik (Positif/Negatif).
-  Variabel DV  : Performa Usability Objektif (Skor SUS dan Task Success Rate).
-  Metrik       : Persentase klasifikasi sentimen (%), Skor SUS (0-100), dan Success Rate (%).
-  Dataset      : Data sekunder (Ulasan Google Play Store) dan Data primer (Hasil tes skenario 30 responden).
-  Baseline     : Skor SUS standar (68) dan rasio sentimen riset terdahulu.
+  Tipe         : [ ] Comparison  [X] Improvement  [ ] Exploratory
+  Formulasi    : Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score cv >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
+  Variabel IV  : Penerapan Filter K-NN (Sentimen Negatif) dan Jumlah Topik LDA (K-topics).
+  Variabel DV  : Kualitas Pemodelan Topik (Topic Quality) dan Performa Klasifikasi.
+  Metrik       : Coherence Score (cv) untuk LDA dan F1-Score/Accuracy (%) untuk K-NN.
+  Dataset      : Data sekunder (Ulasan Google Play Store SeaBank).
+  Baseline     : Model LDA standar (mengekstrak topik dari seluruh ulasan tanpa disaring K-NN terlebih dahulu).
 
 Quality Check RQ:
   [X] Variabel spesifik
@@ -86,15 +86,15 @@ Quality Check RQ:
   [X] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui :Pemetaan akurat mengenai friction points pada UI SeaBank yang tervalidasi secara hibrida (objektif & subjektif).
-  Jenis kontribusi        : [ ] Improvement  [X] Comparison  [ ] Novel approach
-  Gap yang diisi          : Methodological Triangulation Gap pada evaluasi mobile banking.
+  Apa yang baru diketahui : Pipeline otomatis berbasis NLP yang terbukti mampu memetakan titik masalah (friction points) antarmuka SeaBank secara akurat dan koheren tanpa intervensi manual.
+  Jenis kontribusi        : [X] Improvement  [ ] Comparison  [ ] Novel approach
+  Gap yang diisi          : Method Gap (Integrasi K-NN dan LDA untuk meminimalkan noise pada Topic Modeling).
 
 Hypothesis Pair:
-  H₀ : Tidak terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
-  H₁ : Terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
-  Threshold              : p-value < 0.05 (Tingkat signifikansi 5%).
-  Justifikasi threshold  : Standar umum dalam pengujian statistik pada riset Human-Computer Interaction (HCI) untuk menolak hipotesis nol.
+  H₀ : Penggunaan K-NN sebagai filter sentimen negatif tidak memberikan hasil topik keluhan yang koheren (Coherence Score cv < 0.4) pada model LDA aplikasi SeaBank.
+  H₁ : Penggunaan K-NN sebagai filter sentimen negatif menghasilkan pemodelan topik keluhan yang koheren (Coherence Score cv >= 0.4) pada model LDA aplikasi SeaBank.
+  Threshold              : Coherence Score (cv) >= 0.4.
+  Justifikasi threshold  : Dalam ranah Topic Modeling (NLP), nilai cv di atas 0.4 hingga 0.5 diakui secara empiris sebagai batas di mana topik yang dihasilkan oleh mesin sudah dapat diinterpretasikan dengan baik oleh manusia.
 ```
 
 ---
@@ -103,23 +103,23 @@ Hypothesis Pair:
 
 Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
-**Gap dari WS-03:** Belum ada triangulasi metode antara performa objektif (Task Scenario) dan sentimen subjektif (ulasan publik).
+**Gap dari WS-03:** Belum ada studi yang merangkai pipeline di mana K-NN digunakan sebagai filter (penyaring ulasan bernada negatif) sebelum data tersebut diekstrak menjadi topik keluhan antarmuka secara spesifik menggunakan LDA.
 **RQ versi pertama (tulis bebas):**
-> Bagaimana perbandingan hasil tes usability SeaBank dengan ulasan di Play Store?
+> Bagaimana hasil topik keluhan SeaBank jika ulasannya dipilah pakai K-NN lalu diproses LDA?
 
 **Evaluasi RQ:**
 
 | Komponen | Ada? | Isi |
 |----------|------|-----|
-| Metode spesifik | Tidak | Belum menyebutkan metodenya. |
-| Metrik terukur | Tidak | Belum ada metrik. |
-| Baseline | Tidak | Belum ada acuan. |
-| Dataset/konteks | Ya | SeaBank dan Play Store. |
+| Metode spesifik | Ya | K-NN dan LDA. |
+| Metrik terukur | Tidak | Belum menyebutkan metrik ukur performanya. |
+| Baseline | Tidak | Belum ada pembanding (baseline). |
+| Dataset/konteks | Ya | Ulasan SeaBank. |
 
-**Tipe RQ:** [ ] Comparison / [ ] Improvement / [X] Exploratory
+**Tipe RQ:** [ ] Comparison / [X] Improvement / [ ] Exploratory
 
 **RQ versi revisi (setelah evaluasi):**
-> Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif (berbasis klasifikasi K-NN) pada ulasan Google Play Store dengan rendahnya performa metrik objektif (Skor SUS < 68 dan Task Success Rate < 70%) pada evaluasi usability aplikasi SeaBank?
+> Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang lebih koheren (Coherence Score cv >= 0.4) menggunakan model LDA dibandingkan baseline LDA tanpa filter pada ulasan aplikasi SeaBank?
 
 ---
 
@@ -129,14 +129,14 @@ Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
 | Komponen | Isi |
 |----------|-----|
-| H₀ | Tidak terdapat korelasi yang signifikan (p-value ≥ 0.05) antara sentimen ulasan Play Store dengan hasil performa usability objektif (SUS & Success Rate) SeaBank. |
-| H₁ | Terdapat korelasi yang signifikan (p-value < 0.05) antara sentimen ulasan Play Store dengan hasil performa usability objektif (SUS & Success Rate) SeaBank. |
-| Metrik | Koefisien korelasi (r) dan p-value. |
-| Threshold | p-value < 0.05 |
-| Justifikasi threshold | Standar empiris yang diakui dalam riset kuantitatif ilmu komputer dan HCI untuk memastikan bahwa temuan tidak terjadi secara kebetulan. |
+| H₀ | Pipeline K-NN dan LDA gagal menghasilkan klaster topik keluhan yang dapat diinterpretasikan (Coherence Score cv < 0.4). |
+| H₁ | Pipeline K-NN dan LDA berhasil menghasilkan klaster topik keluhan usability yang terstruktur dan dapat diinterpretasikan (Coherence Score c_v >= 0.4). |
+| Metrik | Coherence Score (Cv) dan Akurasi (Accuracy). |
+| Threshold | Coherence Score (Cv) >= 0.4 |
+| Justifikasi tStandar evaluasi pemodelan topik dalam jurnal NLP menetapkan bahwa skor koherensi Cv di atas 0.4 menunjukkan bahwa kata-kata yang berkumpul dalam satu topik memiliki relasi semantik yang kuat (bukan kata acak). |
 
 **Apakah hipotesis ini falsifiable?** [X] Ya / [ ] Tidak
-> Bagaimana cara membuktikannya salah? ika setelah dilakukan uji korelasi statistik antara data sentimen dan data performa ternyata menghasilkan p-value lebih dari atau sama dengan 0.05, maka hipotesis alternatif (H₁) gugur dan H₀ diterima.
+> Jika setelah program Python dijalankan dan model LDA selesai melakukan iterasi pembentukan topik, ternyata nilai perhitungan Coherence Score mentok di angka 0.2 atau 0.3, maka H₁ otomatis gugur dan H₀ diterima (artinya pipeline ini gagal menghasilkan topik yang berbunyi).
 
 ---
 
@@ -146,12 +146,12 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 | Tahap | Isi |
 |-------|-----|
-| RQ | Apakah terdapat korelasi antara rasio sentimen K-NN di Play Store dengan metrik objektif (SUS & Success Rate) pada SeaBank? |
-| Variable (IV) | Kategori Sentimen Publik (Positif / Negatif) |
-| Variable (DV) | Performa Usability Pengguna |
-| Metric | Persentase Sentimen (%), Skor SUS (0-100), Task Success Rate (%) |
-| Data source | API Google Play Store (Data sekunder) dan Observasi 30 Nasabah SeaBank (Data primer) |
-| Analysis method | Klasifikasi K-NN (Sentimen) & Uji Korelasi Statistik (Spearman/Pearson) |
+| RQ | Apakah K-NN dan LDA mampu mengekstrak topik keluhan usability SeaBank dengan skor koherensi >= 0.4? |
+| Variable (IV) | Parameter Model: Nilai K pada K-NN dan Jumlah Topik (K-topics) pada LDA. |
+| Variable (DV) | Kinerja / Performa Model (Model Performance). |
+| Metric | Accuracy (%), Precision, Recall, F1-Score, dan Coherence Score (Cv). |
+| Data source | Data sekunder berupa teks ulasan dari API Google Play Store. |
+| Analysis method | Confusion Matrix (untuk evaluasi K-NN) dan Topic Modeling Evaluation (untuk evaluasi LDA). |
 
 **Apakah rantai lengkap?** [X] Ya / [ ] Tidak
 > Jika tidak, tahap mana yang perlu direvisi? ______________
@@ -162,8 +162,9 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
-**Judul:** Evaluasi Usability Aplikasi Tokopedia Menggunakan Metode System Usability Scale (SUS)
-**RQ yang diekstrak:** Bagaimana tingkat kelayakan usability dari aplikasi Tokopedia berdasarkan perhitungan skor kuesioner SUS?
-**Komponen yang hilang:** RQ tersebut memiliki kualitas yang lemah karena tidak memenuhi kriteria rumusan masalah riset yang baik. Beberapa komponen yang hilang antara lain:
-1. Tidak ada Baseline: RQ ini hanya mencari nilai rata-rata (skor) tanpa membandingkannya dengan kondisi lain, algoritma lain, atau kompetitor.
-2. Tidak menguji Hipotesis (H₀ / H₁): Karena tidak ada variabel yang dibandingkan atau dikorelasikan, RQ ini tidak bersifat falsifiable (tidak bisa dibuktikan salah melalui eksperimen).
+**Judul:** Analisis Sentimen Ulasan Pengguna Aplikasi E-Commerce X Menggunakan Algoritma K-Nearest Neighbor (K-NN).
+**RQ yang diekstrak:** Bagaimana sentimen pengguna terhadap aplikasi e-commerce X berdasarkan algoritma K-NN?
+**Komponen yang hilang:** RQ tersebut sangat lemah untuk standar Data Science karena:
+1. Tidak ada Metrik Terukur: Hanya bertanya "bagaimana sentimennya", bukan "seberapa akurat K-NN dalam memilah sentimen tersebut".
+2. Tidak ada Baseline: Tidak membandingkan K-NN dengan algoritma lain (misal Naive Bayes) atau parameter default.
+3. Tidak Falsifiable: RQ ini hanya bersifat deskriptif (mendeskripsikan hasil) sehingga tidak ada hipotesis yang bisa dibuktikan gagal (H₀) dalam eksperimen.
