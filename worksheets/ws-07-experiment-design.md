@@ -68,36 +68,36 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 ```
 EXPERIMENT DESIGN
 
-Research Question : Apakah tingkat kepuasan (SUS) dan keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri?
-Hypothesis        : H1 = Rata-rata skor SUS aplikasi SeaBank > 68 (Signifikan melampaui standar kelayakan).
+Research Question : Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+Hypothesis        : H₁: Terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
 Tipe Eksperimen   : [X] Comparison  [ ] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | Standar kelayakan industri (Baseline) | Skor referensi (SUS 68) | - (Nilai referensi statis / baku) |
-| Treatment | Pengujian langsung aplikasi SeaBank | UI/UX SeaBank | Smartphone seragam, koneksi stabil, skenario task identik |
+| Control |     Evaluasi Usability Objektif (Baseline)      |     Skor SUS & Success Rate     |      30 partisipan, Skenario mutasi/deposito, SeaBank v.X.X       |
+| Treatment |    Analisis Sentimen Ulasan (Proposed)     |     Rasio Sentimen K-NN     |      Dataset ulasan Play Store pada periode rilis SeaBank v.X.X       |
 
 Fairness Checklist:
-  [X] Dataset identik untuk semua kondisi (Semua partisipan diuji dengan task yang sama)
-  [X] Preprocessing setara (Instruksi dan ice breaking disamakan untuk semua partisipan)
-  [X] Tuning effort setara (Tidak ada manipulasi bantuan teknis saat partisipan kesulitan)
-  [X] Environment identik (Pengujian di lab/ruangan tenang yang sama)
-  [X] Metrik evaluasi sama (Menggunakan kuesioner SUS yang baku)
+  [X] Dataset identik untuk semua kondisi
+  [X] Preprocessing setara
+  [X] Tuning effort setara
+  [X] Environment identik
+  [X] Metrik evaluasi sama
 
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    | Partisipan kelelahan (fatigue effect) karena task terlalu banyak. | Membatasi durasi total pengujian maksimal 15-20 menit per orang. |
-| External    | Sampel hanya terdiri dari mahasiswa IT, tidak merepresentasikan nasabah asli. | Menerapkan kriteria inklusi (purposive sampling) yang mencakup berbagai usia dan profesi. |
-| Construct   | Partisipan menjawab kuesioner SUS asal-asalan karena merasa sungkan dengan peneliti (Hawthorne Effect). | Menegaskan di awal bahwa yang diuji adalah *aplikasi*, bukan *kecerdasan partisipan*, dan kuesioner bersifat anonim. |
-| Conclusion  | Ukuran sampel terlalu kecil sehingga tidak memiliki statistical power yang cukup. | Menggunakan minimal 20-30 partisipan aktif agar distribusi data mendekati normal untuk uji parametrik. |
+| Internal    |        Demografi partisipan tes SUS tidak mewakili populasi penulis ulasan di Play Store.         |     Merekrut partisipan dengan demografi beragam yang merepresentasikan basis pengguna SeaBank.     |
+| External    |        SeaBank melakukan update UI/UX besar-besaran di tengah periode pengumpulan data.         |     Mengunci periode pengumpulan data (ulasan dan tes) pada satu versi rilis minor aplikasi.     |
+| Construct   |        Model K-NN salah mengklasifikasikan sarkasme, sehingga rasio sentimen tidak valid.         |     Melakukan validasi manual pada sampel 10% data ulasan sebelum uji korelasi.     |
+| Conclusion  |        Ukuran sampel (n=30) mungkin kurang kuat (underpowered) untuk uji korelasi statistik.         |     Menghitung G*Power sebelum tes untuk memastikan n=30 cukup mencapai batas alpha 0.05.     |
 
 Statistical Plan:
-  Uji statistik   : One-Sample T-Test (Uji-T Satu Sampel)
-  Justifikasi     : Karena kita membandingkan nilai rata-rata dari satu kelompok perlakuan (SeaBank) terhadap satu nilai acuan pasti/konstan (Baseline SUS 68).
-  Alpha           : 0.05 (Tingkat kepercayaan 95%)
-  Effect size min : Cohen's d > 0.5 (Medium effect size)
+  Uji statistik   : ji Korelasi Spearman (Rank-Order Correlation) dieksekusi melalui perangkat lunak JASP.
+  Justifikasi      : Data Skor SUS berskala ordinal/interval dan data sentimen seringkali tidak terdistribusi normal, sehingga uji non-parametrik Spearman lebih tepat daripada Pearson.
+  Alpha            : 0.05 (Tingkat signifikansi 5%)
+  Effect size min  : r = 0.3 (Korelasi moderat/menengah)
 ```
 
 ---
@@ -106,13 +106,13 @@ Statistical Plan:
 
 Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai WS-06.
 
-**RQ:** __________________________________________________
-**Tipe eksperimen:** [ ] Comparison / [ ] Ablation / [ ] Parameter
+**RQ:** Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN) dengan metrik performa objektif (Skor SUS & Task Success Rate) pada aplikasi SeaBank?
+**Tipe eksperimen:** [X] Comparison / [ ] Ablation / [ ] Parameter
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | Nilai acuan standar usability dari Sauro & Lewis (2011) sebagai baseline. | Threshold SUS = 68 | Nilai baku. |
-| Treatment | Observasi task scenario dan pengisian kuesioner pada aplikasi SeaBank. | Antarmuka SeaBank | Skenario tugas, smartphone Android/iOS yang dikondisikan, timer maks 3 menit per task. |
+| Control | Evaluasi Objektif via Eksperimen (Standar Baseline)   | Skor SUS & Task Success Rate | Lingkungan tertutup, 30 responden, skenario terstruktur |
+| Treatment | Evaluasi Subjektif via Social Listening (Metode Usulan) | Rasio Sentimen Positif/Negatif (K-NN) | Lingkungan natural, ekstraksi 1000 ulasan Play Store pada periode yang sama |
 
 ---
 
@@ -122,11 +122,11 @@ Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | ✅ Fair | Semua pengguna menyelesaikan urutan skenario tugas (Task A, B, C) yang persis sama tanpa ada yang dibedakan. |
-| Preprocessing setara | ✅ Fair | Semua partisipan diberikan briefing awal yang sama persis (menggunakan teks script) sebelum eksperimen dimulai. |
-| Tuning effort setara | ✅ Fair | Fasilitator (peneliti) dilarang memberikan hint atau bantuan apa pun saat partisipan kebingungan memencet menu. |
-| Environment identik | ✅ Fair | Seluruh pengujian dilakukan di lingkungan fisik yang tenang, dengan tingkat kecerahan layar HP yang disamakan. |
-| Metrik evaluasi sama | ✅ Fair | Semua menggunakan kuesioner baku System Usability Scale berisi 10 pertanyaan standar yang tidak dimodifikasi isinya. |
+| Dataset identik | ✅ | Menggunakan periode waktu yang sama. Partisipan menguji SeaBank versi 2.4, dan ulasan yang ditarik khusus untuk versi 2.4 saja. |
+| Preprocessing setara | ✅ | Ulasan spam/bot dibuang (K-NN); partisipan yang tidak menyelesaikan kuesioner dibuang (SUS). |
+| Tuning effort setara | ✅ | Optimasi hyperparameter K pada K-NN diimbangi dengan pilot testing (uji coba awal) skenario tugas SUS agar setara kualitasnya. |
+| Environment identik | ✅ | Keduanya mengevaluasi antarmuka pada platform Android. |
+| Metrik evaluasi sama | ✅ | Keduanya dinormalisasi ke rentang rasio (0-100%) untuk memudahkan perbandingan korelasi. |
 
 **Ada yang tidak fair?** [ ] Ya / [X] Tidak
 > Jika ya, bagaimana cara memperbaikinya? ________________
@@ -139,14 +139,14 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | Learning Effect: Partisipan menjadi lebih cepat di task kedua hanya karena sudah terbiasa memegang device tes. | Memberikan waktu 2 menit di awal bagi partisipan untuk sekadar melakukan scroll bebas agar terbiasa dengan layar HP yang digunakan. |
-| External | Demografi sampel yang terlalu sempit (misalnya hanya mengambil sampel usia 18-22 tahun). | Melakukan rekrutmen partisipan secara purposive untuk mencakup rentang usia produktif yang lebih luas (18-40 tahun). |
-| Construct | Hawthorne Effect / Social Desirability Bias: Partisipan merasa sedang diawasi dan ingin menyenangkan peneliti dengan memberi skor tinggi. | Memberi tahu responden bahwa tidak ada jawaban benar/salah, dan evaluasi ini adalah murni untuk mengkritik aplikasi bank. |
-| Conclusion | Data berdistribusi tidak normal (outlier), membuat uji One-Sample T-Test menjadi tidak valid. | Melakukan uji normalitas (Shapiro-Wilk) terlebih dahulu. Jika tidak normal, gunakan uji non-parametrik Wilcoxon Signed-Rank Test. |
+| Internal | Bias seleksi responden SUS (misal: hanya merekrut teman kampus). | Menggunakan purposive sampling berbasis kriteria nasabah riil SeaBank. |
+| External | Hasil korelasi hanya berlaku untuk SeaBank, tidak bisa digeneralisasi ke bank digital lain. | Mengakui batasan ini di laporan riset, atau menambah aplikasi pembanding jika waktu memungkinkan. |
+| Construct | Ulasan bintang 5 di Play Store terkadang berisi teks keluhan, mengecoh sentimen K-NN. | Menggunakan isi teks sebagai fitur latih K-NN, bukan rating bintangnya. |
+| Conclusion | Kesalahan asumsi distribusi data saat uji statistik. | Uji normalitas (Shapiro-Wilk) sebelum memilih antara Pearson atau Spearman. |
 
-**Ancaman mana yang paling sulit dimitigasi?** Construct Validity (Social Desirability Bias / Hawthorne Effect)
+**Ancaman mana yang paling sulit dimitigasi?** Construct Validity pada pemrosesan sentimen ulasan.
 **Mengapa?**
-> Karena dalam pengujian usability tatap muka, kehadiran peneliti di sebelah partisipan secara psikologis sering kali membuat partisipan merasa "sedang diuji kecerdasannya". Rasa tidak enak hati ini sering membuat pengguna secara otomatis mengisi kuesioner dengan nilai bagus, meskipun mereka tadi kesulitan (berbohong demi kesopanan). Hal ini paling sulit dikontrol karena murni masalah emosi manusia.
+> Bahasa ulasan di Play Store sering kali tidak baku, penuh singkatan, typo, dan sarkasme. Sekalipun K-NN sudah dilatih dengan baik, selalu ada margin error klasifikasi yang bisa mendistorsi rasio sentimen dan melemahkan tingkat korelasi dengan skor SUS yang murni objektif.
 
 ---
 
@@ -155,6 +155,6 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 > Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
 
 **Jawaban:**
-1. Apakah perbandingannya jujur (fair)? Apakah baseline yang digunakan adalah baseline usang/lemah yang sengaja dipilih agar metode mereka terlihat bagus, alias Straw Man Comparison?
-2. Apakah lingkungan dan kondisinya setara? Apakah metode mereka diuji menggunakan dataset, parameter, dan batasan hardware yang persis sama dengan baseline-nya?
-3. Apakah metrik yang digunakan benar? Apakah mereka hanya menonjolkan satu metrik yang kebetulan unggul (cherry-picking), sementara mengabaikan metrik lain yang mungkin lebih relevan namun hasilnya buruk?
+1. Apakah dataset, parameter environment, dan metrik evaluasi yang digunakan benar-benar identik antara metode usulan dengan baseline?
+2. Apakah tuning effort (hyperparameter optimization) yang diberikan pada metode baseline setara dengan metode yang diusulkan, atau baseline dibiarkan menggunakan pengaturan bawaan (default)?
+3. Apakah baseline yang dikalahkan merupakan State-of-the-Art (SOTA) yang relevan dan terkini, atau sekadar straw man (metode usang yang sengaja dipilih agar mudah dikalahkan)?
