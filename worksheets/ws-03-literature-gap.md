@@ -77,42 +77,42 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : Analisis Validasi Usability Aplikasi SeaBank (Task Scenario vs Sentimen Publik)
-Database   : Google Scholar, ResearchGate, J-PTIIK
-Query      : ("usability testing" OR "System Usability Scale") AND ("mobile banking" OR "digital banking") AND ("sentiment analysis" OR "google play store")
-Tahun      : 2019-2025
-Hasil awal : 15 paper → Screening → 5 paper final
+Topik      : Analisis Sentimen dan Ekstraksi Topik Keluhan Usability pada Aplikasi SeaBank Menggunakan K-NN dan LDA.
+Database   : Google Scholar, IEEE Xplore
+Query      : ("sentiment analysis" OR "K-NN") AND ("topic modeling" OR "Latent Dirichlet Allocation" OR "LDA") AND ("mobile banking" OR "google play reviews")
+Tahun      : 2020-2025
+Hasil awal : 20 paper → Screening → 5 paper final
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-| Dewi et al. | 2022 | SUS + Task Scenario | 20 responden | Skor SUS (Good) | Sampling bias lokal |
-| Kusumawardhana | 2019 | SUS + Usability Testing | 30 responden | Skor SUS (Good) | Subjektivitas tinggi |
-| Santoso et al. | 2022 | SUS + Usability Testing | 30 responden | Skor SUS (Good) | Tanpa data sentimen |
-| Setyabudi | 2024 | Sentiment Analysis (KNN) | Ulasan Play Store | Akurasi klasifikasi | Tanpa validasi objektif |
-| Jelni et al. | 2025 | Sentiment Analysis (KNN) | Ulasan Play Store | Klasifikasi sentimen | Tanpa validasi objektif |
+| Setyabudi | 2024 | Sentiment Analysis (K-NN) | Ulasan Play Store | Akurasi klasifikasi sentimen | Hanya klasifikasi positif/negatif tanpa tahu konteks keluhan. |
+| Jelni et al. | 2025 | Sentiment Analysis (K-NN) | Ulasan Play Store | Klasifikasi sentimen | Hanya sebatas sentimen, tidak ada ekstraksi fitur bermasalah. |
+| Rahman et al. | 2022 | Topic Modeling (LDA) | Ulasan E-commerce | Klaster topik pengguna | Memasukkan ulasan pujian yang membuat topik keluhan menjadi bias. |
+| Wati & Budi | 2023 | LDA + SVM | Ulasan Twitter | Ekstraksi topik opini | Tidak diterapkan pada domain aplikasi perbankan murni (branchless banking). |
+| Pratama | 2021 | K-NN + Naive Bayes | Ulasan FinTech | Perbandingan algoritma | Fokus komparasi akurasi, bukan pemetaan masalah (friction points). |
 
 Pola yang ditemukan:
-  Metode dominan     : Kombinasi SUS untuk evaluasi objektif dan KNN untuk analisis sentimen.
-  Dataset umum       : Data primer skala kecil (SUS) dan data sekunder ulasan Play Store.
-  Limitasi berulang  : Belum adanya triangulasi antara metode pengujian objektif dan analisis sentimen publik.
+  Metode dominan     : K-NN sering digunakan untuk sentimen karena stabil pada data teks pendek, dan LDA populer untuk mengekstrak topik tanpa label.
+  Dataset umum       : Ulasan dari Play Store atau Twitter.
+  Limitasi berulang  : Riset sentimen K-NN jarang dilanjutkan ke tahap ekstraksi topik (berhenti di label positif/negatif saja). Sebaliknya, riset LDA sering memasukkan semua data sehingga topik keluhan bercampur dengan topik pujian.
 
 GAP IDENTIFICATION
 
-Gap 1: [Jenis: performance / method / data / context]
-  Deskripsi    : Belum ada triangulasi metode antara performa objektif (Task Scenario) dan sentimen subjektif (ulasan publik).
-  Bukti        : Paper terdahulu hanya menggunakan salah satu pendekatan, bukan gabungan keduanya.
-  Signifikansi : Mengurangi bias dari data subjektif dan meningkatkan akurasi validasi usability.
+Gap 1: [Jenis: Method Gap]
+  Deskripsi    : Belum ada integrasi pipeline yang menggunakan K-NN untuk menyaring ulasan negatif secara spesifik, yang kemudian diproses oleh LDA untuk mengekstrak topik keluhan usability.
+  Bukti        : Paper terdahulu (Setyabudi, Jelni) hanya berhenti pada klasifikasi sentimen.
+  Signifikansi : Pipeline gabungan ini dapat memfilter noise ulasan positif, sehingga LDA menghasilkan topik keluhan yang jauh lebih koheren dan relevan bagi pengembang.
 Gap 2: [Jenis: Context Gap]
-  Deskripsi    : Belum ada evaluasi komprehensif pada aplikasi perbankan digital murni (branchless banking) seperti SeaBank.
-  Bukti        : Studi sebelumnya mayoritas berfokus pada aplikasi bank konvensional (BCA, BNI, BSI).
-  Signifikansi : Memberikan data empiris untuk perbankan digital yang memiliki perilaku nasabah berbeda.
+  Deskripsi    : Belum ada pemodelan topik keluhan usability secara otomatis pada aplikasi perbankan digital murni (branchless banking) seperti SeaBank.
+  Bukti        : Studi LDA sebelumnya lebih banyak di domain E-Commerce atau FinTech P2P Lending.
+  Signifikansi : SeaBank memiliki struktur fitur yang berbeda, sehingga leksikon (kosakata) dan topik keluhannya unik dan butuh pemetaan spesifik.
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
 |----------|-----------|---------------|--------|
-| SUS Scoring | Standar evaluasi usability | Common practice | Dewi et al., 2022 |
-| KNN Sentiment | Analisis ulasan publik | Umum digunakan | Setyabudi, 2024 |
+| K-NN Sentiment | Pemilah sentimen ulasan | Common practice | Setyabudi, 2024 |
+| LDA Topic Modeling | Pengekstrak topik keluhan | State-of-the-Art (Unsupervised) | Rahman et al., 2022 |
 ```
 
 ---
@@ -126,19 +126,19 @@ Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan databas
 > - Tulis query Boolean yang digunakan: contoh `("object detection" OR "image classification") AND ("edge computing") NOT ("medical")`. Dokumentasikan query secara eksplisit.
 > - Akses gratis: buka Google Scholar → cari judul paper → klik [PDF] jika tersedia, atau akses lewat campus VPN
 
-**Topik riset:** Analisis Validasi Usability Aplikasi SeaBank: Studi Komparatif Antara Eksperimen Task Scenario dan Sentimen Publik Google Play Store.
-**Query pencarian:** ("usability testing" OR "System Usability Scale") AND ("mobile banking" OR "digital banking") AND ("sentiment analysis" OR "google play store").
+**Topik riset:** Analisis Sentimen dan Ekstraksi Topik Keluhan Usability pada Aplikasi SeaBank Menggunakan Algoritma K-NN dan Latent Dirichlet Allocation (LDA).
+**Query pencarian:** ("sentiment analysis" OR "K-NN") AND ("topic modeling" OR "Latent Dirichlet Allocation" OR "LDA") AND ("mobile banking" OR "google play reviews").
 **Database:** Google Scholar
 | # | Study | Tahun | Method | Dataset | Result | Limitasi |
 |---|-------|-------|--------|---------|--------|----------|
-| 1 | Dewi et al. | 2022 | SUS + Task Scenario | 20 responden (BCA) | Skor SUS (Good) | Sampling bias lokal |
-| 2 | Kusumawardhana et al. | 2019 | SUS + Usability Testing | 30 responden (BNI) | Skor SUS (Good) | Subjektivitas tinggi |
-| 3 | Santoso et al. | 2022 | SUS + Usability Testing | 30 responden (BSI) | Skor SUS (Good) | Tanpa data sentimen |
-| 4 | Setyabudi   | 2024 | Sentiment Analysis (KNN) | Ulasan Play Store | Akurasi sentiment | Hanya sentimen publik |
-| 5 | Jelni et al.   | 2025 | Sentiment Analysis (KNN) | Ulasan Play Store   | Klasifikasi sentimen | Tanpa validasi objektif |
+| 1 | Setyabudi | 2024 | Sentiment Analysis (K-NN) | Ulasan Play Store | Akurasi klasifikasi sentimen | Berhenti pada sentimen, tidak membedah konteks keluhan. |
+| 2 | Jelni et al. | 2025 | Sentiment Analysis (K-NN) | Ulasan Play Store | Klasifikasi sentimen | Tidak mengekstrak kata kunci fitur yang bermasalah. |
+| 3 | Rahman et al. | 2022 | SUS + Usability Testing | 30 responden (BSI) | Skor SUS (Good) | Tanpa data sentimen |
+| 4 | Wati & Budi   | 2023 | LDA + SVM | Ulasan Twitter | Opini layanan pelanggan | Tidak diuji pada aplikasi perbankan (branchless banking). |
+| 5 | Pratama   | 2021 | K-NN + Naive Bayes | Ulasan FinTech  | Komparasi akurasi | Tidak ada aspek pemetaan masalah usability (HCI). |
 
-**Pola yang terlihat — Metode dominan:** Penggunaan System Usability Scale (SUS) sebagai standar evaluasi objektif dan K-Nearest Neighbor (KNN) sebagai metode analisis sentimen pada data sekunder.
-**Limitasi yang berulang:** Mayoritas studi hanya terfokus pada salah satu pendekatan (objektif atau subjektif) secara terpisah, sehingga tidak terdapat triangulasi untuk memvalidasi usability secara utuh.  
+**Pola yang terlihat — Metode dominan:** Algoritma K-NN banyak diandalkan sebagai baseline klasifikasi teks ulasan karena kinerjanya yang baik pada dimensi kata, sedangkan LDA menjadi metode unsupervised paling dominan untuk memetakan ulasan teks bebas menjadi klaster topik.
+**Limitasi yang berulang:** Studi analisis sentimen jarang dilanjutkan untuk mencari tahu "apa yang sebenarnya dikeluhkan" oleh sentimen negatif tersebut. Di sisi lain, studi ekstraksi topik sering mengalami distorsi (topik tidak jelas) karena mencampur ulasan positif dan negatif ke dalam satu model latih.  
 
 ---
 
@@ -149,13 +149,13 @@ Berdasarkan tabel di Latihan 1, identifikasi gap.
 | Jenis Gap | Ditemukan? | Gap Statement |
 |-----------|-----------|---------------|
 | Performance Gap | [ ] Ya / [X] Tidak | - |
-| Method Gap | [X] Ya / [ ] Tidak | Belum ada studi yang melakukan triangulasi antara pengujian usability objektif (Task Scenario) dengan analisis sentimen publik secara komprehensif pada aplikasi perbankan digital. |
+| Method Gap | [X] Ya / [ ] Tidak | Belum ada studi yang merangkai pipeline di mana K-NN digunakan sebagai filter (penyaring ulasan bernada negatif) sebelum data tersebut diekstrak menjadi topik keluhan antarmuka secara spesifik menggunakan LDA. |
 | Data Gap | [ ] Ya / [X] Tidak | - |
-| Context Gap | [X] Ya / [ ] Tidak | Mayoritas studi terdahulu berfokus pada aplikasi bank konvensional (BCA, BNI, BSI), sehingga belum ada evaluasi mendalam pada ekosistem branchless banking (SeaBank) di Indonesia. |
+| Context Gap | [X] Ya / [ ] Tidak | Mayoritas studi LDA berfokus pada E-Commerce atau Twitter, sehingga belum ada ekstraksi topik spesifik mengenai keluhan usability pada aplikasi branchless banking seperti SeaBank di Indonesia. |
 
-**Gap utama yang dipilih:** Methodological Triangulation Gap (penggabungan metode objektif dan subjektif).
+**Gap utama yang dipilih:** Method Gap (Integrasi K-NN dan LDA).
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
-> Gap ini penting karena pengujian usability yang hanya mengandalkan data subjektif (kuesioner/ulasan) rentan terhadap bias persepsi, sedangkan pengujian yang hanya mengandalkan task scenario terbatas pada skenario yang ditentukan peneliti. Dengan menggabungkan kedua metode tersebut, riset ini dapat memberikan validasi yang lebih kuat, akurat, dan representatif terhadap perilaku nasabah di perbankan digital, yang pada akhirnya menghasilkan rekomendasi desain antarmuka yang benar-benar berbasis bukti (data-driven).
+> Menjalankan LDA pada seluruh kumpulan ulasan Play Store (yang bercampur antara pujian, cacian, dan spam) sering kali menghasilkan topik yang bias dan tidak dapat dipahami (incoherent). Dengan mengimplementasikan K-NN terlebih dahulu untuk mengisolasi ulasan bersentimen negatif, model LDA hanya akan memproses murni keluhan pengguna. Hal ini akan meningkatkan Coherence Score secara signifikan dan menghasilkan topik masalah (misalnya: gagal login, tombol transfer tersembunyi) yang langsung dapat ditindaklanjuti oleh developer SeaBank.
 ---
 
 ## Latihan 3 — Baseline Selection
@@ -164,11 +164,11 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 
 | # | Baseline | Mengapa Relevan | Mengapa Representatif | Apakah SOTA? | Sumber |
 |---|----------|----------------|----------------------|-------------|--------|
-| 1 | System Usability Scale (SUS) | Mengukur tingkat kepuasan pengguna secara kuantitatif dalam riset usability. | Merupakan instrumen standar yang digunakan secara global dalam banyak studi mobile banking. | Ya (Benchmark) | Dewi et al., 2022 |
-| 2 | K-Nearest Neighbor (KNN) | Digunakan untuk mengklasifikasikan sentimen ulasan publik secara otomatis. | Metode yang lazim digunakan untuk klasifikasi teks pada data ulasan Google Play Store. | Tidak | Setyabudi, 2024 |
+| 1 | K-Nearest Neighbor (K-NN) | Model dasar klasifikasi sentimen berbasis teks. | Lazim digunakan untuk analisis sentimen ulasan Google Play Store berbahasa Indonesia. | Tidak (Baseline) | Setyabudi, 2024 |
+| 2 | Latent Dirichlet Allocation (LDA) | Digunakan untuk mengelompokkan keluhan usability ke dalam kategori spesifik secara otomatis. | Merupakan standar emas (gold standard) dalam algoritma Topic Modeling (Unsupervised Learning). | Ya | Rahman et al., 2022 |
 
-**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
-> Justifikasi: Pemilihan baseline ini bukan merupakan straw man karena menggunakan instrumen yang diakui secara luas dalam literatur ilmiah. System Usability Scale (SUS) adalah standar emas (gold standard) dalam evaluasi usability objektif, sementara algoritma KNN dipilih karena efektivitasnya yang terbukti dalam klasifikasi sentimen pada riset sejenis. Penggunaan baseline ini bertujuan untuk memastikan validitas hasil riset, bukan untuk melemahkan perbandingan agar metode saya terlihat lebih unggul secara artifisial.
+**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [X] Tidak
+> Justifikasi: K-NN dan LDA adalah algoritma yang sangat representatif dan standar (common practice) di ranah Natural Language Processing (NLP). Keduanya dipilih bukan karena lemah (straw man), melainkan karena keduanya sangat cocok untuk karakteristik data teks pendek dari Play Store. Tujuan riset ini bukan untuk mengalahkan algoritma Transformer yang berat, tetapi membangun pipeline otomatisasi analisis keluhan yang efisien dan interpretable bagi pihak developer.
 
 ---
 
@@ -177,4 +177,4 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 > Apa perbedaan antara "belum ada yang meneliti ini" (klaim tanpa bukti) dengan research gap yang valid? Bagaimana cara membuktikan bahwa sebuah gap benar-benar ada?
 
 **Jawaban:**
-> Dulu saya menganggap literature review sekadar merangkum paper dan "belum ada yang meneliti" sebagai celah riset. Kini saya sadar bahwa riset yang valid harus berbasis concept-centric dan research gap harus dibuktikan melalui pemetaan literatur sistematis agar novelty riset teruji secara ilmiah.
+> Dulu saya menganggap kalimat "belum ada yang meneliti ini" sudah cukup untuk dijadikan celah riset. Kini saya sadar bahwa itu hanyalah klaim lemah tanpa bukti. Research gap yang valid harus dibuktikan secara empiris melalui pemetaan literatur sistematis (concept-centric). Misalnya, dalam kasus aplikasi SeaBank ini, saya tidak sekadar berasumsi "belum ada yang mengekstrak topik keluhan", tetapi saya bisa membuktikan melalui tabel pemetaan literatur bahwa riset terdahulu memang selalu berhenti pada klasifikasi sentimen K-NN (label positif/negatif) dan tidak pernah dilanjutkan untuk membedah konteks spesifik keluhannya menggunakan LDA. Pemetaan yang terstruktur inilah yang membuat kebaruan (novelty) riset saya teruji dan valid secara ilmiah.
