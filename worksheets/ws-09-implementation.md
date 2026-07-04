@@ -73,30 +73,33 @@ Mengandalkan "install library terbaru" berbahaya: versi berbeda = perilaku berbe
 EXPERIMENT SETUP DOCUMENTATION
 
 Hardware:
-  CPU     : AMD Ryzen 5 6600H (6 Cores, 12 Threads)
+  CPU     : AMD Ryzen 5 6600H / AMD Ryzen 7 7735HS (Pilih sesuai varian Anda)
   RAM     : 16 GB LPDDR5
-  GPU     : AMD Radeon Graphics (Integrated)
+  GPU     : AMD Radeon Integrated Graphics (CPU-only untuk pipeline NLP)
   Storage : 512 GB SSD
 
 Software:
-  OS        : Windows 11 Home 64-bit
-  Runtime   : Python 3.10 (atau Microsoft Excel)
-  Framework : Pandas (Data Analysis Library)
+  OS        : Windows 11
+  Runtime   : Python 3.10.x
+  Framework : Scikit-Learn Ecosystem & JASP v0.18.3
 
 Dependencies:
 | Library | Version | Sumber | Hash/Checksum |
 |---------|---------|--------|---------------|
-|    pandas     |    2.0.3     |    PyPI / pip install pandas    |       N/A (Standard Data Tool)        |
-|    openpyxl     |    3.1.2     |    PyPI / pip install openpyxl    |       N/A (Excel Reader Tool)        |
+| scikit-learn | 1.3.2 | PyPI (pip) | Kunci via pip freeze |
+| pandas | 2.1.4 | PyPI (pip) | Kunci via pip freeze |
+| Sastrawi | 1.0.1 | PyPI (pip) | Kunci via pip freeze |
+| google-play-scraper | 1.2.4 | PyPI (pip) | Kunci via pip freeze |
+| scipy | 1.11.4 | PyPI (pip) | Kunci via pip freeze |
 
 Konfigurasi:
-  Config file     : Tugas RTI (Jawaban).xlsx (Berisi raw data dari 5 responden uji coba)
-  Random seed     : N/A (Eksperimen menggunakan metode kalkulasi deterministik mutlak, tidak menggunakan angka acak)
-  Hyperparameters : N/A
+  Config file     : config.yaml (Menyimpan parameter NLP dan batas skenario tugas)
+  Random seed     : 42 (Dikunci untuk split dataset dan inisialisasi K-NN)
+  Hyperparameters : K=5 (K-NN), Distance metric='cosine'
 
 Reproducibility Check:
   [X] Dependency terdokumentasi (requirements.txt / lock file)
-  [ ] Seed ditetapkan di semua level (Python, NumPy, framework)
+  [X] Seed ditetapkan di semua level (Python, NumPy, framework)
   [X] Config di version control
   [X] README instruksi reproduksi lengkap
 ```
@@ -109,23 +112,23 @@ Dokumentasikan environment untuk eksperimen Anda (boleh environment saat ini ata
 
 | Komponen | Spesifikasi |
 |----------|------------|
-| CPU | *Contoh: Intel Core i7-12700H, 14 Core* |
-| RAM | *Contoh: 32 GB DDR5* |
-| GPU | *Contoh: NVIDIA RTX 3060 6GB / CPU-only jika tidak ada GPU* |
-| OS | *Contoh: Ubuntu 22.04 LTS / Windows 11* |
-| Runtime | |
-| Framework | |
-| Random Seed | |
+| CPU | AMD Ryzen 5 6600H |
+| RAM | 16 GB LPDDR5 |
+| GPU | AMD Radeon Integrated Graphics |
+| OS | Windows 11 |
+| Runtime | Python 3.10.x |
+| Framework | Scikit-Learn & JASP Kuantitatif |
+| Random Seed | 42 |
 
 **Dependencies (minimal 5):**
 
 | Library | Version | Alasan Dibutuhkan |
 |---------|---------|-------------------|
-| *Contoh: scikit-learn* | *1.3.2* | *Klasifikasi + evaluasi metrik* |
-| | | |
-| | | |
-| | | |
-| | | |
+| scikit-learn | 1.3.2 | Untuk pemodelan klasifikasi sentimen menggunakan algoritma K-NN. |
+| Sastrawi | 1.0.1 | Melakukan proses stemming bahasa Indonesia pada ulasan Play Store. |
+| google-play-scraper | 1.2.4 | Melakukan scraping data sekunder ulasan SeaBank langsung dari Play Store. |
+| pandas | 2.1.4 | Melakukan manipulasi data, pembersihan teks, dan manajemen data tabular. |
+| scipy | 1.11.4 | Menyediakan komputasi statistik pendukung untuk perhitungan korelasi akhir. |
 
 ---
 
@@ -135,25 +138,21 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 
 | Run | Seed | Metrik Utama | Hasil Sama? |
 |-----|------|-------------|-------------|
-| 1 | *Contoh: 42* | *Contoh: Accuracy* | — |
-| 2 | | | [ ] Ya / [ ] Tidak |
-| 3 | | | [ ] Ya / [ ] Tidak |
+| 1 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | — |
+| 2 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | [X] Ya / [ ] Tidak |
+| 3 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | [X] Ya / [ ] Tidak |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
 
-> Penyebab umum non-repeatability:
-> - **Thermal throttling** — CPU/GPU overheating pada run berturut-turut → clock speed turun → waktu eksekusi berubah
-> - **Background process** — antivirus scan, update OS, atau cloud sync aktif saat run berlangsung
-> - **Cache dari run sebelumnya** — hasil tersimpan di memori/disk sehingga run berikutnya tidak menjalankan komputasi penuh
-> - **Random state tidak dikontrol di semua level** — Python seed di-set, tapi NumPy/PyTorch/TensorFlow punya seed independen
+Hasil bisa berbeda jika random_state pada pembagian data (train-test split) tidak dikunci di level NumPy, atau jika terdapat data ulasan baru yang masuk tanpa dikunci rentang tanggal penarikannya, sehingga menyebabkan state data berubah di setiap run.
 
 ___________________________________________________
 
 **Checklist kontrol yang sudah diterapkan:**
-- [ ] Random seed di-set di semua level
-- [ ] Tidak ada background process yang mengganggu
-- [ ] Cache dibersihkan antar-run
-- [ ] Config file yang sama untuk semua run
+- [X] Random seed di-set di semua level
+- [X] Tidak ada background process yang mengganggu
+- [X] Cache dibersihkan antar-run
+- [X] Config file yang sama untuk semua run
 
 ---
 
@@ -162,25 +161,27 @@ ___________________________________________________
 Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 ```
-# Judul Eksperimen: ____________________
+# Judul Eksperimen: Triangulasi Usability SeaBank via K-NN Sentimen & Eksperimen SUS
 
 ## 1. Environment
-> (Salin spesifikasi dari Latihan 1)
+> CPU: AMD Ryzen (Advan Workplus), RAM: 16 GB LPDDR5, OS: Windows 11
+> Runtime: Python 3.10.x
 
 ## 2. Installation
-> (Langkah instalasi, misal: "pip install -r requirements.txt")
+> Pastikan Python sudah terinstal, lalu jalankan perintah: `pip install -r requirements.txt`
 
 ## 3. Data
-> (Deskripsi data: sumber, format, ukuran)
+> Data Sekunder: `seabank_reviews.csv` (1000 ulasan ter-scrape dari Google Play Store).
+> Data Primer: `usability_matrix.csv` (Skor SUS & Success Rate dari 30 responden).
 
 ## 4. Execution
-> (Command untuk menjalankan eksperimen)
+> Jalankan pipeline NLP dan analisis korelasi dengan command: `python run_experiment.py --config config.yaml`
 
 ## 5. Configuration
-> (File config yang digunakan + parameter kunci)
+> Diatur melalui `config.yaml`: `model: {type: 'knn', k: 5}, experiment: {seed: 42}`
 
 ## 6. Expected Output
-> (Contoh output yang diharapkan + format)
+> File `results.txt` berisi evaluasi matriks K-NN (Accuracy, F1-Score) dan nilai p-value uji korelasi Spearman.
 ```
 
 ---
@@ -189,6 +190,6 @@ Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 > Apakah eksperimen Anda saat ini bisa direproduksi oleh orang lain tanpa bantuan Anda? Komponen apa yang masih hilang?
 
-**Level saat ini:** [ ] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
+**Level saat ini:** [X] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
 **Komponen yang belum terdokumentasi:**
-> ___________________________________________________
+> Saat ini riset baru memenuhi level repeatability karena hasil komputasi K-NN dan korelasi statistik sudah konsisten saat diuji ulang di perangkat lokal (Advan Workplus). Namun, aspek reproducibility masih terhambat karena ketergantungan pada platform perekaman pengujian usability eksternal serta belum adanya isolasi environment berbasis container seperti Docker, yang berpotensi memunculkan perbedaan perilaku pustaka (library dependency) saat dijalankan oleh peneliti lain di mesin yang berbeda.
