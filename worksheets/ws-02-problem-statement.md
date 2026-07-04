@@ -67,33 +67,32 @@ Masalah riset yang layak harus memenuhi 5 kriteria:
 PROBLEM STATEMENT BUILDER
 
 Domain & Konteks
-  Domain   : Human-Computer Interaction (HCI) / Evaluasi Usability Antarmuka Aplikasi
-  Konteks  : Evaluasi kegunaan (usability) aplikasi bank digital SeaBank pada nasabah/pengguna aktif.
-
+  Domain   : Human-Computer Interaction (HCI) / Evaluasi Usability Antarmuka Aplikasi Digital Banking
+  Konteks  : Validasi tingkat kebergunaan (usability) aplikasi SeaBank melalui pendekatan hibrida (objektif & subjektif).
 System Context
-  Input       : Interaksi motorik pengguna (ketukan layar, input data) saat mengeksekusi task scenario pada aplikasi SeaBank.
-  Process     : Proses navigasi pengguna di dalam antarmuka aplikasi untuk menyelesaikan tugas (misal: mencari riwayat transaksi lama, membuka deposito) serta pengisian kuesioner SUS di akhir sesi.
-  Output      : Metrik usability kuantitatif berupa success rate (%), time-based efficiency (detik), error rate, dan skor kepuasan SUS (0-100).
-  Outcome     : Teridentifikasinya celah usability (pain points) dan perumusan rekomendasi perbaikan desain UI/UX aplikasi SeaBank.
-  Constraints : Jumlah sampel partisipan yang terbatas serta lingkungan pengujian yang dikondisikan (tidak sepenuhnya mencerminkan situasi pengguna di dunia nyata).
-  Stakeholders: Nasabah aplikasi SeaBank (pengguna akhir) dan Tim Pengembang/UI-UX Designer SeaBank.
+  Input       : Data interaksi pengguna (hasil task scenario) dan data sekunder berupa ulasan pengguna dari Google Play Store.
+  Process     : Evaluasi performa navigasi aplikasi (Task Scenario) dan analisis sentimen terhadap ulasan publik untuk memetakan friction points.
+  Output      : Metrik usability kuantitatif (Skor SUS, Success Rate) dan klasifikasi sentimen pengguna (Positif/Negatif).
+  Outcome     : Dokumen bukti empiris tingkat kelayakan usability serta rekomendasi teknis perbaikan antarmuka yang ramah pengguna.
+  Constraints : Data ulasan publik yang bersifat tidak terstruktur (unstructured data) dan batasan akses terhadap log internal aplikasi.
+  Stakeholders: Nasabah SeaBank, Tim UI/UX Designer SeaBank, dan Pengembang platform digital.
 
 Fenomena → Problem
-  Fenomena yang diamati             : Aplikasi bank digital seperti SeaBank dituntut memiliki antarmuka yang sangat intuitif karena ketiadaan kantor cabang fisik untuk melayani nasabah secara langsung.
-  Gejala (symptom) yang terukur     : Munculnya berbagai keluhan dari pengguna terkait kebingungan saat mencari riwayat transaksi lama atau kesulitan memahami alur pembukaan fitur deposito.
-  Masalah yang didiagnosis          : Hirarki navigasi dan penempatan label fitur pada antarmuka aplikasi kurang sesuai dengan mental model pengguna awam, sehingga memicu tingginya beban kognitif (cognitive load).
-  Masalah riset (researchable)      : Seberapa besar tingkat efektivitas, efisiensi, dan kepuasan pengguna dalam menyelesaikan skenario tugas utama di aplikasi SeaBank secara empiris?
-  Variabel yang terukur             : Tingkat keberhasilan tugas (Learnability), kecepatan penyelesaian (Efficiency), jumlah kesalahan (Error rate), dan skor kepuasan (Satisfaction).
+  Fenomena yang diamati             : Aplikasi perbankan digital menuntut antarmuka yang sangat intuitif untuk menjaga efisiensi transaksi nasabah.
+  Gejala (symptom) yang terukur     : Munculnya keluhan pada ulasan publik Google Play Store mengenai alur transaksi yang kompleks dan skor usability yang belum teruji secara empiris.
+  Masalah yang didiagnosis          : Adanya ketidaksesuaian antara struktur antarmuka fitur utama dengan mental model pengguna yang memicu beban kognitif tinggi.
+  Masalah riset (researchable)      : Belum ada validasi apakah persepsi positif/negatif publik di Google Play Store berkorelasi dengan hasil pengujian performa usability yang objektif.
+  Variabel yang terukur             : Skor System Usability Scale (SUS), Task Success Rate, dan Persentase Sentimen Ulasan (Positif/Negatif).
 
 Problem Quality Check
-  [X] Clarity — Pembaca dapat langsung memahami bahwa masalahnya adalah keluhan navigasi pada SeaBank yang memicu beban kognitif, sehingga perlu dievaluasi.
-  [X] Measurability — Menggunakan metrik kuantitatif yang jelas: persentase keberhasilan, waktu (detik), rasio kesalahan, dan skor SUS.
-  [X] Relevance — Sangat relevan karena kelancaran UI/UX adalah ujung tombak retensi nasabah bagi sebuah bank digital (branchless banking).
-  [X] Testability — Dapat diuji dan bisa gagal. Bisa saja hasil pengujian membuktikan bahwa UI SeaBank sebenarnya sudah sangat efisien dan keluhan yang ada hanya berasal dari anomali sebagian kecil pengguna.
-  [X] Impact — Menghasilkan kontribusi praktis berupa data empiris kelemahan UI saat ini beserta rekomendasi redesign antarmuka untuk pihak SeaBank.
+  [X] Clarity — Apakah satu orang membaca akan paham?
+  [X] Measurability — Apakah ada metrik kuantitatif?
+  [X] Relevance — Apakah penting untuk domain?
+  [X] Testability — Apakah bisa gagal?
+  [] Impact — Apakah ada kontribusi jika terjawab?
 
 Problem Statement (1 paragraf):
-Kehadiran bank digital seperti SeaBank menuntut antarmuka pengguna (UI/UX) yang sangat intuitif, mengingat seluruh layanan transaksi dilakukan tanpa intervensi fisik dari kantor cabang. Namun, observasi awal terhadap ulasan pengguna menunjukkan adanya gejala kesulitan dalam bernavigasi, seperti kebingungan saat melacak riwayat transaksi lama dan ketidakpahaman terhadap alur fitur deposito. Kesulitan tersebut mengindikasikan adanya celah pada hirarki informasi yang membebani kognitif pengguna (cognitive load) dan berisiko menurunkan kepercayaan nasabah. Mengingat belum adanya pengukuran empiris terkait kendala tersebut, penelitian ini bertujuan untuk mengevaluasi tingkat kegunaan (usability) aplikasi SeaBank secara kuantitatif melalui metode Usability Testing (mengukur aspek efektivitas dan efisiensi) serta kuesioner System Usability Scale (mengukur tingkat kepuasan). Hasil evaluasi ini akan digunakan sebagai landasan saintifik untuk merumuskan rekomendasi perbaikan desain antarmuka aplikasi SeaBank agar lebih sesuai dengan mental model penggunanya.
+  Pergeseran layanan keuangan ke arah bank digital murni menuntut tingkat kebergunaan (usability) antarmuka yang sangat tinggi. Meskipun aplikasi SeaBank memiliki basis pengguna yang besar, muncul banyak keluhan di Google Play Store mengenai kerumitan alur navigasi pada fitur esensial, namun keluhan tersebut belum pernah divalidasi secara empiris melalui pengujian objektif. Adanya kesenjangan antara sentimen publik dan performa nyata pengguna ini menimbulkan ketidakpastian mengenai tingkat kelayakan desain aplikasi tersebut. Oleh karena itu, penelitian ini bertujuan untuk memvalidasi usability aplikasi SeaBank melalui studi komparatif antara pengujian Task Scenario (performa objektif) dan analisis sentimen ulasan publik (persepsi subjektif) guna menghasilkan rekomendasi perbaikan desain antarmuka yang berbasis bukti.
 ```
 
 ---
@@ -102,17 +101,17 @@ Kehadiran bank digital seperti SeaBank menuntut antarmuka pengguna (UI/UX) yang 
 
 Pilih satu topik di bidang TI yang diminati. Transformasikan melalui 5 tahap Problem Formation Model.
 
-**Topik awal:** Evaluasi Tingkat Usability Aplikasi Bank Digital SeaBank Menggunakan Pendekatan Usability Testing dan System Usability Scale (SUS).
+**Topik awal:** Evaluasi Usability Aplikasi Digital Banking SeaBank.
 
 | Tahap | Hasil |
 |-------|-------|
-| Reality | Aplikasi bank digital (seperti SeaBank) menuntut antarmuka yang sangat intuitif karena berhubungan langsung dengan kelancaran dan keamanan transaksi finansial pengguna. |
-| Observed Issue (Symptom) | Terdapat ulasan/keluhan dari pengguna (misal di Play Store/App Store atau forum) mengenai kebingungan saat mencari riwayat transaksi lama atau kesulitan memahami alur pembukaan fitur deposito. (Kamu bisa mengganti gejala ini dengan keluhan nyata yang kamu temukan). |
-| Diagnosed Problem (Root Cause) | Hirarki navigasi atau penempatan label fitur pada antarmuka aplikasi kurang sesuai dengan mental model pengguna awam, sehingga memicu tingginya cognitive load (beban pikiran) saat bertransaksi. |
-| Researchable Problem | Seberapa besar tingkat efektivitas, efisiensi, dan kepuasan pengguna (berdasarkan kerangka usability) dalam menyelesaikan skenario tugas utama di aplikasi SeaBank? |
-| Measurable Variable | Tingkat keberhasilan tugas (success rate dalam %), waktu penyelesaian (time-based efficiency dalam detik), jumlah kesalahan (error rate), dan skor kepuasan SUS (skala 0-100). |
+| Reality | Aplikasi bank digital murni seperti SeaBank menjadi kanal utama transaksi nasabah tanpa kantor cabang, sehingga kualitas antarmuka sangat menentukan kepercayaan dan loyalitas nasabah. |
+| Observed Issue (Symptom) | Adanya keluhan nasabah pada ulasan Google Play Store mengenai kompleksitas fitur deposito dan kesulitan pelacakan mutasi, serta hasil riset awal yang menunjukkan skor usability yang masih marginal. |
+| Diagnosed Problem (Root Cause) | Terdapat celah (gap) antara rancangan UI/UX aplikasi dengan mental model pengguna awam, sehingga memicu beban kognitif (cognitive load) berlebih yang menghambat efisiensi tugas. |
+| Researchable Problem | Belum adanya validasi empiris yang membandingkan performa usability objektif (Task Scenario) dengan persepsi sentimen subjektif (ulasan Google Play Store) untuk mengonfirmasi kelayakan desain aplikasi SeaBank.   |
+| Measurable Variable | Task Success Rate (%), Time-based Efficiency (detik), skor SUS (0-100), dan skor sentimen ulasan (positif/negatif). |
 
-**Apakah terjebak solution-first thinking?** [ ] Ya / [X] Tidak
+**Apakah terjebak solution-first thinking?** [ ] Ya / [ ] Tidak
 > Jika ya, kembali ke tahap mana? ________________________
 
 ---
@@ -123,14 +122,15 @@ Gambarkan konteks sistem dari masalah riset di Latihan 1.
 
 | Komponen | Deskripsi |
 |----------|----------|
-| Input | Interaksi user (klik/sentuhan) pada antarmuka prototipe/aplikasi SeaBank, serta profil demografi user (usia, latar belakang perbankan). |
-| Process | Pengguna melaksanakan task scenario (misal: transfer beda bank, cek mutasi), disusul dengan pengisian kuesioner SUS setelah tugas selesai. |
-| Output | Metrik usability kuantitatif (waktu pengerjaan, jumlah error, skor SUS) dan data kualitatif (hasil wawancara keluhan pengguna). |
-| Outcome | Teridentifikasinya celah usability (kelemahan UI) pada SeaBank dan terciptanya draf rekomendasi perbaikan desain antarmuka. |
-| Constraints | Jumlah sampel partisipan uji yang mungkin terbatas dan lingkungan pengujian yang dikondisikan (tidak mencerminkan situasi pengguna saat sedang terburu-buru/panik di dunia nyata). |
-| Stakeholders | Nasabah aplikasi SeaBank dan Tim pengembang (UI/UX Designer / Product Manager) SeaBank. |
+| Input | Aksi interaksi pengguna (klik, scroll, pengisian formulir) selama skenario tugas, serta data mentah ulasan pengguna dari Google Play Store. |
+| Process | Evaluasi efektivitas dan efisiensi melalui Task Scenario serta klasifikasi sentimen menggunakan algoritma pemrosesan teks pada data ulasan. |
+| Output | Metrik usability kuantitatif (Success Rate, waktu, skor SUS) dan klasifikasi sentimen publik (positif, netral, atau negatif). |
+| Outcome | Teridentifikasinya pain points (titik masalah) pada UI SeaBank dan rekomendasi perbaikan desain yang berbasis pada validasi data objektif dan subjektif. |
+| Constraints | Keterbatasan akses ke log aktivitas internal aplikasi, serta adanya noise atau komentar tidak relevan pada data ulasan publik. |
+| Stakeholders | Nasabah SeaBank sebagai pengguna, tim UI/UX Designer SeaBank, serta peneliti (Anda). |
 
-**Komponen mana yang paling relevan dengan masalah riset?** Proses (eksekusi task scenario) dan Output (metrik yang dihasilkan).
+**Komponen mana yang paling relevan dengan masalah riset?** Outcome, karena tujuan utama dari riset ini adalah untuk menghasilkan bukti empiris (validasi) mengenai kelayakan desain antarmuka aplikasi melalui penggabungan data performa dan persepsi publik.
+
 ---
 
 ## Latihan 3 — Problem Quality Check
@@ -139,17 +139,16 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Clarity | 5 | Sangat jelas. Masalah langsung menunjuk pada keluhan spesifik pengguna SeaBank (kebingungan mencari riwayat transaksi & alur deposito) yang akan dievaluasi menggunakan metode Usability Testing dan kuesioner SUS. |
-| Measurability | 4 | Sangat terukur. Variabel yang digunakan memiliki metrik kuantitatif yang jelas: persentase keberhasilan tugas (%), waktu penyelesaian (detik), rasio kesalahan, dan skor SUS (rentang 0-100). |
-| Relevance | 5 | Sangat relevan. Sebagai bank digital murni tanpa kantor cabang (branchless), kelancaran antarmuka (UI/UX) SeaBank adalah kunci utama untuk mempertahankan kepercayaan dan kenyamanan nasabah. |
-| Testability | 4 | Dapat diuji secara faktual dengan mensimulasikan task scenario kepada sampel partisipan (nasabah aktif SeaBank) dan membagikan kuesioner. Berpeluang mematahkan asumsi jika ternyata pengguna bisa menyelesaikannya dengan mudah. |
-| Impact | 5 | Memberikan kontribusi praktis yang nyata. Hasilnya tidak sekadar angka, melainkan temuan akar masalah (pain points) yang dijadikan dasar rekomendasi perbaikan (redesign) antarmuka aplikasi. |
+| Clarity | 5 | Masalah sangat jelas: memvalidasi usability melalui triangulasi data antara performa objektif dan sentimen subjektif pada SeaBank. |
+| Measurability | 5 | Menggunakan metrik kuantitatif terukur yaitu skor SUS, task success rate, waktu, dan klasifikasi sentimen. |
+| Relevance | 5 | Sangat relevan karena aplikasi perbankan digital murni bergantung sepenuhnya pada UI/UX sebagai kanal interaksi nasabah. |
+| Testability | 4 | Dapat diuji melalui eksperimen task scenario dan analisis data sekunder dari Google Play Store. |
+| Impact | 5 | Memberikan kontribusi berupa bukti empiris dan rekomendasi desain berbasis data bagi pihak SeaBank. |
 
-**Skor total:** 23 / 25
+**Skor total:** 24 / 25
 
 **Problem statement versi final (1 paragraf):**
-> Kehadiran bank digital seperti SeaBank menuntut antarmuka pengguna (UI/UX) yang sangat intuitif, mengingat seluruh layanan transaksi dilakukan tanpa intervensi fisik dari kantor cabang. Namun, observasi awal terhadap ulasan pengguna menunjukkan adanya gejala kesulitan dalam bernavigasi, seperti kebingungan saat melacak riwayat transaksi lama dan ketidakpahaman terhadap alur fitur deposito. Kesulitan tersebut mengindikasikan adanya celah pada hirarki informasi yang membebani kognitif pengguna (cognitive load) dan berisiko menurunkan kepercayaan nasabah. Mengingat belum adanya pengukuran empiris terkait kendala tersebut, penelitian ini bertujuan untuk mengevaluasi tingkat kegunaan (usability) aplikasi SeaBank secara kuantitatif melalui metode Usability Testing (mengukur aspek efektivitas dan efisiensi) serta kuesioner System Usability Scale (mengukur tingkat kepuasan). Hasil evaluasi ini akan digunakan sebagai landasan saintifik untuk merumuskan rekomendasi perbaikan desain antarmuka aplikasi SeaBank agar lebih sesuai dengan mental model penggunanya.
-
+> Pergeseran layanan keuangan ke arah bank digital murni menuntut tingkat kebergunaan (usability) antarmuka yang sangat tinggi. Meskipun aplikasi SeaBank memiliki basis pengguna yang besar, muncul banyak keluhan di Google Play Store mengenai kerumitan alur navigasi pada fitur esensial, namun keluhan tersebut belum pernah divalidasi secara empiris melalui pengujian objektif. Adanya kesenjangan antara sentimen publik dan performa nyata pengguna ini menimbulkan ketidakpastian mengenai tingkat kelayakan desain aplikasi tersebut. Oleh karena itu, penelitian ini bertujuan untuk memvalidasi usability aplikasi SeaBank melalui studi komparatif antara pengujian Task Scenario (performa objektif) dan analisis sentimen ulasan publik (persepsi subjektif) guna menghasilkan rekomendasi perbaikan desain antarmuka yang berbasis bukti.
 ---
 
 ## Refleksi
@@ -157,5 +156,4 @@ Evaluasi problem statement yang sudah dibuat menggunakan 5 kriteria.
 > Bandingkan "masalah" yang biasa ditemui saat coding (bug, error) dengan masalah riset. Apa perbedaan fundamental dalam cara mendefinisikan dan mendekati keduanya?
 
 **Jawaban:**
-> Perbedaan fundamentalnya terletak pada tujuan akhir dan batasannya (scope). "Masalah coding" (engineering) seperti bug, syntax error, atau fitur yang gagal dimuat, berorientasi murni pada solusi praktis (solve)—tujuannya adalah bagaimana membuat sistem kembali berfungsi secepat mungkin. Pendekatannya bersifat reaktif dan output-nya adalah sistem yang berjalan (working system).
-> Sebaliknya, "masalah riset" berorientasi pada pemahaman dan pembuktian (understand & prove). Dalam konteks kasus SeaBank, aplikasinya mungkin secara teknis tidak memiliki bug dan berjalan lancar tanpa crash, tetapi pengguna tetap merasa kebingungan. Pendekatan riset tidak langsung bereaksi dengan "merombak kodingan UI", melainkan membuktikan fenomena tersebut secara empiris terlebih dahulu (misal mengukurnya dengan instrumen SUS). Output dari masalah riset bukanlah sekadar "aplikasi yang jalan", melainkan data valid, bukti terukur, dan temuan yang bisa dipertanggungjawabkan secara ilmiah sebelum diimplementasikan menjadi solusi.
+> Masalah coding bertujuan memperbaiki bug agar sistem berjalan (solve), sementara masalah riset bertujuan membuktikan fenomena secara empiris (understand & prove) melalui instrumen ilmiah seperti SUS dan analisis sentimen, bukan sekadar membenahi kode.
