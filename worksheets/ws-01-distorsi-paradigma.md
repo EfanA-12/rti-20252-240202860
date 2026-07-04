@@ -62,25 +62,24 @@ Dalam DSR, artefak **bukan tujuan akhir** — ia adalah instrumen untuk menghasi
 
 ```
 Nama Peneliti    : Efan Aryanto Adli
-Tanggal          : 17 Mei 2026
+Tanggal          : 4 Juli 2026
 
 1. Ketika membaca klaim "metode X 95% akurat":
-   - Pertanyaan pertama saya: Bagaimana tahap Reality → Data dilakukan? Apakah ada sampling bias saat pengumpulan data ujinya?
-   - Data yang dibutuhkan untuk verifikasi: Karakteristik dataset yang digunakan, metode pengujian (misal: jumlah sampel responden), dan baseline yang digunakan sebagai pembanding.
+   - Pertanyaan pertama saya: Bagaimana data ulasan (sentimen publik) diambil? Apakah terjadi sampling bias karena hanya pengguna yang sangat puas atau sangat marah yang memberikan ulasan?  
+   - Data yang dibutuhkan untuk verifikasi: Dataset ulasan mentah dari Google Play Store, tanggal pengambilan data (snapshot), dan metode klasifikasi sentimen yang digunakan untuk memastikan validitasnya.
 
 2. Posisi paradigma:
    - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [X] Mixed (Campuran)
-   - Alasan: Topik riset UI/UX utamanya berfokus pada pengujian kuantitatif (waktu, rasio keberhasilan, skor SUS) yang bersifat Positivis. Namun, pendekatan ini harus dikombinasikan dengan interpretasi keluhan pengguna (Interpretivis) untuk dapat menghasilkan rancangan rekomendasi desain baru (Design Science).
+   - Alasan: Riset ini menggabungkan pendekatan Positivis (pengujian usability terkontrol untuk metrik objektif seperti skor SUS) dengan Interpretivis (analisis sentimen ulasan publik untuk memahami konteks keluhan pengguna secara mendalam).
 
 3. Identifikasi distorsi:
-   - Asumsi tersembunyi: Klaim akurasi/kepuasan tinggi pada suatu aplikasi berlaku secara universal untuk semua profil pengguna di segala kondisi.
-   - Sumber bias potensial: Sampling Bias (sampel terlalu homogen) dan Hawthorne Effect (partisipan berbohong/berperilaku berbeda karena merasa sedang diamati).
-   - Langkah mitigasi: Menerapkan kriteria inklusi sampel yang ketat (beragam usia/profesi) dan memberikan briefing netral agar partisipan tidak merasa sedang diuji kecerdasannya.
+   - Asumsi tersembunyi: Ulasan di Google Play Store mencerminkan opini seluruh basis pengguna SeaBank secara akurat.
+   - Sumber bias potensial: Sampling bias pada data sekunder (ulasan publik) dan Hawthorne effect pada data primer (pengguna merasa diawasi saat task scenario).
+   - Langkah mitigasi: Melakukan triangulasi data (membandingkan temuan dari kedua sumber) untuk memastikan konsistensi hasil, serta menggunakan kriteria inklusi partisipan yang ketat.
 
 4. Komitmen etika:
-   - Data yang tidak akan dimanipulasi: Rekaman durasi waktu (stopwatch), jumlah klik yang salah (error/defect), serta angka kuesioner dari partisipan, meskipun hasilnya buruk atau tidak sesuai harapan (negative result).
-   - Batasan yang diakui sejak awal: Keterbatasan ukuran sampel dan pengkondisian lingkungan uji yang mungkin tidak 100% merefleksikan kepanikan pengguna saat bertransaksi di dunia nyata.
-```
+   - Data yang tidak akan dimanipulasi: Skor mentah SUS dari partisipan dan hasil klasifikasi sentimen dari ulasan Google Play Store, meskipun hasilnya tidak sesuai dengan hipotesis awal.
+   - Batasan yang diakui sejak awal: Keterbatasan akses terhadap log internal perusahaan SeaBank dan ketergantungan pada data publik yang mungkin mengandung noise (cacian atau komentar tidak relevan).
 
 ---
 
@@ -93,8 +92,8 @@ Pilih satu paper riset di bidang TI yang mengklaim "metode X meningkatkan perfor
 > **Contoh domain TI:** "Deteksi anomali lalu-lintas jaringan menggunakan CNN — akurasi meningkat 94% vs baseline SVM 87%." Distorsi potensial: apakah dataset normal/anomali seimbang? Apakah hanya diuji pada satu vendor traffic?
 
 **Paper yang dipilih:**
-> Judul: Evaluasi Usability Aplikasi Mobile Banking BCA dengan menggunakan Usability Testing dan System Usability Scale
-> Penulis (Tahun): Ayu Made Krisna Dewi, Satrio Hadi Wijoyo, Andi Reza Perdanakusuma (2022)
+> Judul: Evaluasi Usability Aplikasi Mobile Banking BCA dengan Menggunakan Usability Testing dan System Usability Scale (Studi Kasus: BCA Kota Singaraja).
+> Penulis (Tahun): Dewi, A. M. K., Wijoyo, S. H., & Perdanakusuma, A. R. (2022).
 > Sumber/Link DOI: https://j-ptiik.ub.ac.id/index.php/j-ptiik/article/view/11640/5168
 
 | Tahap | Apa yang Dilakukan | Potensi Distorsi |
@@ -119,30 +118,30 @@ Skenario: Seorang peneliti menemukan bahwa jika 3 data point outlier dihapus, ha
 
 | Perspektif | Analisis |
 |------------|---------|
-| Kejujuran ilmiah | Menghapus data outlier hanya demi mendapatkan angka yang bagus adalah bentuk manipulasi data (cherry-picking). Peneliti harus jujur melaporkan hasil apa adanya. Mendapatkan negative result (hipotesis tidak terbukti) tetaplah sebuah kontribusi ilmu pengetahuan yang valid. |
-| Transparansi | Jika peneliti memiliki alasan kuat bahwa outlier tersebut adalah "data sampah" (misal: akibat sensor rusak atau human error saat input), ia harus transparan. Cara terbaik adalah melaporkan kedua hasil analisis (dengan dan tanpa outlier) dan menjelaskan alasan metodologis mengapa outlier tersebut dibuang. |
-| Peer review | Menyembunyikan fakta bahwa ada outlier yang dihapus akan membodohi reviewer. Jika manipulasi ini terdeteksi oleh reviewer atau peneliti lain yang mencoba mereplikasi eksperimen, reputasi peneliti akan hancur dan paper berisiko ditarik mundur (retracted). |
+| Kejujuran ilmiah | Peneliti wajib melaporkan hasil apa adanya. Menghapus data outlier secara sengaja hanya untuk mendapatkan nilai "signifikan" (p-value < 0.05) adalah bentuk manipulasi data yang disebut cherry-picking atau p-hacking. |
+| Transparansi | Peneliti harus terbuka mengenai adanya outlier. Jika outlier tersebut memang terjadi karena kesalahan teknis (misal: koneksi internet terputus saat task scenario), maka data tersebut boleh dibuang, namun alasan pembuangannya wajib didokumentasikan secara transparan dalam laporan. |
+| Peer review | Reviewer dan komunitas ilmiah akan menganggap riset tidak kredibel jika data diubah untuk memanipulasi hasil. Jika manipulasi ini terdeteksi, hal ini dapat berujung pada penarikan (retraction) publikasi riset. |
 
 **Keputusan akhir dan justifikasi:**
-> Keputusan: Peneliti tidak boleh menghapus outlier secara diam-diam.Tetapi harus mempublikasikan hasil dengan data utuh yang menunjukkan hasil tidak signifikan. Jika ingin menampilkan versi tanpa outlier, wajib melampirkan kedua versi hasil (dengan dan tanpa outlier) secara eksplisit di dalam jurnal.
-Justifikasi: Tujuan utama riset (research) berbeda dengan rekayasa (engineering). Dalam riset, kegagalan membuktikan hipotesis bukanlah sebuah kegagalan yang harus disembunyikan, melainkan kebenaran (realita) yang harus diungkapkan. Menghilangkan data demi "signifikansi" akan menciptakan pengetahuan palsu (distorted knowledge) yang merugikan peneliti selanjutnya.
+> Keputusan: Peneliti tidak boleh menghapus outlier secara diam-diam. Langkah yang benar adalah menyajikan hasil analisis dengan data utuh. Jika peneliti ingin menampilkan hasil tanpa outlier, ia wajib menyertakan kedua versi analisis (dengan dan tanpa outlier) di dalam proposal atau jurnal sebagai bahan perbandingan bagi pembaca.
+Justifikasi: Tujuan utama riset bukan untuk mencari hasil yang "bagus" atau "signifikan" sesuai keinginan peneliti, melainkan mencari kebenaran empiris. Dalam riset usability SeaBank, data outlier (seperti pengguna yang sangat lambat karena bingung) justru merupakan temuan berharga yang mengungkap friction points nyata, bukan sekadar data sampah yang harus dihilangkan. Menghilangkan data tersebut justru akan menyesatkan pengembang aplikasi dalam melakukan perbaikan desain.
 
 ---
 
 ## Latihan 3 — Posisi Paradigma
 
-**Topik riset:** Evaluasi Usability Sistem Perbankan Digital.
+**Topik riset:** Analisis Validasi Usability Aplikasi SeaBank: Studi Komparatif Antara Eksperimen Task Scenario dan Sentimen Publik Google Play Store.
 
 > **Skala 1–5:** 1 = tidak sesuai sama sekali dengan topik ini, 5 = sangat sesuai dan dominan digunakan pada riset bertopik serupa.
 
 | Kriteria | Positivis | Interpretivis | Design Science |
 |----------|-----------|---------------|----------------|
-| Kesesuaian dengan topik (1–5) | 4 — Sangat cocok karena riset ini mengukur fenomena menggunakan metrik kuantitatif (learnability, efficiency, error rate, skor SUS). | 3 — Cukup sesuai. Paper ini juga melakukan wawancara kualitatif untuk memahami perasaan dan pengalaman kebingungan pengguna (misal: fitur mutasi sulit ditemukan). | 3 — Cukup sesuai. Peneliti tidak membangun sistem dari nol, tetapi mereka menghasilkan artefak berupa prototipe rekomendasi perbaikan UI di akhir studi (misal: menggabungkan menu transfer). |
-| Jenis data yang dikumpulkan | Skor SUS numerik (76.38) , waktu pengerjaan (detik), dan rasio kesalahan (0.41 & 0.16). | Transkrip wawancara mengenai opini dan keluhan nasabah. | Desain mockup antarmuka baru sebagai solusi. |
-| Limitasi paradigma | Terlalu kaku pada angka. Metrik/angka tidak bisa menjelaskan akar masalah secara mendalam (misal: mengapa pengguna bingung pada menu tertentu). Rawan distorsi jika sampel tidak representatif. | Subjektif & sulit digeneralisasi. Sangat bergantung pada penafsiran peneliti. Keluhan 6 orang tidak bisa diukur signifikansinya secara statistik untuk mewakili semua pengguna. | Fokus bisa melenceng ke engineering. Peneliti sering kali hanya sibuk mendesain UI baru (artefak), tapi lupa menguji kembali (memfalsifikasi) apakah desain baru tersebut benar-benar lebih baik dari yang lama secara empiris. |
+| Kesesuaian dengan topik (1–5) | 5 | 4 | 4 |
+| Jenis data yang dikumpulkan | Metrik numerik (skor SUS, Success Rate, Time) | Data kualitatif (teks ulasan/sentimen pengguna) | Artefak (Rekomendasi redesign antarmuka) |
+| Limitasi paradigma | Angka tidak menjelaskan alasan di balik kesulitan pengguna | Sangat subjektif dan sulit untuk divalidasi secara statistik | Fokus bisa bergeser ke teknis daripada evaluasi ilmiah |
 
-**Paradigma yang dipilih:** Campuran (Mixed Methods) dengan dominasi Positivis.
-**Alasan:** Penelitian ini utamanya bertumpu pada pengujian terukur yang menghasilkan data statistik mutlak (seperti skor kepuasan SUS dan waktu penyelesaian dalam goals/sec) untuk mengambil kesimpulan objektif. Namun, ia meminjam sedikit aspek interpretivis (wawancara) dan design science (rekomendasi desain) untuk melengkapi konteks di balik angka-angka tersebut.
+**Paradigma yang dipilih:** Mixed Methods (Campuran)
+**Alasan:** Pendekatan Positivis dominan digunakan karena riset ini mengukur tingkat usability secara objektif melalui eksperimen terkontrol (skor SUS dan Task Success Rate) untuk mendapatkan bukti empiris yang terukur.
 
 ---
 
@@ -151,5 +150,4 @@ Justifikasi: Tujuan utama riset (research) berbeda dengan rekayasa (engineering)
 > Sebelum membaca materi ini, apakah pernah mempertanyakan klaim "95% akurat"? Setelah memahami rantai distorsi, pertanyaan apa yang sekarang akan diajukan saat membaca paper?
 
 **Jawaban:**
-> sebelumnya saya jarang mempertanyakan klaim tersebut. Saat membaca klaim bahwa sebuah model Neural Network atau optimasi dengan Algoritma Genetika mencapai akurasi 95% ke atas, saya cenderung langsung percaya dan menganggap metode itu pasti superior, tanpa memikirkan bagaimana data pengujiannya diproses.
-Setelah memahami rantai distorsi, cara pandang saya berubah. Sekarang, saat membaca paper, pertanyaan pertama yang akan saya ajukan adalah: "Bagaimana tahap Reality → Data dilakukan?" Saya akan mencari tahu apakah ada sampling bias—misalnya, apakah model tersebut diuji menggunakan data yang terlalu seragam, atau apakah peneliti diam-diam membuang data outlier yang membuat akurasinya turun (cherry-picking). Saya juga akan mempertanyakan apakah hasil 95% tersebut valid untuk digeneralisasi (External Validity) jika diterapkan di lingkungan nyata.
+> Dulu, saya menganggap angka dalam riset sebagai kebenaran mutlak tanpa mempertanyakan proses di baliknya. Kini, saya sadar bahwa setiap riset rentan terhadap distorsi di setiap tahap transformasinya. Saat membaca riset atau mengevaluasi usability, saya kini lebih kritis mempertanyakan metode pengambilan sampel dan potensi sampling bias. Dalam riset saya sendiri (Analisis Validasi Usability SeaBank), saya menyadari bahwa data rating Google Play Store memiliki bias signifikan, sehingga saya wajib melakukan triangulasi data agar kesimpulan yang dihasilkan lebih valid dan tidak terjebak dalam generalisasi yang sempit.

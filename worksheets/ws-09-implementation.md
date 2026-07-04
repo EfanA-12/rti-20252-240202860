@@ -73,32 +73,32 @@ Mengandalkan "install library terbaru" berbahaya: versi berbeda = perilaku berbe
 EXPERIMENT SETUP DOCUMENTATION
 
 Hardware:
-  CPU     : ____________________
-  RAM     : ____________________
-  GPU     : ____________________
-  Storage : ____________________
+  CPU     : AMD Ryzen 5 6600H (6 Cores, 12 Threads)
+  RAM     : 16 GB LPDDR5
+  GPU     : AMD Radeon Graphics (Integrated)
+  Storage : 512 GB SSD
 
 Software:
-  OS        : ____________________
-  Runtime   : ____________________
-  Framework : ____________________
+  OS        : Windows 11 Home 64-bit
+  Runtime   : Python 3.10 (atau Microsoft Excel)
+  Framework : Pandas (Data Analysis Library)
 
 Dependencies:
 | Library | Version | Sumber | Hash/Checksum |
 |---------|---------|--------|---------------|
-|         |         |        |               |
-|         |         |        |               |
+|    pandas     |    2.0.3     |    PyPI / pip install pandas    |       N/A (Standard Data Tool)        |
+|    openpyxl     |    3.1.2     |    PyPI / pip install openpyxl    |       N/A (Excel Reader Tool)        |
 
 Konfigurasi:
-  Config file     : ____________________
-  Random seed     : ____________________
-  Hyperparameters : ____________________
+  Config file     : Tugas RTI (Jawaban).xlsx (Berisi raw data dari 5 responden uji coba)
+  Random seed     : N/A (Eksperimen menggunakan metode kalkulasi deterministik mutlak, tidak menggunakan angka acak)
+  Hyperparameters : N/A
 
 Reproducibility Check:
-  [ ] Dependency terdokumentasi (requirements.txt / lock file)
+  [X] Dependency terdokumentasi (requirements.txt / lock file)
   [ ] Seed ditetapkan di semua level (Python, NumPy, framework)
-  [ ] Config di version control
-  [ ] README instruksi reproduksi lengkap
+  [X] Config di version control
+  [X] README instruksi reproduksi lengkap
 ```
 
 ---
