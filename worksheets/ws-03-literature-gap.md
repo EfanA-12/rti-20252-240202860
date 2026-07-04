@@ -77,43 +77,42 @@ Membandingkan deep learning 2024 dengan decision tree sederhana tanpa justifikas
 ```
 LITERATURE MAPPING
 
-Topik      : Evaluasi Tingkat Usability Aplikasi Bank Digital SeaBank Menggunakan Pendekatan Usability Testing dan System Usability Scale (SUS)
-Database   : Google Scholar, IEEE Xplore
-Query      : ("usability testing" OR "System Usability Scale" OR "SUS") AND ("mobile banking" OR "digital bank" OR "SeaBank")
-Tahun      : 2019 - 2024
-Hasil awal : 58 paper → Screening → 5 paper final
-
+Topik      : Analisis Validasi Usability Aplikasi SeaBank (Task Scenario vs Sentimen Publik)
+Database   : Google Scholar, ResearchGate, J-PTIIK
+Query      : ("usability testing" OR "System Usability Scale") AND ("mobile banking" OR "digital banking") AND ("sentiment analysis" OR "google play store")
+Tahun      : 2019-2025
+Hasil awal : 15 paper → Screening → 5 paper final
 Literature Matrix (concept-centric):
 
 | Study | Tahun | Method | Data | Result | Limitation |
 |-------|-------|--------|------|--------|------------|
-| Dewi et al. | 2022 | Task Scenario & SUS | BCA Mobile (6 uji task, 20 SUS) | SUS: 76.38 (Good). Learnability rendah. | Fokus pada nasabah bank konvensional yang bertransisi ke mobile. |
-| Kusumawardhana | 2019 | Usability Testing & SUS | BNI Mobile Banking | SUS: 72.5 (Acceptable). | Tidak mengukur time-based efficiency secara mendetail. |
-| Santoso & Wijaya | 2023 | Kuesioner SUS | Bank Jago (Digital Bank) | SUS: 80.1 (Excellent). | Hanya kuesioner mandiri tanpa observasi Task Scenario. |
-| Pratama et al. | 2021 | Heuristic Evaluation | Aplikasi Jenius | Ditemukan 15 masalah navigasi. | Berbasis evaluator ahli, tidak melibatkan pengguna akhir (nasabah). |
-| Siregar | 2024 | SUS & Wawancara | Aplikasi SeaBank | SUS: 68 (Marginal). | Sampel sangat kecil dan tidak mengukur error rate kuantitatif. |
+| Dewi et al. | 2022 | SUS + Task Scenario | 20 responden | Skor SUS (Good) | Sampling bias lokal |
+| Kusumawardhana | 2019 | SUS + Usability Testing | 30 responden | Skor SUS (Good) | Subjektivitas tinggi |
+| Santoso et al. | 2022 | SUS + Usability Testing | 30 responden | Skor SUS (Good) | Tanpa data sentimen |
+| Setyabudi | 2024 | Sentiment Analysis (KNN) | Ulasan Play Store | Akurasi klasifikasi | Tanpa validasi objektif |
+| Jelni et al. | 2025 | Sentiment Analysis (KNN) | Ulasan Play Store | Klasifikasi sentimen | Tanpa validasi objektif |
 
 Pola yang ditemukan:
-  Metode dominan     : Kuesioner System Usability Scale (SUS) menjadi standar pengukuran kepuasan.
-  Dataset umum       : Aplikasi mobile banking dari bank konvensional (BCA, BNI).
-  Limitasi berulang  : Jarang ada penelitian yang menggabungkan kuantitatif (SUS) dengan observasi langsung (Task Scenario) pada bank digital murni (branchless banking).
+  Metode dominan     : Kombinasi SUS untuk evaluasi objektif dan KNN untuk analisis sentimen.
+  Dataset umum       : Data primer skala kecil (SUS) dan data sekunder ulasan Play Store.
+  Limitasi berulang  : Belum adanya triangulasi antara metode pengujian objektif dan analisis sentimen publik.
 
 GAP IDENTIFICATION
 
-Gap 1: Context Gap
-  Deskripsi    : Sebagian besar literatur usability testing perbankan berfokus pada perbankan konvensional (BCA, BNI) yang memiliki kantor cabang fisik pendukung, bukan bank digital murni seperti SeaBank.
-  Bukti        : Dari literature matrix, penelitian Dewi et al. (2022) dan Kusumawardhana (2019) berfokus pada bank tradisional.
-  Signifikansi : Bank digital murni memiliki UI/UX sebagai satu-satunya titik sentuh (touchpoint) dengan nasabah, sehingga evaluasinya memiliki urgensi dan mental model yang berbeda.
-
-Gap 2: Method Gap
-  Deskripsi    : Penelitian bank digital (seperti Santoso & Wijaya pada Bank Jago) kebanyakan hanya mengandalkan penyebaran kuesioner SUS tanpa mengukur efficiency (goals/sec) dan error rate melalui simulasi task scenario langsung.
-  Bukti        : Santoso & Wijaya (2023) hanya menggunakan kuesioner. Siregar (2024) tidak menghitung error rate.
-  Signifikansi : Menggabungkan Task Scenario (performa objektif) dan SUS (kepuasan subjektif) akan menghasilkan rekomendasi desain antarmuka yang jauh lebih komprehensif dan akurat.
+Gap 1: [Jenis: performance / method / data / context]
+  Deskripsi    : Belum ada triangulasi metode antara performa objektif (Task Scenario) dan sentimen subjektif (ulasan publik).
+  Bukti        : Paper terdahulu hanya menggunakan salah satu pendekatan, bukan gabungan keduanya.
+  Signifikansi : Mengurangi bias dari data subjektif dan meningkatkan akurasi validasi usability.
+Gap 2: [Jenis: Context Gap]
+  Deskripsi    : Belum ada evaluasi komprehensif pada aplikasi perbankan digital murni (branchless banking) seperti SeaBank.
+  Bukti        : Studi sebelumnya mayoritas berfokus pada aplikasi bank konvensional (BCA, BNI, BSI).
+  Signifikansi : Memberikan data empiris untuk perbankan digital yang memiliki perilaku nasabah berbeda.
 
 Baseline Selection:
 | Baseline | Relevansi | Representatif | Source |
 |----------|-----------|---------------|--------|
-| Evaluasi Usability BCA Mobile | Sama-sama mengevaluasi mobile banking dgn kombinasi Task Scenario + SUS | Ya, sangat representatif karena metodenya identik | Dewi et al., 2022 |
+| SUS Scoring | Standar evaluasi usability | Common practice | Dewi et al., 2022 |
+| KNN Sentiment | Analisis ulasan publik | Umum digunakan | Setyabudi, 2024 |
 ```
 
 ---
@@ -127,20 +126,20 @@ Gunakan topik riset dari WS-02. Cari minimal 5 paper relevan menggunakan databas
 > - Tulis query Boolean yang digunakan: contoh `("object detection" OR "image classification") AND ("edge computing") NOT ("medical")`. Dokumentasikan query secara eksplisit.
 > - Akses gratis: buka Google Scholar → cari judul paper → klik [PDF] jika tersedia, atau akses lewat campus VPN
 
-**Topik riset:** Evaluasi Usability Aplikasi Bank Digital SeaBank (Task Scenario & SUS)
-**Query pencarian:** "usability testing" OR "System Usability Scale" OR "SUS" dan "mobile banking" OR "digital bank" OR "SeaBank"
+**Topik riset:** Analisis Validasi Usability Aplikasi SeaBank: Studi Komparatif Antara Eksperimen Task Scenario dan Sentimen Publik Google Play Store.
+**Query pencarian:** ("usability testing" OR "System Usability Scale") AND ("mobile banking" OR "digital banking") AND ("sentiment analysis" OR "google play store").
 **Database:** Google Scholar
-
 | # | Study | Tahun | Method | Dataset | Result | Limitasi |
 |---|-------|-------|--------|---------|--------|----------|
-| 1 | Dewi et al. | 2022 | Task Scenario & SUS | BCA Mobile (6 pengguna task, 20 kuesioner) | Skor SUS 76.38 (Acceptable). | Subjek adalah bank konvensional berskala raksasa, bukan bank digital murni. |
-| 2 | Kusumawardhana | 2019 | Usability Testing & SUS | BNI Mobile Banking | Skor SUS 72.5 (Acceptable). | Tidak mengukur kecepatan (time-based efficiency) saat pengguna mengeksekusi tugas. |
-| 3 | Santoso & Wijaya | 2023 | Kuesioner SUS kuantitatif | Bank Jago (Digital Bank) | Skor SUS 80.1 (Excellent). | Hanya menggunakan kuesioner evaluasi diri tanpa adanya pengujian skenario terukur. |
-| 4 | Pratama et al. | 2021 | Heuristic Evaluation | Aplikasi Jenius (Bank BTPN) | Ditemukan 15 isu navigasi UI. | Evaluasi dilakukan oleh ahli/desainer UI, tidak mewakili cognitive load nasabah asli. |
-| 5 | Siregar | 2024 | SUS & Wawancara bebas | Aplikasi SeaBank | Skor SUS 68 (Marginal). | Tidak menghitung error rate rasio kesalahan klik secara kuantitatif. |
+| 1 | Dewi et al. | 2022 | SUS + Task Scenario | 20 responden (BCA) | Skor SUS (Good) | Sampling bias lokal |
+| 2 | Kusumawardhana et al. | 2019 | SUS + Usability Testing | 30 responden (BNI) | Skor SUS (Good) | Subjektivitas tinggi |
+| 3 | Santoso et al. | 2022 | SUS + Usability Testing | 30 responden (BSI) | Skor SUS (Good) | Tanpa data sentimen |
+| 4 | Setyabudi   | 2024 | Sentiment Analysis (KNN) | Ulasan Play Store | Akurasi sentiment | Hanya sentimen publik |
+| 5 | Jelni et al.   | 2025 | Sentiment Analysis (KNN) | Ulasan Play Store   | Klasifikasi sentimen | Tanpa validasi objektif |
 
-**Pola yang terlihat — Metode dominan:** Penggunaan System Usability Scale (SUS) sebagai alat ukur kepuasan akhir (satisfaction).
-**Limitasi yang berulang:** Mayoritas studi hanya menyebar kuesioner tanpa melakukan observasi task scenario untuk melihat langsung metrik penyelesaian tugas (kecepatan & jumlah error).
+**Pola yang terlihat — Metode dominan:** Penggunaan System Usability Scale (SUS) sebagai standar evaluasi objektif dan K-Nearest Neighbor (KNN) sebagai metode analisis sentimen pada data sekunder.
+**Limitasi yang berulang:** Mayoritas studi hanya terfokus pada salah satu pendekatan (objektif atau subjektif) secara terpisah, sehingga tidak terdapat triangulasi untuk memvalidasi usability secara utuh.  
+
 ---
 
 ## Latihan 2 — Gap Identification
@@ -150,14 +149,13 @@ Berdasarkan tabel di Latihan 1, identifikasi gap.
 | Jenis Gap | Ditemukan? | Gap Statement |
 |-----------|-----------|---------------|
 | Performance Gap | [ ] Ya / [X] Tidak | - |
-| Method Gap | [X] Ya / [ ] Tidak | Penelitian bank digital murni jarang memadukan kuesioner SUS dengan observasi Task Scenario secara bersamaan untuk mengukur efficiency dan error rate. |
+| Method Gap | [X] Ya / [ ] Tidak | Belum ada studi yang melakukan triangulasi antara pengujian usability objektif (Task Scenario) dengan analisis sentimen publik secara komprehensif pada aplikasi perbankan digital. |
 | Data Gap | [ ] Ya / [X] Tidak | - |
-| Context Gap | [X] Ya / [ ] Tidak | Fokus evaluasi literatur saat ini didominasi oleh perbankan konvensional yang beralih ke mobile, bukan pada aplikasi branchless digital bank (seperti SeaBank) di mana UI adalah ujung tombak tunggal. |
+| Context Gap | [X] Ya / [ ] Tidak | Mayoritas studi terdahulu berfokus pada aplikasi bank konvensional (BCA, BNI, BSI), sehingga belum ada evaluasi mendalam pada ekosistem branchless banking (SeaBank) di Indonesia. |
 
-**Gap utama yang dipilih:** Context Gap & Method Gap (Kombinasi).
+**Gap utama yang dipilih:** Methodological Triangulation Gap (penggabungan metode objektif dan subjektif).
 **Mengapa gap ini penting (bukan sekadar "belum ada yang meneliti")?**
-> Karena mental model pengguna bank digital murni berbeda dengan bank konvensional. Jika bank konvensional error, nasabah bisa datang ke kantor cabang. Pada bank digital (SeaBank), jika UI membingungkan, transaksi gagal total. Oleh karena itu, sekadar menyebar kuesioner (seperti studi sebelumnya) tidak cukup; diperlukan metode kombinasi antara simulasi Task Scenario (untuk melihat kebingungan objektif) dan SUS (untuk persepsi subjektif) pada konteks branchless banking.
-
+> Gap ini penting karena pengujian usability yang hanya mengandalkan data subjektif (kuesioner/ulasan) rentan terhadap bias persepsi, sedangkan pengujian yang hanya mengandalkan task scenario terbatas pada skenario yang ditentukan peneliti. Dengan menggabungkan kedua metode tersebut, riset ini dapat memberikan validasi yang lebih kuat, akurat, dan representatif terhadap perilaku nasabah di perbankan digital, yang pada akhirnya menghasilkan rekomendasi desain antarmuka yang benar-benar berbasis bukti (data-driven).
 ---
 
 ## Latihan 3 — Baseline Selection
@@ -166,11 +164,11 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 
 | # | Baseline | Mengapa Relevan | Mengapa Representatif | Apakah SOTA? | Sumber |
 |---|----------|----------------|----------------------|-------------|--------|
-| 1 | Evaluasi BCA Mobile (Task + SUS) | Domain sama (mobile banking), metode identik (Task Scenario + SUS). | Merupakan common practice evaluasi UI/UX aplikasi perbankan lokal yang solid. | Bukan SOTA algoritma, tapi metodologi evaluasi standar. | Dewi et al., 2022 |
-| 2 | Evaluasi Bank Jago (SUS saja) | Domain paling mirip (Digital Bank). | Sering menjadi referensi utama mahasiswa dalam mengukur aplikasi keuangan. | Bukan SOTA | Santoso & Wijaya, 2023 |
+| 1 | System Usability Scale (SUS) | Mengukur tingkat kepuasan pengguna secara kuantitatif dalam riset usability. | Merupakan instrumen standar yang digunakan secara global dalam banyak studi mobile banking. | Ya (Benchmark) | Dewi et al., 2022 |
+| 2 | K-Nearest Neighbor (KNN) | Digunakan untuk mengklasifikasikan sentimen ulasan publik secara otomatis. | Metode yang lazim digunakan untuk klasifikasi teks pada data ulasan Google Play Store. | Tidak | Setyabudi, 2024 |
 
-**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [X] Tidak
-> Justifikasi: Baseline yang dipilih bukanlah metode yang sengaja dilemahkan. Baseline Dewi et al. (2022) justru adalah salah satu jurnal referensi yang kuat karena metodologinya lengkap. Menggunakan penelitian mereka sebagai landasan (baseline) akan memastikan pengujian SeaBank ini memenuhi standar evaluasi industri yang sama.
+**Apakah pemilihan baseline ini bisa dianggap straw man?** [ ] Ya / [ ] Tidak
+> Justifikasi: Pemilihan baseline ini bukan merupakan straw man karena menggunakan instrumen yang diakui secara luas dalam literatur ilmiah. System Usability Scale (SUS) adalah standar emas (gold standard) dalam evaluasi usability objektif, sementara algoritma KNN dipilih karena efektivitasnya yang terbukti dalam klasifikasi sentimen pada riset sejenis. Penggunaan baseline ini bertujuan untuk memastikan validitas hasil riset, bukan untuk melemahkan perbandingan agar metode saya terlihat lebih unggul secara artifisial.
 
 ---
 
@@ -179,6 +177,4 @@ Pilih 2 baseline dari literatur yang sudah dibaca.
 > Apa perbedaan antara "belum ada yang meneliti ini" (klaim tanpa bukti) dengan research gap yang valid? Bagaimana cara membuktikan bahwa sebuah gap benar-benar ada?
 
 **Jawaban:**
-> Klaim "belum ada yang meneliti ini" biasanya muncul dari asumsi pribadi atau rasa malas mencari paper (solution-first thinking). Seringkali, topiknya sebenarnya sudah banyak diteliti, hanya saja menggunakan istilah kunci yang berbeda.
-
-Sebaliknya, sebuah research gap yang valid adalah posisi yang dibangun setelah membaca batas-batas pengetahuan saat ini. Cara membuktikannya adalah melalui metode Systematic Search (pencarian dengan Query Boolean) dan pemetaan Concept-centric (seperti Literature Matrix). Dengan memetakan apa yang sudah dilakukan oleh penelitian kita bisa membuktikan secara tertulis dan empiris letak "lubang" (gap) yang luput dari penelitian mereka, baik itu dari segi metode yang kurang lengkap, data yang bias, atau konteks sistem yang berbeda
+> Dulu saya menganggap literature review sekadar merangkum paper dan "belum ada yang meneliti" sebagai celah riset. Kini saya sadar bahwa riset yang valid harus berbasis concept-centric dan research gap harus dibuktikan melalui pemetaan literatur sistematis agar novelty riset teruji secara ilmiah.
