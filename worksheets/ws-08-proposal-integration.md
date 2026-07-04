@@ -26,8 +26,20 @@ Problem (Bab 2) → Gap (Bab 3) → RQ & H (Bab 4) → Metrik (Bab 5) → Sistem
 
 ### Koherensi Vertikal + Horizontal
 
-- **Vertikal** — Alur logis atas-ke-bawah (problem → experiment)
+- **Vertikal** — Alur logis atas-ke-bawah (problem → experiment). Setiap section menjawab pertanyaan yang diangkat section sebelumnya dan memunculkan pertanyaan baru.
 - **Horizontal** — Konsistensi terminologi (nama variabel di RQ = di hipotesis = di metrik = di desain)
+
+**Operasionalisasi Red Thread** (benang merah):
+```
+Bab 2 (Problem) → | memperkenalkan masalah X + evidensi |
+                          ↓ menimbulkan pertanyaan: "apa akar gap-nya?"
+Bab 3 (Gap)     → | menjawab pertanyaan tadi + membuka "lalu apa yang perlu diteliti?" |
+                          ↓
+Bab 4 (RQ/H)    → | menjawab gap dengan pertanyaan spesifik + prediksi terukur |
+                          ↓
+Bab 5-7 (Method)→ | menjawab RQ melalui desain eksperimen yang tepat |
+```
+Jika ada lompatan (section B tidak menjawab pertanyaan section A), red thread putus.
 
 ### Jebakan Kognitif
 
@@ -73,13 +85,20 @@ Koneksi Horizontal (Konsistensi):
   [X] Variabel di RQ = variabel di hipotesis = metrik di desain
   [X] Scope tidak berubah dari masalah ke eksperimen
 
+Cognitive Trap Checklist:
+  [X] Tidak ada paragraf "promosi" di pendahuluan (hanya data & gap)
+  [X] Metodologi disesuaikan ke RQ, bukan copy-paste textbook
+  [X] Timeline sudah ditambah buffer 30-50% dari estimasi awal
+  [X] Proposal mengakui kemungkinan H0 tidak ditolak (honest uncertainty)
+  [X] Tidak ada klaim "pasti berhasil" atau "meningkatkan signifikan"
+
 Rubrik Self-Assessment:
 | Kriteria | 1 (Lemah) | 2 (Cukup) | 3 (Baik) | Skor |
 |----------|-----------|-----------|----------|------|
 | Koherensi |          |           |     X     |      |
 | Specificity |        |           |     X     |      |
-| Feasibility |        |      X     |          |      |
-| Rigor     |          |      X     |          |      |
+| Feasibility |        |           |     X     |      |
+| Rigor     |          |           |     X     |      |
 ```
 
 ---
@@ -90,13 +109,13 @@ Kumpulkan hasil dari WS-02 sampai WS-07 menjadi satu ringkasan proposal.
 
 | Komponen | Sumber | Isi (1-2 kalimat) |
 |----------|--------|-------------------|
-| Problem Statement | WS-02 | Nasabah SeaBank mengalami kebingungan navigasi pada fitur esensial (riwayat transaksi dan deposito) yang memicu beban kognitif tinggi dan berisiko menurunkan kepercayaan pengguna. |
-| Gap | WS-03 | Belum banyak evaluasi pada bank digital murni (branchless banking) yang memadukan pengujian observasi unjuk kerja (Task Scenario) secara bersamaan dengan kuesioner baku (SUS). |
-| RQ | WS-04 | Apakah tingkat kepuasan (berdasarkan System Usability Scale) dan tingkat keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank secara signifikan melampaui standar kelayakan rata-rata industri (SUS > 68)? |
-| Hipotesis | WS-04 | Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank secara signifikan melampaui ambang batas standar kelayakan (Skor SUS > 68). |
-| Variabel & Metrik | WS-05 | Variabel Independen (IV) = Antarmuka Aplikasi (UI/UX) SeaBank; Variabel Dependen (DV) = Tingkat Usability dengan metrik Task Success Rate (%), Time-based Efficiency (detik), dan Skor SUS (0-100 poin). |
-| Sistem | WS-06 | Sistem yang diuji adalah aplikasi mobile SeaBank versi produksi terbaru dengan fokus pada modul pencarian mutasi dan simulasi deposito, diuji menggunakan gawai di lingkungan laboratorium yang terkontrol. |
-| Desain Eksperimen | WS-07 | Eksperimen komparatif di mana performa antarmuka SeaBank (kondisi intervensi) diukur lewat 3 Task Scenario pada 6 partisipan dan kuesioner SUS pada 30 responden, lalu dibandingkan dengan baseline kelayakan global (kondisi kontrol SUS > 68) menggunakan uji One-Sample T-Test. |
+| Problem Statement | WS-02 | Terdapat banyak keluhan UI/UX mengenai aplikasi SeaBank di ulasan Play Store, namun keluhan tersebut belum pernah divalidasi kebenarannya melalui pengujian usability yang objektif. |
+| Gap | WS-03 | Belum ada studi yang melakukan triangulasi metode antara analisis sentimen publik secara real-time dengan pengujian performa usability secara eksperimental pada aplikasi branchless banking. |
+| RQ | WS-04 | Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif (K-NN) di Play Store dengan metrik objektif (Skor SUS & Task Success Rate) pada aplikasi SeaBank? |
+| Hipotesis | WS-04 | H₁: Terdapat korelasi yang signifikan (p-value < 0.05) antara rasio sentimen ulasan publik dengan performa usability objektif pada SeaBank. |
+| Variabel & Metrik | WS-05 | IV = Sentimen Publik (Rasio %); DV = Performa Objektif (Skor SUS & Persentase Success Rate). |
+| Sistem | WS-06 | Skrip Python pemroses NLP (K-NN) untuk membedah data ulasan, dan platform kuesioner otomatis untuk merekam skor SUS dari partisipan eksperimen. |
+| Desain Eksperimen | WS-07 | Studi komparatif/korelasional antara data 1000+ ulasan (periode X) dengan hasil uji 30 partisipan (versi aplikasi yang sama) menggunakan uji korelasi Spearman. |
 
 ---
 
@@ -106,16 +125,16 @@ Verifikasi 6 koneksi kritis. Isi dengan merujuk tabel di Latihan 1.
 
 | Koneksi | Status | Bukti |
 |---------|--------|-------|
-| Problem → Gap | ✅ | Gap muncul dari tinjauan 15 literatur nasional yang terbukti hanya menggunakan survei afektif (UEQ/PIECES) tanpa task scenario pada branchless banking. |
-| Gap → RQ | ✅ | RQ secara langsung menanyakan pengukuran metrik objektif (success rate) dan subjektif (SUS) yang hilang di studi sebelumnya. |
-| RQ → Hypothesis | ✅ | memprediksi bahwa nilai dari pengujian SUS akan melampaui standar (skor > 68) yang ditanyakan pada RQ. |
-| Hypothesis → Metric | ✅ | Hipotesis secara spesifik menyebutkan "Skor SUS", yang mana merupakan metrik yang diukur dengan skala 0-100 poin. |
-| Metric → System | ✅ | Metrik waktu (detik) dan success rate (%) dihasilkan langsung dari observasi interaksi pengguna dengan sistem (Aplikasi SeaBank) menggunakan screen recorder. |
-| System → Experiment | ✅ | Desain eksperimen menggunakan skenario uji (3 Task Scenario) yang mengharuskan partisipan berinteraksi langsung dengan sistem aplikasi SeaBank. |
+| Problem → Gap | ✅ | Keluhan pengguna tidak tervalidasi → Dibuktikan di literatur bahwa triangulasi belum pernah dilakukan. |
+| Gap → RQ | ✅ | Celah triangulasi langsung dijawab oleh rumusan masalah yang membandingkan/mengkorelasi metode subjektif (Sentimen) vs objektif (SUS). |
+| RQ → Hypothesis | ✅ | Pertanyaan korelasi diwujudkan dalam prediksi H₁ yang terukur dengan threshold p-value < 0.05. |
+| Hypothesis → Metric | ✅ | Metrik dikunci: p-value didapat dari uji korelasi antara skor Sentimen K-NN (Ratio) dan Skor SUS (Interval). |
+| Metric → System | ✅ | Skor K-NN (rasio sentimen) dihasilkan oleh skrip Python, skor SUS dikalkulasi otomatis oleh form kuesioner. |
+| System → Experiment | ✅ | Eksperimen dilakukan dengan mengambil output algoritma (skrip) dan membenturkannya dengan output usability testing di lingkungan yang terkontrol (versi aplikasi yang sama). |
 
-**Koneksi mana yang paling lemah?** 
+**Koneksi mana yang paling lemah?** System → Experiment.
 **Bagaimana cara memperkuatnya?**
-> Koneksi yang mungkin paling rentan adalah "Metric → System" karena metrik waktu sangat bergantung pada latensi jaringan aplikasi saat diuji. Cara memperkuatnya adalah dengan memastikan variabel kontrol (seperti kecepatan Wi-Fi dan spesifikasi smartphone) benar-benar dijaga ketat (konstan) selama eksperimen berlangsung.
+> Memastikan bahwa data ulasan Play Store yang disedot algoritma K-NN benar-benar direntang waktu yang identik dengan versi UI aplikasi yang digunakan partisipan saat eksperimen usability, agar perbandingannya benar-benar apple-to-apple.
 
 **Konsistensi horizontal — apakah istilah dan scope konsisten?** [X] Ya / [ ] Tidak
 > Jika tidak, di bagian mana terjadi inkonsistensi? _________
@@ -128,12 +147,12 @@ Evaluasi proposal mini menggunakan rubrik.
 
 | Kriteria | Skor (1-3) | Justifikasi |
 |----------|-----------|-------------|
-| Koherensi | 3 | Alur logika dari rumusan masalah (beban kognitif pada antarmuka) hingga ke pemilihan metode pengujian (Task Scenario & SUS) sangat jelas, selaras, dan terhubung erat tanpa ada lompatan asumsi. |
-| Specificity | 3 | Variabel dan metrik pengukuran telah didefinisikan dengan sangat spesifik dalam batasan angka pasti, yaitu Task Success Rate (%), Waktu Eksekusi (maksimal 180 detik), dan target Skor SUS (> 68). |
-| Feasibility | 2 | Eksperimen cukup layak dijalankan, namun tantangan teknis berada pada proses rekrutmen. Mencari 6 partisipan purposive dan 30 responden aktif SeaBank (non-IT, usia 18-40 tahun) di wilayah Kebumen yang bersedia meluangkan waktu untuk uji lab terkontrol dalam batas waktu 8 minggu membutuhkan usaha ekstra. |
-| Rigor | 2 | Ketelitian metode sudah cukup baik dengan adanya penetapan Control Variable (Wi-Fi & HP konstan) dan uji T-Test. Namun, skalanya masih terbatas karena pengujian Task Scenario hanya menggunakan 6 sampel dan belum menggunakan alat rekam jejak kognitif tingkat lanjut (seperti eye-tracking). |
+| Koherensi | 3 | Seluruh koneksi dari perumusan masalah (SeaBank) hingga metode korelasi sudah mengalir menjadi satu argumen utuh. |
+| Specificity | 3 | Metrik sudah memiliki angka yang konkret: rasio sentimen (%), Skor SUS (0-100), dan threshold p-value (0.05). |
+| Feasibility | 3 | Desain eksperimen menggunakan 30 partisipan dan analisis data sekunder sangat relevan diselesaikan dalam kurun waktu 1-3 bulan (timeline realistis). |
+| Rigor | 3 | Menggunakan baseline instrumen baku (System Usability Scale) dan metode yang direplikasi dari kondisi State-of-the-Art. |
 
-**Skor total:** 10 / 12
+**Skor total:** 12 / 12
 
 **Apakah proposal siap untuk fase eksekusi?** [X] Ya / [ ] Belum
 > Jika belum, apa yang perlu diperbaiki? __________________
@@ -144,7 +163,7 @@ Evaluasi proposal mini menggunakan rubrik.
 
 > Dari seluruh proses WS-01 sampai WS-08, bagian mana yang paling mudah dan paling sulit? Mengapa? Apa yang akan dilakukan berbeda jika mengulang dari awal?
 
-**Bagian termudah:** Mengidentifikasi masalah awal (Problem Statement) dan menentukan sistem yang diuji (WS-02 & WS-06). Alasannya karena objek penelitian (SeaBank) sangat dekat dengan keseharian, dan bukti empiris berupa keluhan pengguna terkait kebingungan navigasi fitur mutasi dan deposito sangat mudah ditemukan di forum maupun ulasan aplikasi.
-**Bagian tersulit:** Merumuskan Research Gap (WS-03) dan menurunkannya menjadi Desain Eksperimen yang ketat (WS-07). Sangat sulit untuk memastikan bahwa metrik yang dipilih (Task Success Rate dan batas waktu 180 detik) benar-benar bisa mengukur beban kognitif secara objektif. Selain itu, merangkai State of the Art agar riset ini terlihat berbeda dari 15 jurnal sebelumnya (yang mayoritas hanya memakai kuesioner tanpa observasi langsung) membutuhkan pemikiran analitis yang sangat menguras tenaga.
+**Bagian termudah:** Mengidentifikasi masalah (Problem Statement) pada WS-02, karena fenomena terkait keluhan aplikasi perbankan digital sangat nyata dan mudah ditemukan symptom-nya secara empiris.
+**Bagian tersulit:** Merumuskan desain sistem ke dalam eksperimen (System-Experiment Mapping di WS-06 dan WS-07), karena saya harus mengubah pola pikir engineering (membuat produk) menjadi pola pikir research (membuat instrumen pembuktian/artefak).
 **Yang akan dilakukan berbeda:**
-> Jika mengulang dari awal, saya akan mengumpulkan, membaca, dan membedah jurnal referensi secara lebih mendalam sejak WS-01, lalu langsung memasukkannya ke dalam tabel Concept-Centric Matrix. Pada pengerjaan kemarin, pencarian literatur dan penentuan baseline (seperti skor SUS > 68) baru dilakukan belakangan, sehingga saya harus beberapa kali membongkar ulang rumusan Gap dan Hipotesis agar logika proposalnya tidak saling bertabrakan. Selain itu, saya mungkin akan melakukan pilot test (uji coba kecil) skenario tugas ke satu orang teman terlebih dahulu sebelum mengunci desain eksperimen.
+> Saya akan menghabiskan lebih banyak waktu di tahap Literature Mapping (WS-03) untuk benar-benar mencari State-of-the-Art yang paling presisi. Awalnya saya sempat kesulitan merumuskan baseline sebelum mengadopsi System Usability Scale, karena sering terjebak membandingkan dengan metode yang lemah (straw man comparison). Ke depannya, saya akan lebih ketat dalam menyusun Boolean query untuk mencari literatur yang benar-benar relevan sebelum melangkah ke penentuan variabel.
