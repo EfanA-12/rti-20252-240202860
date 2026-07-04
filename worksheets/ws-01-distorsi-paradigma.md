@@ -69,17 +69,17 @@ Tanggal          : 4 Juli 2026
    - Data yang dibutuhkan untuk verifikasi: Dataset ulasan mentah dari Google Play Store, tanggal pengambilan data (snapshot), dan metode klasifikasi sentimen yang digunakan untuk memastikan validitasnya.
 
 2. Posisi paradigma:
-   - Pendekatan: [ ] Positivis  [ ] Interpretivis  [ ] Design Science  [X] Mixed (Campuran)
-   - Alasan: Riset ini menggabungkan pendekatan Positivis (pengujian usability terkontrol untuk metrik objektif seperti skor SUS) dengan Interpretivis (analisis sentimen ulasan publik untuk memahami konteks keluhan pengguna secara mendalam).
+   - Pendekatan: [X] Positivis  [ ] Interpretivis  [ ] Design Science  [ ] Mixed (Campuran)
+   - Alasan: Riset ini menggunakan pendekatan murni Positivis karena bertujuan mengukur dan mengevaluasi kinerja dua algoritma Machine Learning (K-NN untuk sentimen dan LDA untuk pemodelan topik) secara objektif dan terukur menggunakan metrik statistik performa (Accuracy, F1-Score, Coherence Score) pada data sekunder ulasan Play Store.
 
 3. Identifikasi distorsi:
-   - Asumsi tersembunyi: Ulasan di Google Play Store mencerminkan opini seluruh basis pengguna SeaBank secara akurat.
-   - Sumber bias potensial: Sampling bias pada data sekunder (ulasan publik) dan Hawthorne effect pada data primer (pengguna merasa diawasi saat task scenario).
-   - Langkah mitigasi: Melakukan triangulasi data (membandingkan temuan dari kedua sumber) untuk memastikan konsistensi hasil, serta menggunakan kriteria inklusi partisipan yang ketat.
+   - Asumsi tersembunyi: Bahwa teks ulasan di Google Play Store benar-benar ditulis oleh manusia, bukan bot atau buzzer yang dimobilisasi untuk memanipulasi rating aplikasi.
+   - Sumber bias potensial: Sampling bias dari algoritma scraping, serta Selection bias di mana pengguna yang kecewa lebih termotivasi menulis ulasan panjang (mengandung banyak kata kunci untuk LDA) dibandingkan pengguna yang puas.
+   - Langkah mitigasi: Menerapkan tahap text preprocessing yang sangat ketat (menghapus duplikasi teks spam, bot, dan rating bintang 5 yang tidak memiliki isi teks yang bermakna) sebelum data dimasukkan ke dalam model latih K-NN.
 
 4. Komitmen etika:
-   - Data yang tidak akan dimanipulasi: Skor mentah SUS dari partisipan dan hasil klasifikasi sentimen dari ulasan Google Play Store, meskipun hasilnya tidak sesuai dengan hipotesis awal.
-   - Batasan yang diakui sejak awal: Keterbatasan akses terhadap log internal perusahaan SeaBank dan ketergantungan pada data publik yang mungkin mengandung noise (cacian atau komentar tidak relevan).
+   - Data yang tidak akan dimanipulasi: Rasio akurasi akhir dari K-NN dan metrik Coherence Score dari LDA, meskipun hasilnya ternyata menunjukkan bahwa model kesulitan memilah topik (hasil tidak signifikan).
+   - Batasan yang diakui sejak awal: Data sekunder yang bersifat unstructured dan penuh dengan slang, singkatan, serta bahasa sarkasme khas netizen Indonesia yang sangat rentan menyebabkan misklasifikasi pada mesin.
 
 ---
 
@@ -92,16 +92,16 @@ Pilih satu paper riset di bidang TI yang mengklaim "metode X meningkatkan perfor
 > **Contoh domain TI:** "Deteksi anomali lalu-lintas jaringan menggunakan CNN — akurasi meningkat 94% vs baseline SVM 87%." Distorsi potensial: apakah dataset normal/anomali seimbang? Apakah hanya diuji pada satu vendor traffic?
 
 **Paper yang dipilih:**
-> Judul: Evaluasi Usability Aplikasi Mobile Banking BCA dengan Menggunakan Usability Testing dan System Usability Scale (Studi Kasus: BCA Kota Singaraja).
-> Penulis (Tahun): Dewi, A. M. K., Wijoyo, S. H., & Perdanakusuma, A. R. (2022).
-> Sumber/Link DOI: https://j-ptiik.ub.ac.id/index.php/j-ptiik/article/view/11640/5168
+> Judul: Evaluasi ANALISIS SENTIMEN KEPUASAN PENGGUNA BANK SAQU PADA   ULASAN GOOGLE PLAY STORE MENGGUNAKAN ALGORITMA K-NN DAN LEXICON BASED
+> Penulis (Tahun): Dwi Setyabudi1, Sri Mulyati2*, Purwanto3 
+> Sumber/Link DOI: https://journal.budiluhur.ac.id/bit/article/view/3948/1759
 
 | Tahap | Apa yang Dilakukan | Potensi Distorsi |
 |-------|-------------------|-----------------|
-| Reality → Data | Mengumpulkan data evaluasi task scenario (penggunaan aplikasi) dari 6 partisipan dan kuesioner SUS dari 20 responden nasabah BCA Kota Singaraja. | Sampling Bias: Jumlah sampel sangat kecil (hanya 6 orang untuk uji task dan 20 orang untuk SUS) dan hanya terbatas pada demografi nasabah BCA di Kota Singaraja. Apakah ini bisa merepresentasikan jutaan pengguna BCA Mobile di seluruh Indonesia? |
-| Data → Processing | Menghitung Learnability menggunakan rumus Success Rate, di mana tugas yang selesai sebagian (P) tetap diberi bobot nilai setengah (0.5). | Construct Validity: Pemberian bobot 0.5 untuk partial success bisa mendistorsi realita; di dunia nyata perbankan, transfer yang hanya "setengah berhasil" mungkin sama fatalnya dengan gagal total. |
-| Processing → Analysis | Menganalisis error rate yang didapat (0.41 untuk kelompok 1 dan 0.16 untuk kelompok 2) dan membandingkannya dengan nilai rata-rata kesalahan Sauro (0.7). Mengonversi skor SUS menjadi metrik kualitatif | Penggunaan benchmark (acuan) yang kurang pas. Peneliti menggunakan batas toleransi kesalahan aplikasi umum (Sauro, 2012) untuk mengevaluasi aplikasi finansial. |
-| Analysis → Inference | Menarik kesimpulan (inference) bahwa karena skor error rate (0.41 dan 0.16) berada di bawah angka 0.7, maka tingkat error pada aplikasi BCA Mobile "masih tergolong kecil". | Construct Validity: Menyimpulkan bahwa error "tergolong kecil" dalam konteks perbankan bisa sangat menyesatkan. Melakukan 4 kesalahan dari 10 langkah di aplikasi mobile banking berisiko fatal (salah transfer/nominal), sehingga threshold (ambang batas) kesuksesannya tidak bisa disamakan dengan aplikasi biasa. |
+| Reality → Data | Mengumpulkan 500 ulasan dari Google Play Store pada rentang waktu Januari - Maret. | Sampling Bias: 500 ulasan mungkin terlalu kecil untuk melatih model ML yang stabil, dan rentang waktu yang terlalu sempit mungkin tidak menangkap update aplikasi yang menyebabkan bug. |
+| Data → Processing | Melakukan stemming dan menghapus semua kata hubung (stopword). | Construct Validity: Menghapus stopword tanpa filter khusus bisa menghilangkan makna kalimat. Misalnya, penghapusan kata "tidak" dapat mengubah sentimen kalimat "Saya tidak suka aplikasi ini" menjadi "Saya suka aplikasi ini" yang menyesatkan K-NN. |
+| Processing → Analysis | Menggunakan algoritma K-NN dengan nilai K=3 sebagai nilai mutlak (default) tanpa melakukan iterasi optimasi parameter. | Analysis Bias: Pemilihan K=3 yang arbiter tanpa justifikasi empiris bisa membuat model terlalu sensitif terhadap noise di ulasan yang tidak terstruktur. |
+| Analysis → Inference | Menyimpulkan bahwa K-NN memiliki akurasi 82% dan sangat layak digunakan untuk analisis sentimen. | Overstatement: Klaim "sangat layak" terlalu berlebihan jika akurasi 82% tersebut didapat dari data uji (test set) yang sangat kecil atau data yang sudah di-cherry-pick. |
 | Inference → Knowledge | Menghasilkan pengetahuan/solusi baru berupa 4 rekomendasi perubahan desain UI (misal: menggabungkan menu daftar transfer dan menu transfer menjadi 1 halaman). Peneliti menetapkan ini sebagai solusi mutlak perbaikan usability. | Overgeneralization & Lack of Validation: Peneliti menjadikan keluhan 6 orang sebagai landasan untuk merombak UI. Padahal, mengubah struktur menu secara drastis bisa menghancurkan mental model (kebiasaan) jutaan nasabah lama BCA yang sudah hafal di luar kepala. Selain itu, desain baru tersebut diusulkan tanpa diuji kembali (A/B testing) untuk membuktikan klaim bahwa desain itu "lebih baik". |
 
 **Distorsi paling besar di tahap:** Reality → Data (Pengambilan Sampel).
@@ -130,18 +130,18 @@ Justifikasi: Tujuan utama riset bukan untuk mencari hasil yang "bagus" atau "sig
 
 ## Latihan 3 — Posisi Paradigma
 
-**Topik riset:** Analisis Validasi Usability Aplikasi SeaBank: Studi Komparatif Antara Eksperimen Task Scenario dan Sentimen Publik Google Play Store.
+**Topik riset:** Analisis Sentimen dan Ekstraksi Topik Keluhan Usability pada Aplikasi SeaBank Menggunakan Algoritma K-NN dan Latent Dirichlet Allocation (LDA).
 
 > **Skala 1–5:** 1 = tidak sesuai sama sekali dengan topik ini, 5 = sangat sesuai dan dominan digunakan pada riset bertopik serupa.
 
 | Kriteria | Positivis | Interpretivis | Design Science |
 |----------|-----------|---------------|----------------|
-| Kesesuaian dengan topik (1–5) | 5 | 4 | 4 |
-| Jenis data yang dikumpulkan | Metrik numerik (skor SUS, Success Rate, Time) | Data kualitatif (teks ulasan/sentimen pengguna) | Artefak (Rekomendasi redesign antarmuka) |
-| Limitasi paradigma | Angka tidak menjelaskan alasan di balik kesulitan pengguna | Sangat subjektif dan sulit untuk divalidasi secara statistik | Fokus bisa bergeser ke teknis daripada evaluasi ilmiah |
+| Kesesuaian dengan topik (1–5) | 5 | 1 | 2 |
+| Jenis data yang dikumpulkan | Metrik Machine Learning (Accuracy, F1-Score, Coherence) dan persentase probabilitas topik. | (Kosong - tidak digunakan) | (Kosong - bukan fokus utama) |
+| Limitasi paradigma | AngMesin (LDA) mungkin menghasilkan kelompok kata (topic) yang koheren secara matematis, namun tetap membutuhkan interpretasi manual manusia untuk memberi "label" yang masuk akal bagi developer. | - | - |
 
-**Paradigma yang dipilih:** Mixed Methods (Campuran)
-**Alasan:** Pendekatan Positivis dominan digunakan karena riset ini mengukur tingkat usability secara objektif melalui eksperimen terkontrol (skor SUS dan Task Success Rate) untuk mendapatkan bukti empiris yang terukur.
+**Paradigma yang dipilih:** Positivis murni.
+**Alasan:** Riset ini berfokus pada pembangunan eksperimen terukur untuk mengevaluasi kinerja algoritma (classifier K-NN dan topic modeling LDA) menggunakan data kuantitatif dan metrik uji performa Machine Learning, bukan pada interaksi sosial atau penafsiran makna wawancara.
 
 ---
 
@@ -150,4 +150,4 @@ Justifikasi: Tujuan utama riset bukan untuk mencari hasil yang "bagus" atau "sig
 > Sebelum membaca materi ini, apakah pernah mempertanyakan klaim "95% akurat"? Setelah memahami rantai distorsi, pertanyaan apa yang sekarang akan diajukan saat membaca paper?
 
 **Jawaban:**
-> Dulu, saya menganggap angka dalam riset sebagai kebenaran mutlak tanpa mempertanyakan proses di baliknya. Kini, saya sadar bahwa setiap riset rentan terhadap distorsi di setiap tahap transformasinya. Saat membaca riset atau mengevaluasi usability, saya kini lebih kritis mempertanyakan metode pengambilan sampel dan potensi sampling bias. Dalam riset saya sendiri (Analisis Validasi Usability SeaBank), saya menyadari bahwa data rating Google Play Store memiliki bias signifikan, sehingga saya wajib melakukan triangulasi data agar kesimpulan yang dihasilkan lebih valid dan tidak terjebak dalam generalisasi yang sempit.
+> Dulu saya menerima metrik akurasi Machine Learning sebagai kebenaran mutlak. Kini, melalui Research Trust Model, saya sadar tingginya risiko distorsi di tahap pemrosesan data (seperti cherry-picking). Untuk riset SeaBank (K-NN & LDA), besarnya bias ulasan Play Store menuntut saya melakukan preprocessing yang sangat ketat dan pengujian parameter objektif, agar kesimpulan yang ditarik benar-benar valid dan bukan ilusi algoritma semata.

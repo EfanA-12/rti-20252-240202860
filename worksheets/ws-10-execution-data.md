@@ -70,17 +70,18 @@ EXECUTION PLAN
 
 | Run # | Skenario | Seed | Parameter | Status | Waktu | Output File |
 |-------|----------|------|-----------|--------|-------|-------------|
-| 1     |          |      |           |        |       |             |
-| 2     |          |      |           |        |       |             |
-| 3     |          |      |           |        |       |             |
-| ...   |          |      |           |        |       |             |
+| 1 | K-NN Sentiment (K=5) & Uji Korelasi | 42 | test_size=0.2, metric=cosine | Planned | 10:00 | run_01_results.csv |
+| 2 | K-NN Sentiment (K=5) & Uji Korelasi | 123 | test_size=0.2, metric=cosine | Planned | 10:15 | run_02_results.csv |
+| 3 | K-NN Sentiment (K=5) & Uji Korelasi | 777 | test_size=0.2, metric=cosine | Planned | 10:30 | run_03_results.csv |
+| 4 | K-NN Sentiment (K=5) & Uji Korelasi | 1024 | test_size=0.2, metric=cosine | Planned | 10:45 | run_04_results.csv |
+| 5 | K-NN Sentiment (K=5) & Uji Korelasi | 2024 | test_size=0.2, metric=cosine | Planned | 11:00 | run_05_results.csv |
 
-Jumlah runs per skenario : ____
-Total runs               : ____
+Jumlah runs per skenario : 5 (Untuk menguji stabilitas pembagian data latih/uji K-NN)
+Total runs               : 5
 
 DATA LOG (per run):
-  Run ID    : ____________________
-  Timestamp : ____________________
+  Run ID    : run_knn_sus_01
+  Timestamp : 2026-07-05T10:00:00
   Skenario  : ____________________
   Input     : ____________________
   Output    : ____________________
