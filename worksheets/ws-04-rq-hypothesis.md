@@ -67,16 +67,16 @@ Jika rantai ini tidak lengkap, RQ belum mature. Bi-directional: RQ yang tidak bi
 ```
 RQ-CONTRIBUTION-HYPOTHESIS
 
-Gap Statement  : Belum adanya pengujian empiris yang memadukan Task Scenario (untuk mengukur performa objektif) dan kuesioner SUS (untuk kepuasan subjektif) pada aplikasi bank digital murni (branchless banking) seperti SeaBank.
+Gap Statement  : Belum ada studi yang memvalidasi tingkat usability aplikasi perbankan digital (SeaBank) melalui triangulasi antara metrik performa objektif (eksperimen) dan sentimen subjektif (ulasan publik).
 
 Research Question:
-  Tipe         : [ ] Comparison  [ ] Improvement  [X] Exploratory / Evaluative
-  Formulasi    : Apakah skor kepuasan rata-rata pengguna aplikasi SeaBank saat mengeksekusi skenario transaksi utama melampaui ambang batas standar kelayakan (SUS score > 68)?
-  Variabel IV  : Antarmuka Aplikasi SeaBank (Sistem yang dievaluasi)
-  Variabel DV  : Tingkat Kegunaan / Usability (Efektivitas, Efisiensi, Kepuasan)
-  Metrik       : Success Rate (%), Time-based Efficiency (goals/sec), dan Skor SUS (skala 0-100)
-  Dataset      : Data observasi 6 pengguna (Task Scenario) dan kuesioner dari 20+ responden nasabah SeaBank.
-  Baseline     : Standar rata-rata industri untuk SUS (skor 68) dan rata-rata completion rate global (78%).
+  Tipe         : [ ] Comparison  [ ] Improvement  [X] Exploratory
+  Formulasi    : Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+  Variabel IV  : Sentimen Ulasan Publik (Positif/Negatif).
+  Variabel DV  : Performa Usability Objektif (Skor SUS dan Task Success Rate).
+  Metrik       : Persentase klasifikasi sentimen (%), Skor SUS (0-100), dan Success Rate (%).
+  Dataset      : Data sekunder (Ulasan Google Play Store) dan Data primer (Hasil tes skenario 30 responden).
+  Baseline     : Skor SUS standar (68) dan rasio sentimen riset terdahulu.
 
 Quality Check RQ:
   [X] Variabel spesifik
@@ -86,15 +86,15 @@ Quality Check RQ:
   [X] Memerlukan eksperimen (bukan hanya survei literatur)
 
 Contribution Statement:
-  Apa yang baru diketahui : Baseline metrik empiris (tingkat efektivitas, efisiensi, dan kepuasan) dari UI/UX aplikasi bank digital murni yang tidak memiliki dukungan kantor cabang.
-  Jenis kontribusi        : [ ] Improvement  [ ] Comparison  [X] Novel approach / Baseline Establishment
-  Gap yang diisi          : Mengisi Method Gap & Context Gap dengan menerapkan pengujian gabungan (Task Scenario + SUS) pada konteks branchless banking.
+  Apa yang baru diketahui :Pemetaan akurat mengenai friction points pada UI SeaBank yang tervalidasi secara hibrida (objektif & subjektif).
+  Jenis kontribusi        : [ ] Improvement  [X] Comparison  [ ] Novel approach
+  Gap yang diisi          : Methodological Triangulation Gap pada evaluasi mobile banking.
 
 Hypothesis Pair:
-  H₀ : Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank ≤ 68 (Berada pada level rata-rata atau di bawah standar kelayakan).
-  H₁ : Rata-rata skor kepuasan (SUS) pengguna aplikasi SeaBank > 68 (Berada di atas standar kelayakan/acceptable).
-  Threshold              : Skor SUS = 68.
-  Justifikasi threshold  : Skor 68 adalah acuan global dari literatur (Sauro & Lewis) yang diakui secara akademis untuk menentukan apakah antarmuka suatu sistem dikategorikan layak digunakan (acceptable) atau butuh perbaikan.
+  H₀ : Tidak terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
+  H₁ : Terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
+  Threshold              : p-value < 0.05 (Tingkat signifikansi 5%).
+  Justifikasi threshold  : Standar umum dalam pengujian statistik pada riset Human-Computer Interaction (HCI) untuk menolak hipotesis nol.
 ```
 
 ---
@@ -103,24 +103,23 @@ Hypothesis Pair:
 
 Gunakan gap yang ditemukan di WS-03. Transformasikan menjadi Research Question.
 
-**Gap dari WS-03:** Kurangnya evaluasi empiris pada bank digital murni yang memadukan pengukuran performa objektif (Task Scenario) dengan pengukuran kepuasan subjektif (SUS) untuk menguji kelayakan UI/UX-nya.
-
+**Gap dari WS-03:** Belum ada triangulasi metode antara performa objektif (Task Scenario) dan sentimen subjektif (ulasan publik).
 **RQ versi pertama (tulis bebas):**
-> Bagaimana tingkat usability aplikasi SeaBank dan apakah penggunanya merasa puas?
+> Bagaimana perbandingan hasil tes usability SeaBank dengan ulasan di Play Store?
 
 **Evaluasi RQ:**
 
 | Komponen | Ada? | Isi |
 |----------|------|-----|
-| Metode spesifik | Tidak | Belum menyebutkan instrumen/metodenya. |
-| Metrik terukur | Tidak | "Tingkat usability" masih terlalu abstrak, belum ada angka terukurnya. |
-| Baseline | Tidak | Tidak ada standar perbandingan |
-| Dataset/konteks | Ya | Aplikasi SeaBank. |
+| Metode spesifik | Tidak | Belum menyebutkan metodenya. |
+| Metrik terukur | Tidak | Belum ada metrik. |
+| Baseline | Tidak | Belum ada acuan. |
+| Dataset/konteks | Ya | SeaBank dan Play Store. |
 
 **Tipe RQ:** [ ] Comparison / [ ] Improvement / [X] Exploratory
 
 **RQ versi revisi (setelah evaluasi):**
-> Apakah tingkat kepuasan (berdasarkan metrik System Usability Scale) dan tingkat keberhasilan tugas (success rate) pada antarmuka aplikasi SeaBank melampaui standar kelayakan rata-rata industri (SUS > 68 dan Success Rate > 78%)?
+> Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif (berbasis klasifikasi K-NN) pada ulasan Google Play Store dengan rendahnya performa metrik objektif (Skor SUS < 68 dan Task Success Rate < 70%) pada evaluasi usability aplikasi SeaBank?
 
 ---
 
@@ -130,14 +129,14 @@ Rumuskan pasangan hipotesis dari RQ di Latihan 1.
 
 | Komponen | Isi |
 |----------|-----|
-| H₀ | Rata-rata skor SUS aplikasi SeaBank ≤ 68 dan success rate ≤ 78% (Tidak melampaui standar kelayakan industri). |
-| H₁ | Rata-rata skor SUS aplikasi SeaBank > 68 dan success rate > 78% (Secara signifikan melampaui standar kelayakan industri). |
-| Metrik | Skor gabungan instrumen kuesioner SUS (rentang 0-100) dan Task Success Rate (%). |
-| Threshold | Skor 68 (Untuk SUS) dan 78% (Untuk Completion Rate). |
-| Justifikasi threshold | Standar acuan akademik global (Sauro, 2011) yang membagi kategori usability menjadi Not Acceptable, Marginal, dan Acceptable (Skor > 68). |
+| H₀ | Tidak terdapat korelasi yang signifikan (p-value ≥ 0.05) antara sentimen ulasan Play Store dengan hasil performa usability objektif (SUS & Success Rate) SeaBank. |
+| H₁ | Terdapat korelasi yang signifikan (p-value < 0.05) antara sentimen ulasan Play Store dengan hasil performa usability objektif (SUS & Success Rate) SeaBank. |
+| Metrik | Koefisien korelasi (r) dan p-value. |
+| Threshold | p-value < 0.05 |
+| Justifikasi threshold | Standar empiris yang diakui dalam riset kuantitatif ilmu komputer dan HCI untuk memastikan bahwa temuan tidak terjadi secara kebetulan. |
 
 **Apakah hipotesis ini falsifiable?** [X] Ya / [ ] Tidak
-> Bagaimana cara membuktikannya salah? Jika setelah pengumpulan data dari responden dilakukan perhitungan statistik (One-Sample T-Test) dan hasilnya menunjukkan nilai rata-rata (mean) SUS berada di angka 60 (kurang dari 68), maka secara otomatis hipotesis awal (H₁) gagal dibuktikan, dan H₀ diterima.
+> Bagaimana cara membuktikannya salah? ika setelah dilakukan uji korelasi statistik antara data sentimen dan data performa ternyata menghasilkan p-value lebih dari atau sama dengan 0.05, maka hipotesis alternatif (H₁) gugur dan H₀ diterima.
 
 ---
 
@@ -147,12 +146,12 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 | Tahap | Isi |
 |-------|-----|
-| RQ | Apakah skor kepuasan SUS dan keberhasilan tugas pada aplikasi SeaBank melampaui standar acceptable industri? |
-| Variable (IV) | Antarmuka pengguna (UI/UX) aplikasi SeaBank.|
-| Variable (DV) | Kepuasan pengguna (Satisfaction) dan Tingkat Keberhasilan (Learnability). |
-| Metric | Skor skala likert yang dikonversi ke sistem SUS (0-100) dan Persentase (%). |
-| Data source | Data log durasi task scenario dari 6 pengguna dan kuesioner dari minimal 20 responden nasabah SeaBank. |
-| Analysis method | Analisis statistik deskriptif dan pengujian rata-rata satu populasi (One-Sample T-Test terhadap nilai acuan 68). |
+| RQ | Apakah terdapat korelasi antara rasio sentimen K-NN di Play Store dengan metrik objektif (SUS & Success Rate) pada SeaBank? |
+| Variable (IV) | Kategori Sentimen Publik (Positif / Negatif) |
+| Variable (DV) | Performa Usability Pengguna |
+| Metric | Persentase Sentimen (%), Skor SUS (0-100), Task Success Rate (%) |
+| Data source | API Google Play Store (Data sekunder) dan Observasi 30 Nasabah SeaBank (Data primer) |
+| Analysis method | Klasifikasi K-NN (Sentimen) & Uji Korelasi Statistik (Spearman/Pearson) |
 
 **Apakah rantai lengkap?** [X] Ya / [ ] Tidak
 > Jika tidak, tahap mana yang perlu direvisi? ______________
@@ -163,6 +162,8 @@ Lengkapi rantai dari RQ hingga metode analisis.
 
 > Ambil satu judul skripsi/paper yang pernah dibaca. Coba ekstrak RQ-nya. Apakah RQ tersebut memenuhi semua komponen (metode, metrik, baseline, konteks)? Jika tidak, apa yang hilang?
 
-**Judul:** Evaluasi Usability Pada Aplikasi BNI Mobile Banking Dengan Menggunakan Metode Usability Testing dan System Usability Scale
-**RQ yang diekstrak:** Bagaimana tingkat kegunaan (usability) pada aplikasi BNI Mobile Banking?
-**Komponen yang hilang:** RQ di paper tersebut kurang tajam karena Metrik Terukur dan Baseline dihilangkan dari rumusan masalah utamanya. Pertanyaan tersebut tidak menyebutkan akan diuji dengan threshold apa dan angka kesuksesannya akan diukur berdasarkan parameter pembanding apa, sehingga terkesan sangat normatif.
+**Judul:** Evaluasi Usability Aplikasi Tokopedia Menggunakan Metode System Usability Scale (SUS)
+**RQ yang diekstrak:** Bagaimana tingkat kelayakan usability dari aplikasi Tokopedia berdasarkan perhitungan skor kuesioner SUS?
+**Komponen yang hilang:** RQ tersebut memiliki kualitas yang lemah karena tidak memenuhi kriteria rumusan masalah riset yang baik. Beberapa komponen yang hilang antara lain:
+1. Tidak ada Baseline: RQ ini hanya mencari nilai rata-rata (skor) tanpa membandingkannya dengan kondisi lain, algoritma lain, atau kompetitor.
+2. Tidak menguji Hipotesis (H₀ / H₁): Karena tidak ada variabel yang dibandingkan atau dikorelasikan, RQ ini tidak bersifat falsifiable (tidak bisa dibuktikan salah melalui eksperimen).
