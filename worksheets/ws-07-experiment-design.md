@@ -106,13 +106,13 @@ Statistical Plan:
 
 Susun desain eksperimen berdasarkan RQ, variabel, dan sistem dari WS-04 sampai WS-06.
 
-**RQ:** Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN) dengan metrik performa objektif (Skor SUS & Task Success Rate) pada aplikasi SeaBank?
-**Tipe eksperimen:** [X] Comparison / [ ] Ablation / [ ] Parameter
+**RQ:**Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
+**Tipe eksperimen:** [ ] Comparison / [X] Ablation / [ ] Parameter
 
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control | Evaluasi Objektif via Eksperimen (Standar Baseline)   | Skor SUS & Task Success Rate | Lingkungan tertutup, 30 responden, skenario terstruktur |
-| Treatment | Evaluasi Subjektif via Social Listening (Metode Usulan) | Rasio Sentimen Positif/Negatif (K-NN) | Lingkungan natural, ekstraksi 1000 ulasan Play Store pada periode yang sama |
+| Control | Ekstraksi topik pada seluruh data mentah (Baseline)   | K-NN Filter = OFF | TF-IDF diaktifkan, jumlah topik (K)=5, Random State = 42 |
+| Treatment | Ekstraksi topik khusus pada data tersaring | K-NN Filter = ON | TF-IDF diaktifkan, jumlah topik (K)=5, Random State = 42 |
 
 ---
 
@@ -122,11 +122,11 @@ Evaluasi apakah desain eksperimen di Latihan 1 sudah fair.
 
 | Kriteria | Status | Detail |
 |----------|--------|--------|
-| Dataset identik | ✅ | Menggunakan periode waktu yang sama. Partisipan menguji SeaBank versi 2.4, dan ulasan yang ditarik khusus untuk versi 2.4 saja. |
-| Preprocessing setara | ✅ | Ulasan spam/bot dibuang (K-NN); partisipan yang tidak menyelesaikan kuesioner dibuang (SUS). |
-| Tuning effort setara | ✅ | Optimasi hyperparameter K pada K-NN diimbangi dengan pilot testing (uji coba awal) skenario tugas SUS agar setara kualitasnya. |
-| Environment identik | ✅ | Keduanya mengevaluasi antarmuka pada platform Android. |
-| Metrik evaluasi sama | ✅ | Keduanya dinormalisasi ke rentang rasio (0-100%) untuk memudahkan perbandingan korelasi. |
+| Dataset identik | ✅ | Keduanya menggunakan file ulasan SeaBank (.csv) dari periode scraping yang sama persis. |
+| Preprocessing setara | ✅ | Kedua kondisi sama-sama melalui tahap case folding, stopword removal, dan stemming. |
+| Tuning effort setara | ✅ | Jumlah target topik pada LDA (K-topics) dikunci pada angka yang sama untuk memastikan perbandingannya apple-to-apple. |
+| Environment identik | ✅ | Berjalan di dalam satu script Python yang sama, di atas sistem operasi (Windows 11) dan spesifikasi laptop yang sama (Advan Workplus). |
+| Metrik evaluasi sama | ✅ | Kinerja ekstraksi topik diukur murni berdasarkan Coherence Score (Cv) bawaan dari library Gensim. |
 
 **Ada yang tidak fair?** [ ] Ya / [X] Tidak
 > Jika ya, bagaimana cara memperbaikinya? ________________
@@ -139,15 +139,14 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal | Bias seleksi responden SUS (misal: hanya merekrut teman kampus). | Menggunakan purposive sampling berbasis kriteria nasabah riil SeaBank. |
-| External | Hasil korelasi hanya berlaku untuk SeaBank, tidak bisa digeneralisasi ke bank digital lain. | Mengakui batasan ini di laporan riset, atau menambah aplikasi pembanding jika waktu memungkinkan. |
-| Construct | Ulasan bintang 5 di Play Store terkadang berisi teks keluhan, mengecoh sentimen K-NN. | Menggunakan isi teks sebagai fitur latih K-NN, bukan rating bintangnya. |
-| Conclusion | Kesalahan asumsi distribusi data saat uji statistik. | Uji normalitas (Shapiro-Wilk) sebelum memilih antara Pearson atau Spearman. |
+| Internal | Kebocoran data (Data Leakage) saat memisahkan train-test split pada pengujian algoritma K-NN. | Menggunakan Stratified K-Fold Cross Validation agar rasio kelas positif/negatif seimbang. |
+| External | Teks ulasan sangat bergantung pada event SeaBank (misal: promo mengundang teman), sehingga topik keluhan UI/UX tertutup keluhan promo. | Menambahkan daftar filter stopword kustom (contoh: hapus kata "kode", "referral", "cuan"). |
+| Construct | Metrik Coherence Score secara matematis bagus, tapi maknanya bias. | Melibatkan inspeksi pakar (diri sendiri sebagai peneliti) untuk menamai klaster topik secara logis. |
+| Conclusion | Menyimpulkan LDA sukses atau gagal hanya dari 1 kali run (eksekusi program). | Menerapkan multiple runs (minimal 5 kali iterasi program) dengan seed berbeda. |
 
-**Ancaman mana yang paling sulit dimitigasi?** Construct Validity pada pemrosesan sentimen ulasan.
+**Ancaman mana yang paling sulit dimitigasi?** Construct Validity pada penilaian Coherence Score.
 **Mengapa?**
-> Bahasa ulasan di Play Store sering kali tidak baku, penuh singkatan, typo, dan sarkasme. Sekalipun K-NN sudah dilatih dengan baik, selalu ada margin error klasifikasi yang bisa mendistorsi rasio sentimen dan melemahkan tingkat korelasi dengan skor SUS yang murni objektif.
-
+> Karena dalam algoritma Unsupervised Learning seperti LDA, tidak ada label kebenaran mutlak (tidak ada "kunci jawaban"). Mesin hanya mengelompokkan kata yang sering muncul bersama. Meskipun metrik $C_v$ tinggi, selalu ada subjektivitas manusia saat berusaha menamai (menginterpretasi) kumpulan kata tersebut menjadi sebuah kalimat masalah UI/UX yang masuk akal.
 ---
 
 ## Refleksi
@@ -155,6 +154,6 @@ Identifikasi ancaman validitas untuk desain eksperimen ini.
 > Sebuah paper melaporkan "metode kami mengalahkan semua baseline." Apa 3 pertanyaan pertama yang harus diajukan untuk mengevaluasi klaim ini?
 
 **Jawaban:**
-1. Apakah dataset, parameter environment, dan metrik evaluasi yang digunakan benar-benar identik antara metode usulan dengan baseline?
-2. Apakah tuning effort (hyperparameter optimization) yang diberikan pada metode baseline setara dengan metode yang diusulkan, atau baseline dibiarkan menggunakan pengaturan bawaan (default)?
-3. Apakah baseline yang dikalahkan merupakan State-of-the-Art (SOTA) yang relevan dan terkini, atau sekadar straw man (metode usang yang sengaja dipilih agar mudah dikalahkan)?
+1. Apakah dataset, parameter environment, dan metrik evaluasi yang digunakan benar-benar identik (seimbang) antara metode usulan dengan baseline?
+2. Apakah tuning effort (hyperparameter optimization) yang diberikan pada metode baseline setara dengan metode yang diusulkan, atau baseline justru dibiarkan lemah menggunakan pengaturan bawaan (default)?
+3. Apakah baseline yang dikalahkan merupakan State-of-the-Art (SOTA) yang relevan dan terkini di ranah Machine Learning, atau sekadar straw man (algoritma usang yang sengaja dipilih agar mudah dikalahkan)?
