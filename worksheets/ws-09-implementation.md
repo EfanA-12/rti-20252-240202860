@@ -128,7 +128,7 @@ Dokumentasikan environment untuk eksperimen Anda (boleh environment saat ini ata
 | Sastrawi | 1.0.1 | Melakukan proses stemming bahasa Indonesia pada ulasan Play Store. |
 | google-play-scraper | 1.2.4 | Melakukan scraping data sekunder ulasan SeaBank langsung dari Play Store. |
 | pandas | 2.1.4 | Melakukan manipulasi data, pembersihan teks, dan manajemen data tabular. |
-| scipy | 1.11.4 | Menyediakan komputasi statistik pendukung untuk perhitungan korelasi akhir. |
+| gensim | 4.3.2 | Membangun model pemodelan topik (Latent Dirichlet Allocation) dan menghitung Coherence Score. |
 
 ---
 
@@ -138,14 +138,13 @@ Rancang tes repeatability sederhana: jalankan kode yang sama 3× di environment 
 
 | Run | Seed | Metrik Utama | Hasil Sama? |
 |-----|------|-------------|-------------|
-| 1 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | — |
-| 2 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | [X] Ya / [ ] Tidak |
-| 3 | 42 | Akurasi Sentimen K-NN & Koefisien Korelasi | [X] Ya / [ ] Tidak |
+| 1 | 42 | F1-Score K-NN & Coherence Score (c_v) LDA | — |
+| 2 | 42 | F1-Score K-NN & Coherence Score (c_v) LDA | [X] Ya / [ ] Tidak |
+| 3 | 42 | F1-Score K-NN & Coherence Score (c_v) LDA | [X] Ya / [ ] Tidak |
 
 **Jika hasil berbeda, kemungkinan penyebab:**
 
-Hasil bisa berbeda jika random_state pada pembagian data (train-test split) tidak dikunci di level NumPy, atau jika terdapat data ulasan baru yang masuk tanpa dikunci rentang tanggal penarikannya, sehingga menyebabkan state data berubah di setiap run.
-
+HHasil bisa berbeda jika random_state pada inisialisasi algoritma LDA (Gensim) atau pada pembagian data (train-test split) K-NN tidak dikunci. Algoritma LDA sangat bersifat probabilistik, sehingga tanpa penguncian seed, klaster topik yang dihasilkan akan selalu berubah di setiap run.
 ___________________________________________________
 
 **Checklist kontrol yang sudah diterapkan:**
@@ -161,7 +160,7 @@ ___________________________________________________
 Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 ```
-# Judul Eksperimen: Triangulasi Usability SeaBank via K-NN Sentimen & Eksperimen SUS
+# Judul Eksperimen: Ekstraksi Topik Keluhan Usability SeaBank via Pipeline K-NN dan LDA
 
 ## 1. Environment
 > CPU: AMD Ryzen (Advan Workplus), RAM: 16 GB LPDDR5, OS: Windows 11
@@ -171,17 +170,16 @@ Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 > Pastikan Python sudah terinstal, lalu jalankan perintah: `pip install -r requirements.txt`
 
 ## 3. Data
-> Data Sekunder: `seabank_reviews.csv` (1000 ulasan ter-scrape dari Google Play Store).
-> Data Primer: `usability_matrix.csv` (Skor SUS & Success Rate dari 30 responden).
+> Data Sekunder: `seabank_reviews_raw.csv` (1000+ ulasan ter-scrape dari Google Play Store pada periode [Bulan-Tahun]).
 
 ## 4. Execution
-> Jalankan pipeline NLP dan analisis korelasi dengan command: `python run_experiment.py --config config.yaml`
+> Jalankan pipeline NLP dengan mengeksekusi command: `python run_pipeline.py --config config.yaml`
 
 ## 5. Configuration
-> Diatur melalui `config.yaml`: `model: {type: 'knn', k: 5}, experiment: {seed: 42}`
+> Diatur melalui `config.yaml`: `model_knn: {k: 5}, model_lda: {num_topics: 5, passes: 10}, experiment: {seed: 42}`
 
 ## 6. Expected Output
-> File `results.txt` berisi evaluasi matriks K-NN (Accuracy, F1-Score) dan nilai p-value uji korelasi Spearman.
+> File `evaluation_metrics.log` yang berisi nilai F1-Score dari K-NN dan skor koherensi (c_v) dari LDA, beserta daftar kata kunci untuk masing-masing klaster topik.
 ```
 
 ---
@@ -192,4 +190,4 @@ Tulis README minimum untuk eksperimen Anda (6 komponen wajib).
 
 **Level saat ini:** [X] Repeatability / [ ] Reproducibility / [ ] Belum keduanya
 **Komponen yang belum terdokumentasi:**
-> Saat ini riset baru memenuhi level repeatability karena hasil komputasi K-NN dan korelasi statistik sudah konsisten saat diuji ulang di perangkat lokal (Advan Workplus). Namun, aspek reproducibility masih terhambat karena ketergantungan pada platform perekaman pengujian usability eksternal serta belum adanya isolasi environment berbasis container seperti Docker, yang berpotensi memunculkan perbedaan perilaku pustaka (library dependency) saat dijalankan oleh peneliti lain di mesin yang berbeda.
+> Saat ini riset baru memenuhi level repeatability karena seluruh pipeline (K-NN dan LDA) sudah bisa dijalankan secara konsisten dan menghasilkan skor koherensi yang sama berulang kali di laptop Advan Workplus saya. Namun, aspek reproducibility masih kurang karena saya belum mengisolasi environment ini menggunakan kontainer (seperti Docker). Jika peneliti lain mencoba menjalankan script ini di macOS atau Linux dengan versi library C++ pendukung yang berbeda (khususnya untuk komputasi Gensim), ada kemungkinan model memakan waktu komputasi yang berbeda atau crash.
