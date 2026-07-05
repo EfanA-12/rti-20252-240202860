@@ -66,13 +66,14 @@ Metrik harus ditentukan **sebelum** eksperimen. Memilih metrik setelah melihat d
 ```
 VARIABLE & METRIC DEFINITION
 
-Research Question: Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+Research Question: Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
 
 | Variabel | Tipe | Konsep | Metrik | Skala | Satuan | Cara Mengukur | Justifikasi |
 |----------|------|--------|--------|-------|--------|---------------|-------------|
-|     Kategori Ulasan     | IV   |    Sentimen Publik    |    Rasio Klasifikasi Sentimen    |   Ratio    |    %    |       Ekstraksi API Play Store & Analisis K-NN        |      Representasi persepsi publik skala besar.       |
-|     Tingkat Kebergunaan     | DV   |    Performa Usability (Subjektif)    |    Skor System Usability Scale (SUS)    |   Interval    |   Poin (0-100)     |       Kuesioner SUS pasca-task        |      Standar pengukuran usability berbasis persepsi.       |
-|     Pengalaman Pengguna     | CV   |    Demografi    |    Lama penggunaan aplikasi    |   Ordinal    |    Bulan    |       Kuesioner pra-task        |      Mengontrol bias learning curve pengguna lama.       |
+| Filter Sentimen | IV | Pra-pemrosesan Data | Status Penggunaan Filter | Nominal | Ya/Tidak | Dijalankan via script Python | Menjadi kondisi perlakuan utama (Treatment vs Baseline). |
+| Performa Klasifikasi | DV | Keandalan K-NN | F1-Score & Accuracy | Ratio | % | Kalkulasi otomatis via library Scikit-Learn | Menyeimbangkan ukuran presisi dan recall pada dataset ulasan yang rentan imbalanced. |
+| Kualitas Topik | DV | Koherensi Semantik LDA | Coherence Score (c_v) | Ratio | Nilai (0-1) | Dihitung otomatis via library Gensim | Metrik SOTA (State-of-the-Art) untuk mengukur apakah topik yang dihasilkan masuk akal bagi manusia. |
+| Dataset Ulasan | CV | Batasan Lingkungan | Rentang Waktu Ulasan | Interval | Bulan/Tahun | Dikunci pada parameter script scraper | Memastikan perbandingan K-NN dan LDA dilakukan pada kondisi data yang identik. |
 
 Alignment Check:
   RQ → Concept → Variable → Metric → Data → Result
@@ -87,14 +88,14 @@ Alignment Check:
 
 Gunakan RQ dari WS-04. Definisikan variabel dan metriknya.
 
-**RQ:** Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+**RQ:** Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
 
 | Variabel | Tipe | Konsep Abstrak | Metrik Konkret | Skala (NOIR) | Satuan |
 |----------|------|---------------|----------------|-------------|--------|
-| Sentimen Ulasan | IV | Opini Publik | Rasio Sentimen K-NN | Ratio | % |
-| Skor Usability | DV | Persepsi Pengguna | Skor SUS | Interval | Poin (0-100) |
-| Task Success | DV | Efektivitas Sistem | Success Rate | Ratio | % |
-| Demografi | CV | Pengalaman Pengguna | Lama Pemakaian | Ordinal | Bulan/Tahun |
+| Sentimen Ulasan | IV | Intervensi Pemrosesan | Penggunaan Filter K-NN | Nominal | Ya / Tidak |
+| Skor Usability | DV | Keakuratan Prediksi | F1-Score | Ratio | % |
+| Task Success | DV | Koherensi Semantik | Coherence Score (c_v) | Ratio | Nilai (0 - 1) |
+| Demografi | CV | Konfigurasi Model | Nilai K (K-NN) & Jumlah Topik (LDA) | Ratio | Integer (Angka Mutlak) |
 
 **Apakah ada lompatan logis dalam rantai?** [ ] Ya / [X] Tidak
 > Jika ya, di mana? ____________________________________
@@ -107,15 +108,15 @@ Evaluasi metrik DV yang dipilih di Latihan 1 menggunakan 3 kriteria.
 
 | Kriteria | Skor (1-5) | Justifikasi |
 |----------|-----------|-------------|
-| Representative | 5 | Skor SUS dan Success Rate secara langsung mewakili construct validity dari konsep usability. |
-| Sensitive | 4 | Success Rate mungkin kurang peka jika task terlalu mudah, namun Skor SUS memiliki rentang 0-100 yang cukup sensitif. |
-| Feasible | 5 | Pengambilan data melalui observasi task dan kuesioner sangat mungkin dilakukan dalam batasan waktu riset. |
+| Representative | 5 | F1-Score dan Coherence Score adalah metrik baku dalam paper jurnal NLP untuk mengukur klasifikasi dan pemodelan topik. |
+| Sensitive | 4 | Coherence Score sangat sensitif terhadap perubahan nilai K (jumlah topik) pada model LDA. |
+| Feasible | 5 | Semua metrik dapat dihitung secara instan menggunakan fungsi bawaan (built-in functions) pada library Python. |
 
 **Apakah perlu secondary metric?** [X] Ya / [ ] Tidak
-> Jika ya, apa dan mengapa? Perlu menambahkan Time on Task (Waktu Eksekusi) dalam satuan milisecond (Ratio) sebagai secondary metric. Tujuannya untuk menangkap inefisiensi pada partisipan yang berhasil menyelesaikan tugas namun membutuhkan waktu yang sangat lama.
+> Jika ya, apa dan mengapa? Ya, perlu metrik Waktu Komputasi / Execution Time (satuan detik). Tujuannya untuk melihat seberapa besar beban komputasi tambahan jika K-NN dan LDA digabungkan, karena efisiensi sumber daya juga penting dalam pipeline Machine Learning.
 
 **Contoh kasus ceiling effect untuk metrik ini:**
-> Jika skenario tugas (task scenario) dirancang terlalu mudah atau terlalu mendasar (misalnya: sekadar login), maka hampir 100% responden akan berhasil, sehingga metrik Success Rate kehilangan kemampuannya untuk mendeteksi friction points pada antarmuka.
+> Model K-NN mencapai metrik Accuracy hingga 99% bukan karena modelnya pintar, melainkan karena terkena efek Data Imbalance (misalnya 99% isi dataset adalah ulasan positif). Model akhirnya hanya "menebak" kelas mayoritas, sehingga metrik Accuracy menjadi tidak sensitif (mengalami ceiling effect). Inilah alasan F1-Score digunakan sebagai metrik utama yang lebih tangguh.
 ---
 
 ## Latihan 3 — Data Quality Check
@@ -124,10 +125,10 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 
 | Dimensi | Pertanyaan | Jawaban | Strategi Mitigasi |
 |---------|-----------|---------|------------------|
-| Completeness | Apakah semua data point terkumpul? | Bisa terjadi nilai kosong jika responden tidak menyelesaikan kuesioner. | Menggunakan validasi mandatory fields (required) pada form kuesioner digital. |
-| Consistency | Apakah ada kontradiksi internal? | Responden mungkin menjawab secara acak atau pola lurus. | Menggunakan sistem reverse phrasing pada kuesioner SUS (pertanyaan ganjil positif, genap negatif) untuk memverifikasi konsistensi. |
-| Validity | Apakah benar-benar mengukur yang dimaksud? | Risiko metrik mengukur estetika visual, bukan fungsi usability. | Mengunci skenario tugas pada alur transaksi inti (deposito/mutasi) sehingga pengujian murni pada efektivitas sistem. |
-| Representativeness | Apakah sampel mewakili populasi target? | Mayoritas responden mungkin mahasiswa TI yang terbiasa dengan teknologi. | Merekrut responden dengan berbagai tingkat keahlian (tech-savvy dan awam) yang merupakan nasabah aktif SeaBank. |
+| Completeness | Apakah semua data point terkumpul? | Sangat mungkin terdapat baris ulasan (scraping) yang hanya berisi rating bintang tanpa teks keluhan sama sekali. | Melakukan dropping (penghapusan) pada baris data yang bernilai NaN/Null pada kolom teks. |
+| Consistency | Apakah ada kontradiksi internal? | Adanya duplikasi data akibat serangan bot/buzzer yang menulis ulasan dengan teks persis sama berulang kali. | Menambahkan fungsi .drop_duplicates() pada Pandas DataFrame di tahap awal pra-pemrosesan. |
+| Validity | Apakah benar-benar mengukur yang dimaksud? | Teks ulasan yang penuh dengan typo, singkatan, dan slang khas Indonesia akan merusak hasil ekstraksi topik LDA. | Melakukan normalisasi teks menggunakan kamus slang (slang word dictionary) dan library Sastrawi untuk stemming. |
+| Representativeness | Apakah sampel mewakili populasi target? | Algoritma scraper mungkin hanya menarik ulasan dari versi update aplikasi minggu terakhir. | Mengatur rentang tanggal scraping (parameter timeframe) agar mencakup ulasan minimal 6 bulan terakhir. |
 
 ---
 
@@ -136,4 +137,4 @@ Bayangkan data yang akan dikumpulkan dari eksperimen. Evaluasi 4 dimensi kualita
 > Mengapa memilih metrik setelah melihat data dianggap p-hacking? Apa bedanya dengan eksplorasi data yang sah?
 
 **Jawaban:**
-> Memilih metrik setelah melihat data (p-hacking) merusak objektivitas riset karena peneliti dengan sengaja memanipulasi parameter hingga menemukan hasil yang signifikan secara statistik, sehingga H₀ seolah-olah berhasil ditolak. Ini membuat kesimpulan menjadi bias dan tidak valid. Eksplorasi data yang sah (data exploration) berbeda; dalam eksperimen yang benar, metrik utama (termasuk pre-registration) sudah dikunci sebelum eksperimen dimulai[cite: 4]. Jika di tengah evaluasi ditemukan anomali atau pola metrik baru, temuan tersebut tetap dilaporkan secara transparan sebagai secondary metric atau temuan eksploratori, bukan diklaim sebagai jawaban utama (confirmatory) dari hipotesis awal.
+> Dalam konteks Machine Learning, mengubah-ubah parameter (seperti nilai random_state atau metrik evaluasi) secara membabi buta hanya agar hasil akurasinya terlihat tinggi (>90%) adalah bentuk manipulasi p-hacking. Hal ini merusak objektivitas karena model tidak benar-benar belajar, melainkan kita hanya mencari celah agar terlihat bagus. Eksplorasi data yang sah berarti kita sudah mengunci rencana pengukuran (pre-registration)—misalnya mengunci penggunaan F1-Score sebagai metrik—sebelum script dijalankan. Jika di tengah evaluasi ternyata hasilnya rendah, temuan tersebut dilaporkan secara jujur untuk kemudian dianalisis penyebabnya secara logis, bukan sekadar mengganti metrik agar angkanya membaik secara artifisial.
