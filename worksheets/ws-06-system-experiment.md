@@ -139,12 +139,13 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
 > **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
 > Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
+
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
 | Full | ✅ | ✅ | ✅ | F1-Score K-NN dan Coherence LDA mencapai nilai maksimal yang optimal. |
-| – A | ❌ | ✅ | ✅ | Akurasi klasifikasi sedikit menurun karena kata bervariasi (berimbuhan) dianggap sebagai entitas/fitur yang berbeda oleh K-NN. |
-| – B | ✅ | ❌ | ✅ | LDA akan menghasilkan topik noise (sampah), di mana kata seperti "dan", "yang" akan mendominasi hasil klaster keluhan. |
-| – C | ✅ | ✅ | ❌ | Model kesulitan mendeteksi sentimen ekstrem (mengalami misklasifikasi) karena bobot kata kunci dan kata biasa disamaratakan. |
+| – A | ❌  | ✅ | ✅ | Akurasi klasifikasi sedikit menurun karena kata bervariasi (berimbuhan) dianggap sebagai entitas/fitur yang berbeda oleh K-NN. |
+| – B | ✅ | ❌  | ✅ | LDA akan menghasilkan topik noise (sampah), di mana kata seperti "dan", "yang" akan mendominasi hasil klaster keluhan. |
+| – C | ✅ | ✅ | ❌  | Model kesulitan mendeteksi sentimen ekstrem (mengalami misklasifikasi) karena bobot kata kunci dan kata biasa disamaratakan. |
 
 **Komponen mana yang diprediksi paling berkontribusi?** Stopword Removal (Komponen B).
 **Mengapa?**
