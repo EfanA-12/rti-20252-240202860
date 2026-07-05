@@ -68,15 +68,15 @@ Ancaman validitas harus diidentifikasi **sebelum** eksperimen dan mitigasinya di
 ```
 EXPERIMENT DESIGN
 
-Research Question : Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
-Hypothesis        : H₁: Terdapat korelasi yang signifikan antara rasio sentimen ulasan publik dengan hasil performa usability objektif pada aplikasi SeaBank.
-Tipe Eksperimen   : [X] Comparison  [ ] Ablation  [ ] Parameter
+Research Question : Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
+Hypothesis        : H₁: Penggunaan K-NN sebagai filter sentimen negatif menghasilkan pemodelan topik keluhan yang koheren (Coherence Score c_v >= 0.4) pada model LDA aplikasi SeaBank.
+Tipe Eksperimen   : [ ] Comparison  [X] Ablation  [ ] Parameter
 
 Kondisi Eksperimen:
 | Kondisi | Deskripsi | IV Value | CV Settings |
 |---------|-----------|----------|-------------|
-| Control |     Evaluasi Usability Objektif (Baseline)      |     Skor SUS & Success Rate     |      30 partisipan, Skenario mutasi/deposito, SeaBank v.X.X       |
-| Treatment |    Analisis Sentimen Ulasan (Proposed)     |     Rasio Sentimen K-NN     |      Dataset ulasan Play Store pada periode rilis SeaBank v.X.X       |
+| Control | LDA memproses seluruh dataset ulasan tanpa filter (Baseline) | K-NN Filter = OFF | Dataset ulasan SeaBank sama, K-Topics LDA = 5, Seed = 42 |
+| Treatment | LDA memproses hanya ulasan negatif hasil penyaringan | K-NN Filter = ON | Dataset ulasan SeaBank sama, K-Topics LDA = 5, Seed = 42 |
 
 Fairness Checklist:
   [X] Dataset identik untuk semua kondisi
@@ -88,16 +88,16 @@ Fairness Checklist:
 Threat Analysis:
 | Threat Type | Ancaman Spesifik | Mitigasi |
 |-------------|-----------------|----------|
-| Internal    |        Demografi partisipan tes SUS tidak mewakili populasi penulis ulasan di Play Store.         |     Merekrut partisipan dengan demografi beragam yang merepresentasikan basis pengguna SeaBank.     |
-| External    |        SeaBank melakukan update UI/UX besar-besaran di tengah periode pengumpulan data.         |     Mengunci periode pengumpulan data (ulasan dan tes) pada satu versi rilis minor aplikasi.     |
-| Construct   |        Model K-NN salah mengklasifikasikan sarkasme, sehingga rasio sentimen tidak valid.         |     Melakukan validasi manual pada sampel 10% data ulasan sebelum uji korelasi.     |
-| Conclusion  |        Ukuran sampel (n=30) mungkin kurang kuat (underpowered) untuk uji korelasi statistik.         |     Menghitung G*Power sebelum tes untuk memastikan n=30 cukup mencapai batas alpha 0.05.     |
+| Internal    | Variasi hasil acak karena inisialisasi random seed pada algoritma LDA. | Mengeksekusi pipeline minimal 5 kali (multiple runs) dengan seed berbeda dan merata-ratakan hasilnya. |
+| External    | Topik keluhan hanya berlaku untuk update UI SeaBank bulan ini, tidak bisa digeneralisasi untuk bulan depan. | Menarik dataset (scraping) dengan rentang waktu minimal 6 bulan terakhir. |
+| Construct   | Coherence Score (metrik matematis) tinggi, tetapi kata-katanya tidak bisa dipahami oleh manusia (developer). | Melakukan inspeksi kualitatif (sanity check) secara manual pada klaster kata yang dihasilkan. |
+| Conclusion  | Mengandalkan single run (1 kali eksekusi) yang kebetulan beruntung mendapatkan skor bagus. | Uji statistik pada distribusi skor dari 10 run eksperimen. |
 
 Statistical Plan:
-  Uji statistik   : ji Korelasi Spearman (Rank-Order Correlation) dieksekusi melalui perangkat lunak JASP.
-  Justifikasi      : Data Skor SUS berskala ordinal/interval dan data sentimen seringkali tidak terdistribusi normal, sehingga uji non-parametrik Spearman lebih tepat daripada Pearson.
-  Alpha            : 0.05 (Tingkat signifikansi 5%)
-  Effect size min  : r = 0.3 (Korelasi moderat/menengah)
+  Uji statistik   : Independent Sample T-Test (atau Mann-Whitney U Test jika distribusi tidak normal).
+  Justifikasi     : Bertujuan untuk membandingkan rata-rata (mean) Coherence Score antara kelompok Control (tanpa K-NN) dan kelompok Treatment (dengan K-NN) dari hasil multiple runs.
+  Alpha           : 0.05 (Tingkat signifikansi 5%)
+  Effect size min : Cohen's d > 0.5 (Medium effect size)
 ```
 
 ---

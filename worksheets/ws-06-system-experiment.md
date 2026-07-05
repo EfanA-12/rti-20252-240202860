@@ -137,10 +137,8 @@ Evaluasi desain sistem terhadap 4 prinsip.
 
 Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
-> **Panduan jumlah kondisi:** Dalam riset Machine Learning NLP, Ablation Study digunakan untuk melihat komponen mana yang paling berpengaruh pada akurasi akhir. Asumsikan kita memiliki 3 komponen preprocessing sebelum teks masuk ke model K-NN dan LDA:
-> Komponen A: Stemming (Mengubah "menggunakan" menjadi "guna").
-> Komponen B: Stopword Removal (Menghapus kata "di", "ke", "dan").
-> Komponen C: TF-IDF (Pemberian bobot kepentingan kata, bukan sekadar menghitung jumlah kata / Raw Count).
+> **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
+> Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
 | Full | ✅ | ✅ | ✅ | F1-Score K-NN dan Coherence LDA mencapai nilai maksimal yang optimal. |
