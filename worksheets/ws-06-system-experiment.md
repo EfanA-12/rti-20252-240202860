@@ -80,13 +80,13 @@ Jika variabel tidak bisa di-map ke komponen apapun → arsitektur perlu didesain
 ```
 SYSTEM-EXPERIMENT MAPPING
 
-Research Question: Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+Research Question: Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
 Variable → Component Mapping:
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi/Pengukuran |
 |----------|------|-----------------|---------------------------|
-|     Sentimen Publik     | IV   |        Pipeline NLP & Modul Klasifikasi K-NN         |             Mengubah parameter nilai K atau teknik ekstraksi fitur (TF-IDF).              |
-|     Skor SUS & Success Rate     | DV   |        Modul Usability Testing (Task Tracker & Kuesioner Digital)         |              Pencatatan log otomatis (waktu/keberhasilan) dan kalkulasi skor otomatis.             |
-|     Demografi Pengguna     | CV   |        Modul Screening Responden         |             Filter parameter pada kuesioner pra-task (lama penggunaan SeaBank).              |
+| Filter Sentimen (K-NN) | IV | Feature Toggle (Script Python) | Mengaktifkan/menonaktifkan (True/False) modul pemfilteran K-NN pada pipeline sebelum data masuk ke LDA. |
+| Performa K-NN & LDA | DV | Modul Evaluator (Metrics Logger) | Mencatat F1-Score untuk klasifikasi K-NN dan menghitung Coherence Score (c_v) pada output model LDA secara otomatis. |
+| Hyperparameters | CV | Configuration File (config.yaml) | Mengunci parameter nilai K pada K-NN, jumlah klaster topik pada LDA, dan random_state di file konfigurasi terpisah. |
 
 4 Prinsip Desain:
   [X] Traceability — Setiap komponen bisa ditelusuri ke variabel
@@ -95,9 +95,9 @@ Variable → Component Mapping:
   [X] Reproducibility — Setup bisa direkonstruksi
 
 Experimental Setup:
-  Input data     : Dataset CSV ulasan Play Store dan Aksi klik partisipan saat eksperimen.
-  Parameter      : Nilai K pada K-NN, Ambang batas waktu skenario tugas.
-  Output format  : Matriks kebingungan (Confusion Matrix) untuk sentimen, dan skor rata-rata SUS.
+  Input data     : Dataset CSV mentah hasil scraping ulasan Play Store SeaBank.
+  Parameter      : Toggle 'use_knn_filter' (True/False), K_topics (misal: 3, 5, 7), num_words (10).
+  Output format  : Matriks performa (Confusion Matrix, F1-Score) dan list kata kunci per topik beserta nilai Coherence-nya.
 ```
 
 ---
@@ -106,12 +106,12 @@ Experimental Setup:
 
 Gunakan RQ dan variabel dari WS-05. Petakan ke komponen sistem.
 
-**RQ:** Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif publik (berbasis K-NN pada ulasan Play Store) dengan metrik performa objektif (Skor SUS dan Task Success Rate) pada aplikasi SeaBank?
+**RQ:** Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Coherence Score c_v >= 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
 | Variabel | Tipe | Komponen Sistem | Cara Manipulasi / Pengukuran |
 |----------|------|-----------------|---------------------------|
-| Sentimen Publik | IV | Skrip Analisis K-NN (Python) | Konfigurasi hyperparameter nilai K pada model classifier. |
-| Performa Objektif | DV | Platform Evaluasi (misal: Maze / Google Forms) | Data diukur dari log timestamp dan rekaman layar otomatis pengguna. |
-| Pengalaman Pengguna | CV | Screening Form (Penyaring Awal) | Mengunci partisipan yang minimal sudah 3 bulan menggunakan SeaBank. |
+| Filter K-NN | IV | Python Conditional Logic (if/else) | Toggle switch pada kode utama untuk menentukan apakah teks disaring sentimen negatifnya atau tidak sebelum masuk LDA. |
+| Performa (Coherence) | DV | Fungsi Gensim CoherenceModel | Dipanggil otomatis setiap epoch pelatihan LDA selesai untuk mencetak nilai Cv. |
+| Hyperparameters (Nilai K, Topik, Seed) | CV | Modul pembaca Config YAML/JSON | Mengedit angka pada file config tanpa menyentuh satu baris pun logika core script algoritma. |
 
 **Apakah semua variabel bisa di-map?** [X] Ya / [ ] Tidak
 > Jika tidak, komponen apa yang perlu ditambahkan? _________
@@ -124,33 +124,33 @@ Evaluasi desain sistem terhadap 4 prinsip.
 
 | Prinsip | Status | Bukti / Penjelasan |
 |---------|--------|-------------------|
-| Traceability | ✅ | Modul K-NN melayani IV (Sentimen), Modul Evaluasi melayani DV (SUS & Performa). |
-| Modularity | ✅ | Algoritma preprocessing teks (K-NN) terpisah dari skrip scraping data Play Store. |
-| Controllability | ✅ | Parameter nilai K dan kriteria screening disimpan dalam file config terpisah, bukan di-hardcode. |
-| Measurability | ✅ | Sistem kuesioner digital otomatis menghitung skor akhir SUS tanpa intervensi manual. |
+| Traceability | ✅ | Modul K-NN terikat pada IV (Filter), Modul LDA & Gensim terikat pada DV (Koherensi Topik). |
+| Modularity | ✅ | Modul LDA dapat menerima input berupa data mentah (raw) ataupun data tersaring K-NN (filtered) tanpa perlu merombak fungsi LDA-nya. |
+| Controllability | ✅ | Jumlah topik (k-topics), random seed, dan batas kemunculan kata (min_df) disimpan rapi di config.yaml. |
+| Measurability | ✅ | Nilai Accuracy, F1-Score, dan Coherence Score secara otomatis ditulis ke dalam file log .csv setiap kali eksperimen selesai running. |
 
-**Prinsip mana yang paling sulit dipenuhi?** Measurability terotomatisasi pada bagian Task Success Rate.
-> Jika tidak memiliki akses ke backend SeaBank untuk logging otomatis, pengumpulan data dilakukan dengan merekam layar gawai (screen recording) partisipan saat eksperimen, lalu error dicatat melalui observasi terstruktur.
+**Prinsip mana yang paling sulit dipenuhi?** Controllability pada tahap NLP preprocessing.
+> Dalam riset NLP, langkah-langkah seperti stopword removal (menghapus kata sambung) dan stemming sering kali secara tidak sadar di-hardcode di tengah-tengah kode (script), bukan di parameter config, sehingga sulit dikontrol atau dimatikan saat melakukan iterasi eksperimen (Ablation Study).
 ---
 
 ## Latihan 3 — Ablation Study Planning
 
 Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 
-> **Panduan jumlah kondisi:** Untuk 3 komponen (A, B, C), kondisi minimal yang direkomendasikan:
-> Full + (-A) + (-B) + (-C) = **4 kondisi dasar**. Jika waktu memungkinkan, tambahkan kombinasi ganda: (-A,-B), (-A,-C), (-B,-C) = **7 kondisi**. Sesuaikan dengan *computational cost* dan tenggat waktu penelitian.
-
+> **Panduan jumlah kondisi:** Dalam riset Machine Learning NLP, Ablation Study digunakan untuk melihat komponen mana yang paling berpengaruh pada akurasi akhir. Asumsikan kita memiliki 3 komponen preprocessing sebelum teks masuk ke model K-NN dan LDA:
+> Komponen A: Stemming (Mengubah "menggunakan" menjadi "guna").
+> Komponen B: Stopword Removal (Menghapus kata "di", "ke", "dan").
+> Komponen C: TF-IDF (Pemberian bobot kepentingan kata, bukan sekadar menghitung jumlah kata / Raw Count).
 | Kondisi | Komponen A | Komponen B | Komponen C | Hasil yang Diharapkan |
 |---------|-----------|-----------|-----------|----------------------|
-| Full | ✅ | ✅ | ✅ | Akurasi klasifikasi sentimen K-NN maksimal (Baseline penuh). |
-| – A | ❌ | ✅ | ✅ | Penurunan akurasi karena kata berimbuhan dianggap kata berbeda. |
-| – B | ✅ | ❌ | ✅ | Noise data tinggi karena kata hubung (dan, di, ke) ikut terhitung. |
-| – C | ✅ | ✅ | ❌ | Model kesulitan mendeteksi sentimen karena bobot kata unik dan kata umum disamakan (Raw Count). |
+| Full | ✅ | ✅ | ✅ | F1-Score K-NN dan Coherence LDA mencapai nilai maksimal yang optimal. |
+| – A | ❌ | ✅ | ✅ | Akurasi klasifikasi sedikit menurun karena kata bervariasi (berimbuhan) dianggap sebagai entitas/fitur yang berbeda oleh K-NN. |
+| – B | ✅ | ❌ | ✅ | LDA akan menghasilkan topik noise (sampah), di mana kata seperti "dan", "yang" akan mendominasi hasil klaster keluhan. |
+| – C | ✅ | ✅ | ❌ | Model kesulitan mendeteksi sentimen ekstrem (mengalami misklasifikasi) karena bobot kata kunci dan kata biasa disamaratakan. |
 
-**Komponen mana yang diprediksi paling berkontribusi?** TF-IDF Weighting (Komponen C).
+**Komponen mana yang diprediksi paling berkontribusi?** Stopword Removal (Komponen B).
 **Mengapa?**
-> Karena dalam analisis ulasan Play Store yang singkat dan padat, pemberian bobot (TF-IDF) sangat krusial untuk menonjolkan kata kunci sentimen (seperti "error", "lambat", "mantap") dibandingkan sekadar menghitung frekuensi kata biasa.
-
+> Karena algoritma LDA bekerja berdasarkan frekuensi kemunculan kata yang berdekatan. Jika stopword (kata hubung) tidak dihapus, kata-kata tersebut akan muncul dengan frekuensi tertinggi di hampir setiap dokumen ulasan. Akibatnya, mesin akan menganggap kata hubung tersebut sebagai "topik utama", sehingga merusak nilai koherensi dan membuat topik tidak bisa diinterpretasikan.
 ---
 
 ## Refleksi
@@ -158,4 +158,4 @@ Jika sistem memiliki 3 komponen utama, rencanakan ablation study.
 > Apa risiko jika sistem dibangun seperti produk (monolitik, fitur lengkap) lalu baru dilakukan eksperimen? Mengapa arsitektur modular penting untuk riset?
 
 **Jawaban:**
-> Sistem riset tidak boleh bersifat monolitik karena akan memicu noise pada data dan menyulitkan isolasi variabel. Sebaliknya, arsitektur riset wajib dibuat modular agar setiap komponennya dapat ditelusuri kaitannya dengan variabel (traceable), mudah dihidup-matikan untuk ablation study (feature toggles), dan parameternya dapat diatur melalui file konfigurasi tanpa perlu membongkar kode utama (controllability).
+> Jika skrip eksperimen K-NN dan LDA ini dibangun seperti produk aplikasi utuh (monolithic) di mana scraping, preprocessing, filtering, dan evaluasi dijadikan satu file kode panjang tanpa pemisahan fungsi (modularitas), maka saat hasil eksperimen gagal (misal Coherence Score buruk), peneliti tidak akan tahu bagian mana yang salah. Apakah salah stemming-nya? Atau K-NN-nya yang bias? Arsitektur modular mutlak diperlukan dalam riset Data Science agar kita bisa melakukan sistem isolasi, menghidup-matikan fitur (Ablation Study) lewat config file, dan memastikan setiap variabel yang diuji benar-benar valid tanpa terdistorsi oleh tumpukan code yang rumit.
