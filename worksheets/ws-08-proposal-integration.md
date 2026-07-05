@@ -109,13 +109,13 @@ Kumpulkan hasil dari WS-02 sampai WS-07 menjadi satu ringkasan proposal.
 
 | Komponen | Sumber | Isi (1-2 kalimat) |
 |----------|--------|-------------------|
-| Problem Statement | WS-02 | Terdapat banyak keluhan UI/UX mengenai aplikasi SeaBank di ulasan Play Store, namun keluhan tersebut belum pernah divalidasi kebenarannya melalui pengujian usability yang objektif. |
-| Gap | WS-03 | Belum ada studi yang melakukan triangulasi metode antara analisis sentimen publik secara real-time dengan pengujian performa usability secara eksperimental pada aplikasi branchless banking. |
-| RQ | WS-04 | Apakah terdapat korelasi yang signifikan antara rasio sentimen negatif (K-NN) di Play Store dengan metrik objektif (Skor SUS & Task Success Rate) pada aplikasi SeaBank? |
-| Hipotesis | WS-04 | H₁: Terdapat korelasi yang signifikan (p-value < 0.05) antara rasio sentimen ulasan publik dengan performa usability objektif pada SeaBank. |
-| Variabel & Metrik | WS-05 | IV = Sentimen Publik (Rasio %); DV = Performa Objektif (Skor SUS & Persentase Success Rate). |
-| Sistem | WS-06 | Skrip Python pemroses NLP (K-NN) untuk membedah data ulasan, dan platform kuesioner otomatis untuk merekam skor SUS dari partisipan eksperimen. |
-| Desain Eksperimen | WS-07 | Studi komparatif/korelasional antara data 1000+ ulasan (periode X) dengan hasil uji 30 partisipan (versi aplikasi yang sama) menggunakan uji korelasi Spearman. |
+| Problem Statement | WS-02 | Pengembang SeaBank kesulitan memetakan keluhan antarmuka secara spesifik karena tingginya volume ulasan tak terstruktur yang masuk di Play Store setiap hari. |
+| Gap | WS-03 | BBelum ada studi yang merangkai pipeline di mana K-NN digunakan sebagai filter sentimen negatif sebelum diekstrak menjadi topik keluhan usability oleh LDA. |
+| RQ | WS-04 | Apakah penggunaan K-NN sebagai filter sentimen negatif mampu menghasilkan topik keluhan usability yang koheren (Cv > 0.4) menggunakan model LDA pada ulasan SeaBank? |
+| Hipotesis | WS-04 | H₁: Penggunaan K-NN sebagai filter sentimen negatif menghasilkan pemodelan topik keluhan yang koheren (Cv > 0.4) pada model LDA aplikasi SeaBank. |
+| Variabel & Metrik | WS-05 | IV = K-NN Filter (ON/OFF); DV = Kualitas Topik; Metrik = Coherence Score (Cv) dan F1-Score. |
+| Sistem | WS-06 | Pipeline script Python modular yang terdiri dari fungsi scraper, pra-pemrosesan teks, klasifikasi K-NN, dan pemodelan LDA berbasis Gensim. |
+| Desain Eksperimen | WS-07 | Ablation Study yang membandingkan performa Coherence Score LDA saat memproses seluruh data (Baseline) melawan LDA yang hanya memproses data tersaring K-NN (Treatment). |
 
 ---
 
@@ -125,16 +125,16 @@ Verifikasi 6 koneksi kritis. Isi dengan merujuk tabel di Latihan 1.
 
 | Koneksi | Status | Bukti |
 |---------|--------|-------|
-| Problem → Gap | ✅ | Keluhan pengguna tidak tervalidasi → Dibuktikan di literatur bahwa triangulasi belum pernah dilakukan. |
-| Gap → RQ | ✅ | Celah triangulasi langsung dijawab oleh rumusan masalah yang membandingkan/mengkorelasi metode subjektif (Sentimen) vs objektif (SUS). |
-| RQ → Hypothesis | ✅ | Pertanyaan korelasi diwujudkan dalam prediksi H₁ yang terukur dengan threshold p-value < 0.05. |
-| Hypothesis → Metric | ✅ | Metrik dikunci: p-value didapat dari uji korelasi antara skor Sentimen K-NN (Ratio) dan Skor SUS (Interval). |
-| Metric → System | ✅ | Skor K-NN (rasio sentimen) dihasilkan oleh skrip Python, skor SUS dikalkulasi otomatis oleh form kuesioner. |
-| System → Experiment | ✅ | Eksperimen dilakukan dengan mengambil output algoritma (skrip) dan membenturkannya dengan output usability testing di lingkungan yang terkontrol (versi aplikasi yang sama). |
+| Problem → Gap | ✅ | Keluhan tertimbun volume data besar $\rightarrow$ literatur menunjukkan belum ada ekstraksi topik spesifik (K-NN + LDA) untuk membedah tumpukan tersebut. |
+| Gap → RQ | ✅ | Celah ketiadaan pipeline integrasi dijawab dengan pertanyaan yang menguji performa integrasi tersebut. |
+| RQ → Hypothesis | ✅ | Pertanyaan koherensi diwujudkan dalam prediksi H₁ yang menetapkan angka Coherence Score spesifik (Cv > 0.4). |
+| Hypothesis → Metric | ✅ | Koherensi diukur menggunakan standar baku Gensim Coherence Score (Cv). |
+| Metric → System | ✅ |Nilai Cv dan F1-Score dikalkulasi dan di-log secara otomatis oleh fungsi Python. |
+| System → Experiment | ✅ | Script Python digunakan untuk mengeksekusi iterasi Ablation Study (mematikan/menghidupkan filter K-NN lewat config file). |
 
-**Koneksi mana yang paling lemah?** System → Experiment.
+**Koneksi mana yang paling lemah?** Hypothesis → Metric.
 **Bagaimana cara memperkuatnya?**
-> Memastikan bahwa data ulasan Play Store yang disedot algoritma K-NN benar-benar direntang waktu yang identik dengan versi UI aplikasi yang digunakan partisipan saat eksperimen usability, agar perbandingannya benar-benar apple-to-apple.
+> Metrik Coherence Score bersifat matematis dan terkadang tidak mencerminkan koherensi semantik yang sesungguhnya di mata manusia. Untuk memperkuat metrik ini, saya perlu menambahkan langkah validasi manual (Human-in-the-Loop) di akhir eksperimen untuk memastikan klaster kata (misal: "susah", "login", "otp") benar-benar masuk akal sebagai satu kalimat keluhan.
 
 **Konsistensi horizontal — apakah istilah dan scope konsisten?** [X] Ya / [ ] Tidak
 > Jika tidak, di bagian mana terjadi inkonsistensi? _________
@@ -147,10 +147,10 @@ Evaluasi proposal mini menggunakan rubrik.
 
 | Kriteria | Skor (1-3) | Justifikasi |
 |----------|-----------|-------------|
-| Koherensi | 3 | Seluruh koneksi dari perumusan masalah (SeaBank) hingga metode korelasi sudah mengalir menjadi satu argumen utuh. |
-| Specificity | 3 | Metrik sudah memiliki angka yang konkret: rasio sentimen (%), Skor SUS (0-100), dan threshold p-value (0.05). |
-| Feasibility | 3 | Desain eksperimen menggunakan 30 partisipan dan analisis data sekunder sangat relevan diselesaikan dalam kurun waktu 1-3 bulan (timeline realistis). |
-| Rigor | 3 | Menggunakan baseline instrumen baku (System Usability Scale) dan metode yang direplikasi dari kondisi State-of-the-Art. |
+| Koherensi | 3 | Alur logis dari masalah penumpukan keluhan, gap di NLP, hingga eksperimen Ablation Study mengalir sempurna. |
+| Specificity | 3 | Memiliki batasan metrik komputasional yang tegas (Coherence Score > 0.4). |
+| Feasibility | 3 | Riset 100% menggunakan data sekunder publik dan library Python open-source, sangat realistis selesai dalam 1-2 bulan. |
+| Rigor | 3 | Menggunakan metode validasi Machine Learning yang standar (multiple runs, parameter configuration). |
 
 **Skor total:** 12 / 12
 
@@ -163,7 +163,7 @@ Evaluasi proposal mini menggunakan rubrik.
 
 > Dari seluruh proses WS-01 sampai WS-08, bagian mana yang paling mudah dan paling sulit? Mengapa? Apa yang akan dilakukan berbeda jika mengulang dari awal?
 
-**Bagian termudah:** Mengidentifikasi masalah (Problem Statement) pada WS-02, karena fenomena terkait keluhan aplikasi perbankan digital sangat nyata dan mudah ditemukan symptom-nya secara empiris.
-**Bagian tersulit:** Merumuskan desain sistem ke dalam eksperimen (System-Experiment Mapping di WS-06 dan WS-07), karena saya harus mengubah pola pikir engineering (membuat produk) menjadi pola pikir research (membuat instrumen pembuktian/artefak).
+**Bagian termudah:** Mengidentifikasi masalah pada WS-02, karena fenomena keluhan aplikasi di Google Play Store sangat mudah diobservasi dan tersedia secara publik (tidak perlu perizinan khusus untuk mengakses datanya).
+**Bagian tersulit:** Merumuskan desain eksperimen komparatif di WS-07, karena saya harus mengubah mindset dari sekadar "membuat program K-NN yang jalan" menjadi "merancang skenario pengujian untuk membuktikan seberapa besar pengaruh K-NN tersebut terhadap kinerja LDA".
 **Yang akan dilakukan berbeda:**
-> Saya akan menghabiskan lebih banyak waktu di tahap Literature Mapping (WS-03) untuk benar-benar mencari State-of-the-Art yang paling presisi. Awalnya saya sempat kesulitan merumuskan baseline sebelum mengadopsi System Usability Scale, karena sering terjebak membandingkan dengan metode yang lemah (straw man comparison). Ke depannya, saya akan lebih ketat dalam menyusun Boolean query untuk mencari literatur yang benar-benar relevan sebelum melangkah ke penentuan variabel.
+> Saya akan jauh lebih teliti dan strict (ketat) saat melakukan tahap pencarian literatur di WS-03. Awalnya saya sempat keliru merancang riset korelasi dengan manusia yang justru menyulitkan diri sendiri. Ke depannya, saya akan memastikan Boolean Query yang saya cari benar-benar berfokus pada metode komputasional (seperti "K-NN" AND "Topic Modeling") agar metodologinya tetap berada dalam kendali Data Science yang terukur murni lewat kode program.
