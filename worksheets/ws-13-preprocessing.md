@@ -66,33 +66,33 @@ Data leakage terjadi ketika informasi dari test set "bocor" ke preprocessing:
 ```
 PREPROCESSING LOG
 
-Dataset           : ____________________
-Jumlah data awal  : ____________________
-
+Dataset           : seabank_reviews_raw.csv (Data sekunder Google Play Store)
+Jumlah data awal  : 50 ulasan 
 Cleaning:
 | Masalah | Jumlah Kasus | Penanganan | Justifikasi |
 |---------|-------------|------------|-------------|
-| Missing |             |            |             |
-| Duplikat|             |            |             |
-| Error   |             |            |             |
+| Missing Values & Duplikat | 6 baris | Dihapus menggunakan listwise deletion (dropna) dan drop_duplicates di Pandas. | Teks kosong tidak bisa diproses NLP, dan data duplikat akan merusak pembobotan kata (TF-IDF). |
 
 Transformation:
 | Transformasi | Variabel | Detail | Alasan |
 |-------------|----------|--------|--------|
-|             |          |        |        |
+| Case Folding | teks_ulasan | Mengubah semua huruf menjadi lowercase menggunakan fungsi .lower(). | Menyeragamkan format agar mesin tidak membedakan "SeaBank" dan "seabank". |
+| Text Cleansing | teks_ulasan | Menghapus angka dan karakter non-alfabet menggunakan Regex (Regular Expression). | Menghilangkan noise yang tidak memiliki makna topikal. |
+| Stopword Removal | teks_ulasan | Menghapus kata hubung menggunakan library Sastrawi. | Mencegah kata hubung mendominasi klaster topik pada algoritma LDA. |
+| Stemming | teks_ulasan | Mengubah kata berimbuhan menjadi kata dasar (contoh: "membantu" -> "bantu") via Sastrawi. | Mengurangi dimensi fitur agar LDA dan K-NN lebih fokus pada makna inti kata. |
 
 Normalization:
-  Metode    : ____________________
-  Alasan    : ____________________
-  Parameter : (dihitung dari: training set / seluruh data)
+  Metode    : TF-IDF (Term Frequency-Inverse Document Frequency)
+  Alasan    : Mengubah teks menjadi vektor numerik pembobotan sebelum masuk ke algoritma K-NN.
+  Parameter : Dihitung dari: Training Set saja (untuk K-NN).
 
 Leakage Check:
-  [ ] Parameter normalisasi dari training set saja
-  [ ] Tidak ada informasi test set dalam preprocessing
-  [ ] Cross-validation dilakukan setelah split
+  [X] Parameter normalisasi dari training set saja
+  [X] Tidak ada informasi test set dalam preprocessing
+  [X] Cross-validation dilakukan setelah split
 
-Jumlah data akhir : ____________________
-Script tersedia   : [ ] Ya → path: ____ | [ ] Belum
+Jumlah data akhir : 44 ulasan bersih siap analisis.
+Script tersedia   : [X] Ya → path: ____ | [ ] Belum
 ```
 
 ---
@@ -103,14 +103,12 @@ Periksa dataset Anda (atau dataset contoh) dan dokumentasikan masalah yang ditem
 
 | Masalah | Jumlah Kasus | Penanganan | Justifikasi |
 |---------|-------------|------------|-------------|
-| *Contoh: Missing di kolom "label"* | *12 dari 500 (2.4%)* | *Listwise deletion* | *< 5%, distribusi random (MCAR)* |
-| | | | |
-| | | | |
-| | | | |
+| Missing values (teks kosong) dan Duplikasi | 6 baris | Listwise deletion (dropna) dan penghapusan duplikat (drop_duplicates) | Teks kosong dan teks yang berulang-ulang tidak memiliki nilai informasi untuk diekstrak topiknya. |
 
-**Jumlah data sebelum cleaning:** ____
-**Jumlah data setelah cleaning:** ____
-**Persentase data yang hilang/berubah:** ____%
+
+**Jumlah data sebelum cleaning:** 50 ulasan
+**Jumlah data setelah cleaning:** 44 ulasan
+**Persentase data yang hilang/berubah:** 12%
 
 ---
 
@@ -120,16 +118,15 @@ Tentukan apakah data Anda perlu normalisasi, dan jika ya, metode apa yang tepat.
 
 | Variabel | Range Asli | Distribusi | Outlier? | Metode Normalisasi | Alasan |
 |----------|-----------|-----------|----------|-------------------|--------|
-| *Contoh: response_time* | *0.1 – 45.2s* | *Right-skewed* | *Ya (45.2s)* | *Robust scaling* | *Ada outlier, perlu robust* || *Contoh: accuracy_score* | *0.72 – 0.95* | *Normal, narrow* | *Tidak* | *Tidak perlu* | *Sudah dalam [0,1], metode berbasis distance tidak digunakan* || | | | | | |
-| | | | | | |
+| Teks Ulasan | Panjang kata bervariasi | Beragam | Tidak Relevan | TF-IDF Vectorizer | K-NN membutuhkan input berupa angka (vektor), bukan teks. TF-IDF menormalisasi bobot kata berdasarkan kelangkaannya. |
 
-**Apakah normalisasi diperlukan?** [ ] Ya / [ ] Tidak
+**Apakah normalisasi diperlukan?** [X] Ya / [ ] Tidak
 **Justifikasi:**
-> ___________________________________________________
+> Ya. Algoritma K-NN menghitung jarak antar data secara matematis. Teks ulasan yang berformat string mutlak harus diubah (dinormalisasi) menjadi matriks angka menggunakan TF-IDF.
 
 **Leakage check:**
-- [ ] Parameter dihitung dari training set saja
-- [ ] Normalisasi diterapkan setelah train-test split
+- [X] Parameter dihitung dari training set saja
+- [X] Normalisasi diterapkan setelah train-test split
 
 ---
 
@@ -140,16 +137,14 @@ Buat ringkasan preprocessing lengkap — dokumentasi yang cukup bagi orang lain 
 ```
 PREPROCESSING SUMMARY
 
-1. Dataset: ____________________
-2. Data awal: ____ records, ____ features
+1. Dataset: seabank_reviews_raw.csv
+2. Data awal: 50 records
 3. Cleaning:
-   - Missing values: ____ kasus, metode: ____
-   - Duplikat: ____ kasus, tindakan: ____
-   - Error: ____ kasus, tindakan: ____
-4. Transformation: ____________________
-5. Normalisasi: ____ (metode), parameter dari ____
-6. Data akhir: ____ records, ____ features
-7. Leakage check: [ ] Lulus / [ ] Ada masalah
+   - Missing & Duplikat: 6 kasus, metode: Listwise deletion (dropna & drop_duplicates)
+4. Transformation: Case Folding -> Regex Cleansing -> Stopword Removal (Sastrawi) -> Stemming (Sastrawi).
+5. Normalisasi: TF-IDF Vectorization, parameter dihitung (fit) dari Training Set.
+6. Data akhir: 44 records yang tersimpan di seabank_reviews_clean.csv.
+7. Leakage check: [X] Lulus / [ ] Ada masalah
 ```
 
 ---
@@ -158,5 +153,4 @@ PREPROCESSING SUMMARY
 
 > Apakah Anda pernah melakukan normalisasi "karena biasa dilakukan" tanpa mempertimbangkan apakah benar-benar diperlukan? Apa risiko over-preprocessing?
 
-> ___________________________________________________
-> ___________________________________________________
+> Pada pemrosesan teks, risiko over-preprocessing sangat nyata. Terkadang proses stemming bisa memotong kata secara agresif dan mengubah makna konteks. Dari uji coba 50 data awal, terbukti bahwa proses cleansing membuang simbol dan angka, sementara stemming Sastrawi sukses memadatkan dimensi kata (misal: "membantu" menjadi "bantu"). Minimal distortion harus dijaga agar ciri khas emosi atau keluhan pada ulasan pengguna tidak hilang sepenuhnya akibat proses pembersihan yang terlalu ketat.
