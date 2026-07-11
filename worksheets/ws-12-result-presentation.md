@@ -65,25 +65,26 @@ Keduanya **saling melengkapi**:
 ```
 RESULT PRESENTATION PLAN
 
-Research Question : ____________________
-Metrik Utama      : ____________________
+Research Question : Apakah penggunaan algoritma K-NN sebagai filter sentimen negatif mampu menghasilkan ekstraksi topik keluhan usability yang koheren (Cv > 0.4) menggunakan model LDA pada ulasan aplikasi SeaBank?
+Metrik Utama      : Coherence Score (Cv) dan Waktu Eksekusi (Execution Time)
 
 Tabel Hasil:
 | Skenario | Metrik 1 (mean ± std) | Metrik 2 (mean ± std) | n |
 |----------|----------------------|----------------------|---|
-|          |                      |                      |   |
+|     Baseline (LDA Tanpa Filter)     |          0.32 ± 0.04            |           12.4 ± 1.5 detik           | 10  |
+|     Treatment (LDA + Filter K-NN)   |          0.45 ± 0.03            |           15.8 ± 1.8 detik           |  10 |
 
 Visualisasi yang Direncanakan:
 | # | Jenis Grafik | Pesan Utama | Metrik |
 |---|-------------|-------------|--------|
-| 1 |             |             |        |
-| 2 |             |             |        |
+| 1 | Bar chart (dengan error bar) | Penggunaan filter K-NN terbukti mendongkrak skor koherensi topik secara signifikan. | Mean Coherence Score ± std |
+| 2 | Box plot | Variabilitas skor koherensi pada skenario Treatment lebih stabil antar-run. | Seluruh nilai Coherence Score |
 
 Bias Check:
-  [ ] Y-axis mulai dari 0 (atau dijustifikasi)
-  [ ] Error bar/CI ditampilkan
-  [ ] Semua data disertakan (tidak cherry-picked)
-  [ ] Tidak menggunakan 3D tanpa alasan
+  [X] Y-axis mulai dari 0 (atau dijustifikasi)
+  [X] Error bar/CI ditampilkan
+  [X] Semua data disertakan (tidak cherry-picked)
+  [X] Tidak menggunakan 3D tanpa alasan
 ```
 
 ---
@@ -94,15 +95,15 @@ Buat tabel hasil eksperimen Anda (boleh dengan data simulasi jika belum punya da
 
 | Skenario | Metrik 1 (mean ± std) | Metrik 2 (mean ± std) | n |
 |----------|----------------------|----------------------|---|
-| *Contoh: BERT-base* | *88.4 ± 1.2%* | *45.2 ± 3.1 min* | *10* |
-| | | | |
-| | | | |
+| Baseline (LDA Tanpa Filter) | $0.32 ± 0.04$ | $12.4 ± 1.5$ detik | 10 |
+| Treatment (LDA + Filter K-NN) | $0.45 ± 0.03$ | $15.8 ± 1.8$ detik | 10 |
+
 
 **Checklist tabel:**
-- [ ] Self-contained (judul jelas, satuan ada, N tercantum)
-- [ ] Mean ± std (bukan single number)
-- [ ] Diurutkan berdasarkan metrik utama
-- [ ] Format konsisten di semua baris
+- [X] Self-contained (judul jelas, satuan ada, N tercantum)
+- [X] Mean ± std (bukan single number)
+- [X] Diurutkan berdasarkan metrik utama
+- [X] Format konsisten di semua baris
 
 ---
 
@@ -112,9 +113,9 @@ Rencanakan 2-3 grafik untuk menyajikan data dari Latihan 1. Setiap grafik = satu
 
 | # | Jenis Grafik | Pesan | Data yang Digunakan |
 |---|-------------|-------|---------------------|
-| 1 | *Contoh: Bar chart + error bar* | *Perbandingan accuracy antar 3 model* | *Mean accuracy ± std* |
-| 2 | *Box plot* | *Distribusi F1 per model* | *Semua run F1* |
-| 3 | *Scatter plot* | *Trade-off accuracy vs training time* | *Mean accuracy vs mean time* |
+| 1 | Bar chart + error bar | Membandingkan rata-rata koherensi topik antara metode Baseline dan Treatment. | Mean Coherence Score ± std |
+| 2 | Box plot | Memperlihatkan sebaran dan stabilitas hasil nilai koherensi dari total 10 kali eksperimen (runs). | Semua data Cv dari 10 run |
+| 3 | Scatter plot | Menunjukkan trade-off (kompromi) antara peningkatan koherensi topik berbanding dengan penambahan waktu komputasi akibat filter K-NN. | Mean Coherence vs Mean Time |
 
 ---
 
@@ -126,13 +127,13 @@ Evaluasi visualisasi berikut untuk bias (skenario dari contoh):
 
 | Pertanyaan | Jawaban |
 |-----------|---------|
-| Apakah Y-axis menyesatkan? | *Contoh: Ya — A terlihat 2× B padahal beda 0.4%* |
-| Apakah error bar ditampilkan? | |
-| Apakah semua kondisi ditampilkan? | |
-| Apa solusinya? | |
+| Apakah Y-axis menyesatkan? | Ya. Karena sumbu Y tidak dimulai dari 0, perbedaan yang aslinya hanya 0.4% akan terlihat sangat ekstrem secara visual, seolah-olah Metode A dua kali lipat lebih baik dari Metode B. |
+| Apakah error bar ditampilkan? | Tidak. Akibatnya, kita tidak tahu apakah perbedaan 0.4% itu benar-benar signifikan secara statistik atau sekadar variasi angka acak (noise). |
+| Apakah semua kondisi ditampilkan? | Ya, jika diasumsikan eksperimen tersebut memang hanya membandingkan Metode A dan B. |
+| Apa solusinya? | Atur sumbu Y agar dimulai dari 0 (atau mulai dari angka lain dengan justifikasi teks yang kuat). Tambahkan garis error bar (standar deviasi) pada masing-masing batang grafik. |
 
 **Evaluasi grafik Anda sendiri dari Latihan 2:**
-- [ ] Semua bias check lulus
+- [X] Semua bias check lulus
 - [ ] Ada yang perlu diperbaiki: ____
 
 ---
@@ -141,5 +142,4 @@ Evaluasi visualisasi berikut untuk bias (skenario dari contoh):
 
 > Mengapa tabel dan grafik keduanya diperlukan — tidak cukup salah satu saja? Pernahkah Anda membuat grafik yang (tanpa sengaja) menyesatkan?
 
-> ___________________________________________________
-> ___________________________________________________
+> Tabel dan grafik memiliki fungsi yang saling melengkapi. Tabel memberikan angka presisi yang eksak, yang sangat dibutuhkan oleh peneliti lain jika mereka ingin menjadikan metrik kita sebagai baseline (pembanding) di riset mereka selanjutnya. Di sisi lain, grafik sangat krusial untuk pengenalan pola secara cepat (pattern recognition). Saat melakukan presentasi sidang, audiens atau penguji bisa langsung menangkap tren "metode mana yang lebih unggul" hanya dalam waktu 5 detik melalui grafik, tanpa perlu membedah deretan angka desimal di dalam tabel.
