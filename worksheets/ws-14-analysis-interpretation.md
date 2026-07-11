@@ -80,32 +80,34 @@ ANALYSIS & INTERPRETATION
 1. Statistik Deskriptif:
    | Skenario | Mean | Std | Median | Min | Max | n |
    |----------|------|-----|--------|-----|-----|---|
-   |          |      |     |        |     |     |   |
+   | Akurasi K-NN | 88.89% | 80% (35 data) | 20% (9 data) |
+   | Waktu Eksekusi | 0.09 detik | - | - |
 
-2. Uji Hipotesis:
-   Uji yang digunakan  : ____________________
-   Justifikasi          : ____________________
-   Hasil: p = ____, effect size (d/r/η²) = ____
-   CI 95%               : [____, ____]
+2. Metrik & Hasil Model:
+   Algoritma 1         : K-Nearest Neighbors (K=3) untuk klasifikasi sentimen
+   Algoritma 2         : Latent Dirichlet Allocation (LDA) untuk Topic Modeling
+   Hasil K-NN          : Akurasi 88.89% dalam membedakan ulasan positif dan negatif.
+   Hasil LDA (Topik 1) : nya, nelfon, gua, udah, nomor (Masalah Customer Service)
+   Hasil LDA (Topik 2) : pinjam, tahun, dapat, yg, baru (Masalah Pengajuan Pinjaman)
 
 3. Keputusan:
-   [ ] H₀ ditolak → H₁ diterima
-   [ ] H₀ tidak ditolak
+   [X] Model berhasil mengekstrak informasi bermakna
+   [ ] Model gagal total
 
 4. Interpretasi:
-   Hubungan ke RQ       : ____________________
-   Practical significance: ____________________
-   Perbandingan literatur: ____________________
+   Hubungan ke RQ       : Penggunaan TF-IDF dipadukan dengan K-NN terbukti sangat efektif (akurasi 88%) sebagai filter awal sebelum teks ulasan negatif dimodelkan oleh LDA.
+   Practical significance: Waktu eksekusi yang hanya 0.09 detik membuktikan model ini sangat ringan dan efisien secara komputasi.
+   Perbandingan literatur: -
 
 5. Limitation:
    | Jenis | Ancaman | Dampak | Mitigasi |
    |-------|---------|--------|----------|
-   |       |         |        |          |
+   | Construct validity | Sastrawi hanya mengenali bahasa baku. | Kata gaul tidak terhapus. | Perlu kamus stopword tambahan. |
 
-6. Failure Analysis (jika H₀ tidak ditolak):
-   Penyebab potensial  : ____________________
-   Boundary condition   : ____________________
-   Insight              : ____________________
+6. Failure Analysis (Noise pada Topik LDA):
+   Penyebab potensial  : Library Sastrawi pada tahap Preprocessing gagal mendeteksi dan menghapus kata "nya", "gua", "udah", dan "yg".
+   Boundary condition   : Tools NLP bahasa Indonesia saat ini kesulitan menangani bahasa slang (informal) khas pengguna Google Play Store.
+   Insight              : Implementasi sistem di masa depan wajib menambahkan "Custom Stopword Dictionary" (Kamus Stopword Kustom) yang memuat daftar kata gaul sebelum teks dimasukkan ke LDA.
 ```
 
 ---
@@ -116,13 +118,13 @@ Tentukan uji statistik yang tepat untuk eksperimen Anda.
 
 | Pertanyaan | Jawaban |
 |-----------|---------|
-| Berapa grup yang dibandingkan? | *Contoh: 3 (BERT, LSTM, SVM)* |
-| Apakah data berpasangan (paired)? | |
-| Apakah distribusi normal? (uji normalitas) | |
-| **Uji yang dipilih:** | |
-| **Justifikasi:** | |
+| Apa algoritma yang diuji? | K-NN dan LDA (via Scikit-Learn) |
+| Apakah data berpasangan (paired)? | Tidak, menggunakan metode Train-Test Split (80:20). |
+| Metrik performa utama? | Akurasi (Klasifikasi) & Kualitas Kata Kunci Topik (LDA) |
+| Metrik yang dipilih: | Accuracy Score & Analisis Kualitatif Topik |
+| Justifikasi: | K-NN dinilai kemampuannya menebak label yang benar (Akurasi), sementara LDA dinilai dari seberapa masuk akal kata-kata yang dikelompokkan ke dalam satu topik. |
 
-**Effect size yang akan dilaporkan:** [ ] Cohen's d / [ ] Eta-squared / [ ] Lainnya: ____
+**Effect size yang akan dilaporkan:** [ ] Cohen's d / [ ] Eta-squared / [X] Lainnya: Akurasi Klasifikasi (88.89%)
 
 ---
 
@@ -131,20 +133,17 @@ Tentukan uji statistik yang tepat untuk eksperimen Anda.
 Gunakan data berikut (atau data riil Anda) untuk berlatih interpretasi.
 
 **Data:**
-| Model | Accuracy (mean ± std) | n |
+| Model | Accuracy (mean ± std) | Waktu Eksekusi |
 |-------|----------------------|---|
-| A | 89.2 ± 1.5 | 10 |
-| B | 87.8 ± 2.1 | 10 |
+| K-NN (K=3) | 88.89% | 0.09 detik |
 
 p = 0.045, Cohen's d = 0.74, CI 95% = [0.03, 2.77]
 
 | Aspek | Interpretasi |
 |-------|-------------|
-| Signifikansi statistik | *Contoh: p < 0.05 → signifikan pada α=0.05* |
-| Effect size | *Contoh: d=0.74 → medium-to-large effect* |
-| Practical significance | |
-| Hubungan ke RQ | |
-| Perbandingan literatur | |
+| Performa Model | Akurasi 88.89% menunjukkan bahwa K-NN sangat handal membedakan ulasan bintang 1-3 (negatif) dengan bintang 4-5 (positif). |
+| Practical significance | Model ini bisa langsung digunakan oleh developer SeaBank karena sangat cepat (0.09s) dan akurat. |
+| Interpretasi Topik LDA | Mesin sukses menemukan dua keluhan utama: (1) Sulit menelepon Call Center / masalah nomor HP, dan (2) Keluhan seputar tenor/pencairan pinjaman. |
 
 ---
 
@@ -156,18 +155,17 @@ Latih kemampuan failure analysis: hipotesis TIDAK didukung. Apa yang bisa dipela
 
 | Pertanyaan | Jawaban |
 |-----------|---------|
-| Apakah ini "gagal"? | *Contoh: Bukan gagal total — hipotesis tidak terdukung adalah temuan yang valid dan bisa menjadi kontribusi.* |
-| Kemungkinan penyebab? | *Contoh: Metode baru menambah kompleksitas komputasi (+40% waktu) tanpa peningkatan F1 yang cukup — overhead tidak sebanding.* |
-| Boundary condition? | *Contoh: Metode ini hanya efektif ketika data ≥ 10.000 record; di dataset kecil (<1.000), baseline lebih stabil.* |
-| Insight yang bisa diambil? | *Contoh: Ada trade-off ukuran data vs kompleksitas — rekomendasikan hybrid approach yang adaptif berdasarkan ukuran dataset.* |
-| Apakah layak dilaporkan? Mengapa? | *Contoh: Ya — negative result + boundary condition analysis adalah kontribusi riset yang diakui komunitas (ex: ACL, SIGIR). Mencegah riset duplikasi yang berulang.* |
+| Apakah ini "gagal"? | Tidak, algoritma LDA bekerja dengan benar, namun data input-nya yang masih kotor. |
+| Kemungkinan penyebab? | Stopword removal standar Sastrawi tidak memiliki database kata tidak baku seperti "gua", "udah", atau "yg". |
+| Boundary condition? | Preprocessing standar hanya berlaku untuk teks artikel/berita yang formal, bukan ulasan bebas dari aplikasi. |
+| Insight yang bisa diambil? | Peneliti harus membuat daftar stopword manual (Custom Dictionary) saat menganalisis sentimen media sosial. |
+| Apakah layak dilaporkan? Mengapa? | Sangat layak. Melaporkan masuknya noise ini membuktikan kedalaman riset dan memberikan rekomendasi nyata untuk penelitian selanjutnya. |
 
 **Limitation terkait:**
 | Jenis | Ancaman | Dampak |
 |-------|---------|--------|
-| *Contoh: Statistical* | *Contoh: Hanya 5 run per skenario* | *Power test rendah* |
-| | | |
-| | | |
+| Statistical | Ukuran sampel data sangat kecil (hanya 44 ulasan bersih). | Model berisiko kurang representatif jika diterapkan pada puluhan ribu ulasan asli SeaBank. |
+| Construct Validity | Alat pembersih Sastrawi tidak mendeteksi kata tidak baku (slang/gaul). | Muncul noise (contoh: "nya", "gua") yang sedikit mengaburkan makna topik pada hasil LDA. |
 
 ---
 
@@ -175,5 +173,4 @@ Latih kemampuan failure analysis: hipotesis TIDAK didukung. Apa yang bisa dipela
 
 > Apakah "failure" dalam riset benar-benar gagal, atau justru kontribusi? Bagaimana failure analysis mengubah cara Anda melihat hasil negatif?
 
-> ___________________________________________________
-> ___________________________________________________
+> Failure (kegagalan) bukanlah jalan buntu, melainkan kontribusi berharga berupa penemuan batasan sistem (boundary condition). Awalnya, munculnya kata seperti "gua" dan "yg" di hasil LDA terlihat seperti kegagalan proses pembersihan data. Namun, melalui failure analysis, saya menyadari bahwa ini adalah temuan penting: tools NLP Indonesia masih lemah terhadap bahasa slang. Temuan ini menjadi insight berharga agar riset saya merekomendasikan penggunaan kamus stopword kustom ke depannya.
