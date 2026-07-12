@@ -1,6 +1,6 @@
 # 00-outline
 
-Outline, peta sumber data, dan daftar klaim kunci untuk draf manuskrip ilmiah **Tahap 5**.
+Outline, peta sumber data, dan daftar klaim kunci untuk draf manuskrip ilmiah.
 
 ---
 
